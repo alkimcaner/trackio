@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Grand Theft Auto V",
+    "price": 59.99,
+    "tags": ["Action", "Adventure", "Open World"],
+    "imageUrl": "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg"
+  },
+  {
+    "name": "Red Dead Redemption 2",
+    "price": 59.99,
+    "tags": ["Action", "Adventure", "Open World"],
+    "imageUrl": "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg"
+  },
+  {
+    "name": "Crash Bandicoot",
+    "price": 39.99,
+    "tags": ["Platformer", "Family-Friendly"],
+    "imageUrl": "https://cdn.cloudflare.steamstatic.com/steam/apps/731490/capsule_616x353.jpg"
+  },
+  {
+    "name": "The Elder Scrolls V: Skyrim",
+    "price": 59.99,
+    "tags": ["Action", "RPG", "Open World"],
+    "imageUrl": "https://cdn.cloudflare.steamstatic.com/steam/apps/489830/capsule_616x353.jpg"
+  },
+  {
+    "name": "Horizon Zero Dawn",
+    "price": 49.99,
+    "tags": ["Action", "Adventure", "Open World"],
+    "imageUrl": "https://cdn.akamai.steamstatic.com/steam/apps/1151640/capsule_616x353.jpg"
+  },
+  {
+    "name": "God of War",
+    "price": 49.99,
+    "tags": ["Action", "Adventure", "Hack and Slash"],
+    "imageUrl": "https://cdn.akamai.steamstatic.com/steam/apps/1593500/capsule_616x353.jpg"
+  },
+  {
+    "name": "The Witcher 3: Wild Hunt",
+    "price": 49.99,
+    "tags": ["Action", "RPG", "Open World"],
+    "imageUrl": "https://cdn.akamai.steamstatic.com/steam/apps/292030/capsule_616x353.jpg"
+  },
+  {
+    "name": "Fallout 4",
+    "price": 59.99,
+    "tags": ["Action", "RPG", "Open World"],
+    "imageUrl": "https://cdn.cloudflare.steamstatic.com/steam/apps/377160/header.jpg"
+  },
+  {
+    "name": "Celeste",
+    "price": 19.99,
+    "tags": ["Platformer", "Indie", "Challenging"],
+    "imageUrl": "https://cdn.cloudflare.steamstatic.com/steam/apps/504230/capsule_616x353.jpg"
+  },
+  {
+    "name": "Cuphead",
+    "price": 19.99,
+    "tags": ["Run and Gun", "Platformer", "Indie"],
+    "imageUrl": "https://cdn.cloudflare.steamstatic.com/steam/apps/268910/capsule_616x353.jpg"
+  },
+  {
+    "name": "Apex Legends",
+    "price": 19.99,
+    "tags": ["Battle Royale", "Shooter", "Multiplayer"],
+    "imageUrl": "https://cdn.akamai.steamstatic.com/steam/apps/1172470/capsule_616x353.jpg"
+  }
+]

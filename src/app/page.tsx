@@ -6,48 +6,33 @@ import { ProductType } from "@/types/product";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-const test: ProductType[] = [
-  {
-    name: "Superman 64",
-    price: 69,
-    tags: ["Action", "Featured"],
-    imageUrl: "https://i.ytimg.com/vi/nQ5MsP3VCaQ/maxresdefault.jpg",
-  },
-  {
-    name: "Pepsiman",
-    price: 31,
-    tags: ["Parkour"],
-    imageUrl:
-      "https://sm.ign.com/ign_ap/screenshot/default/maxresdefault-32_g3k9.jpg",
-  },
-  {
-    name: "Pizza Tower",
-    price: 500,
-    tags: ["Parkour", "Platformer"],
-    imageUrl: "https://i.ytimg.com/vi/kab-fOsrq_Q/maxresdefault.jpg",
-  },
-];
-
 export default function Home() {
-  const [products, setProducts] = useState<ProductType[]>(test);
+  const [products, setProducts] = useState<ProductType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const docs: ProductType[] = [];
+      const data: ProductType[] = [];
       const querySnapshot = await getDocs(collection(db, "products"));
       querySnapshot.forEach((doc) => {
-        docs.push(doc.data() as ProductType);
+        data.push(doc.data() as ProductType);
       });
-      setProducts(docs);
+      setProducts(data);
+    };
+
+    const fetchDummyData = async () => {
+      const res = await fetch("/products.json");
+      const data: ProductType[] = await res.json();
+      setProducts(data);
     };
 
     // fetchData();
+    fetchDummyData();
   }, []);
 
   return (
     <main>
       <section className="mx-auto w-full max-w-7xl p-8">
-        <Carousel products={products} />
+        <Carousel products={products.splice(0, 4)} />
       </section>
     </main>
   );

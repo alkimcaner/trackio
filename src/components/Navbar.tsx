@@ -9,10 +9,11 @@ import {
   signOut,
 } from "firebase/auth";
 import { useAtom } from "jotai";
-import { useEffect, Fragment } from "react";
+import { useEffect, useMemo } from "react";
 
 export default function Navbar() {
   const [user, setUser] = useAtom(userAtom);
+  const name = useMemo(() => user?.displayName?.split(" ")[0], [user]);
 
   const handleSignIn = async () => {
     const provider = new GoogleAuthProvider();
@@ -39,13 +40,13 @@ export default function Navbar() {
         className="input input-md w-full max-w-xs rounded-full"
       />
       {user ? (
-        <div className="dropdown-end dropdown">
+        <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost">
-            {user.displayName}
+            {name}
           </label>
           <ul
             tabIndex={0}
-            className="menu dropdown-content rounded-box z-[1] w-52 bg-base-100 p-2 shadow"
+            className="menu dropdown-content rounded-box z-[1] w-52 border border-base-content/25 bg-base-100 p-2 shadow"
           >
             <li>
               <a>Profile</a>
