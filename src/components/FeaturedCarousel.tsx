@@ -4,6 +4,7 @@ import { ProductType } from "@/types/product";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -43,15 +44,15 @@ export default function FeaturedCarousel({
   }, [products]);
 
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="relative col-span-4 overflow-hidden rounded-2xl lg:col-span-3">
+    <div className="flex flex-col gap-4 lg:flex-row">
+      <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
         <motion.img
           key={products[currentIndex]?.imageUrl}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ ease: "easeInOut" }}
           src={products[currentIndex]?.imageUrl}
-          className="aspect-video h-full w-full object-cover brightness-75"
+          className="h-full w-full object-cover brightness-75"
         />
 
         <div className="absolute inset-0 z-10 flex flex-col justify-end gap-2 p-4">
@@ -84,7 +85,7 @@ export default function FeaturedCarousel({
           </div>
         </div>
       </div>
-      <div className="col-span-4 grid grid-cols-4 grid-rows-1 gap-4 lg:col-span-1 lg:grid-cols-1 lg:grid-rows-4">
+      <div className="grid grid-cols-4 grid-rows-1 gap-4 lg:w-1/4 lg:grid-cols-1 lg:grid-rows-4">
         {products.map((product, index) => (
           <div
             onClick={() => handleSelect(index)}
@@ -93,8 +94,11 @@ export default function FeaturedCarousel({
               currentIndex === index && "bg-white/5"
             }`}
           >
-            <img
+            <Image
               src={product.imageUrl}
+              alt=""
+              width={240}
+              height={480}
               className="aspect-[3/4] rounded-xl object-cover brightness-75 lg:w-16"
             />
             <p className="hidden text-lg text-white lg:block">{product.name}</p>

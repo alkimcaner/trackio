@@ -1,4 +1,5 @@
 import { ProductType } from "@/types/product";
+import Image from "next/image";
 import Link from "next/link";
 
 const formatter = new Intl.NumberFormat("en-US", {
@@ -13,9 +14,11 @@ export default function Card({ product }: { product: ProductType }) {
       className="group flex select-none flex-col overflow-hidden rounded-2xl bg-base-200 shadow-md transition duration-500 hover:bg-base-300"
     >
       <div className="aspect-video w-full overflow-hidden">
-        <img
+        <Image
           src={product.imageUrl}
           alt=""
+          width={640}
+          height={360}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />
       </div>

@@ -5,22 +5,18 @@ import { ProductType } from "@/types/product";
 import { collection, getDocs } from "firebase/firestore";
 
 const fetchData = async () => {
-  const data: ProductType[] = [];
+  const products: ProductType[] = [];
   const querySnapshot = await getDocs(collection(db, "products"));
   querySnapshot.forEach((doc) => {
-    data.push(doc.data() as ProductType);
+    let product = doc.data();
+    product.id = doc.id;
+    products.push(product as ProductType);
   });
-  return data;
-};
-
-const fetchDummyData = async () => {
-  const res = await fetch("http://localhost:3000/products.json");
-  const data: ProductType[] = await res.json();
-  return data;
+  return products;
 };
 
 export default async function Home() {
-  const products = await fetchDummyData();
+  const products = await fetchData();
   const featuredProducts = products.filter((product) =>
     product.tags.includes("Featured")
   );

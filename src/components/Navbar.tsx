@@ -9,9 +9,10 @@ import {
   signOut,
 } from "firebase/auth";
 import { useAtom } from "jotai";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo } from "react";
-import { BiUser, BiLibrary, BiLogOut } from "react-icons/bi";
+import { BiUser, BiLibrary, BiLogOut, BiCart } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 
 export default function Navbar() {
@@ -36,20 +37,27 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-20 flex h-16 w-full items-center justify-between bg-base-300 px-4 py-2">
-      <Link href="/">GamingStore</Link>
+    <nav className="sticky top-0 z-20 flex h-16 w-full items-center gap-4 bg-base-300 px-4 py-2">
+      <Link href="/" className="mr-auto">
+        GamingStore
+      </Link>
       <input
         type="text"
         placeholder="Search Store"
-        className="input input-sm w-full max-w-xs rounded-full"
+        className="input input-sm w-full max-w-[12rem] rounded-full"
       />
+      <Link href="/cart" className="btn btn-ghost">
+        <BiCart />
+      </Link>
       {user ? (
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost">
-            <img
+            <Image
               src={user.photoURL || ""}
               alt="Profile image"
-              className="h-6 w-6 rounded-full"
+              width={32}
+              height={32}
+              className="rounded-full"
             />
             {name}
           </label>
@@ -63,10 +71,10 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <a>
+              <Link href="/library">
                 <BiLibrary />
                 Library
-              </a>
+              </Link>
             </li>
             <li>
               <a>
