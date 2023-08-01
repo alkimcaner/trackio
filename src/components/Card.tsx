@@ -1,6 +1,7 @@
 import { ProductType } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
+import { Badge } from "./ui/badge";
 
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -11,7 +12,7 @@ export default function Card({ product }: { product: ProductType }) {
   return (
     <Link
       href={`/product/${product.id}`}
-      className="group flex select-none flex-col overflow-hidden rounded-2xl bg-base-200 shadow-md transition duration-500 hover:bg-base-300"
+      className="group flex select-none flex-col overflow-hidden rounded-2xl bg-zinc-50 shadow-md transition duration-500 hover:bg-zinc-100"
     >
       <div className="aspect-video w-full overflow-hidden">
         <Image
@@ -23,19 +24,12 @@ export default function Card({ product }: { product: ProductType }) {
         />
       </div>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        <span className="text-base text-primary-content lg:text-xl">
-          {product.name}
-        </span>
-        <ul className="flex flex-wrap gap-2">
+        <span className="text-base lg:text-xl">{product.name}</span>
+        <div className="flex flex-wrap gap-2">
           {product.tags.map((tag) => (
-            <li
-              key={crypto.randomUUID()}
-              className="badge badge-outline badge-sm lg:badge-md"
-            >
-              {tag}
-            </li>
+            <Badge key={crypto.randomUUID()}>{tag}</Badge>
           ))}
-        </ul>
+        </div>
         <p className="mt-auto">{formatter.format(product.price)}</p>
       </div>
     </Link>

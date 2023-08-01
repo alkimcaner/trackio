@@ -14,6 +14,15 @@ import Link from "next/link";
 import { useEffect, useMemo } from "react";
 import { BiUser, BiLibrary, BiLogOut, BiCart } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Button, buttonVariants } from "./ui/button";
+import { Input } from "./ui/input";
 
 export default function Navbar() {
   const [user, setUser] = useAtom(userAtom);
@@ -37,64 +46,51 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-20 flex h-16 w-full items-center gap-4 bg-base-300 px-4 py-2">
-      <Link href="/" className="mr-auto">
-        GamingStore
-      </Link>
-      <input
+    <nav className="sticky top-0 z-20 flex h-16 w-full items-center gap-4 bg-zinc-50 px-4 py-2">
+      <Link href="/">GamingStore</Link>
+      <Input
         type="text"
         placeholder="Search Store"
-        className="input input-sm w-full max-w-[12rem] rounded-full"
+        className="mx-auto w-full max-w-[12rem]"
       />
-      <Link href="/cart" className="btn btn-ghost">
-        <BiCart />
-      </Link>
       {user ? (
-        <div className="dropdown dropdown-end">
-          <label tabIndex={0} className="btn btn-ghost">
-            <Image
-              src={user.photoURL || ""}
-              alt="Profile image"
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-            {name}
-          </label>
-          <ul
-            tabIndex={0}
-            className="menu dropdown-content rounded-box z-[1] w-52 border border-base-content/25 bg-base-100 p-2 shadow"
-          >
-            <li>
-              <Link href={`/profile/${userName}`}>
-                <BiUser /> Profile
-              </Link>
-            </li>
-            <li>
-              <Link href="/library">
-                <BiLibrary />
-                Library
-              </Link>
-            </li>
-            <li>
-              <a>
-                <FiSettings />
-                Settings
-              </a>
-            </li>
-            <li>
-              <button onClick={handleSignOut}>
-                <BiLogOut />
-                Sign Out
-              </button>
-            </li>
-          </ul>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <div className="flex items-center gap-2">
+              <Image
+                src={user.photoURL || ""}
+                alt="Profile image"
+                width={32}
+                height={32}
+                className="rounded-full"
+              />
+              {name}
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuItem>
+              <Link href={`/profile/${userName}`}>Profile</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="/library">Library</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <a>Settings</a>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       ) : (
-        <button onClick={handleSignIn} className="btn btn-ghost">
+        <Button onClick={handleSignIn} className="">
           Sign In
-        </button>
+        </Button>
       )}
+      <Link href="/cart" className={buttonVariants({ variant: "outline" })}>
+        <BiCart className="mr-1" /> Cart
+      </Link>
     </nav>
   );
 }

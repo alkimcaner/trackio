@@ -1,3 +1,5 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { db } from "@/lib/firebase";
 import { ProductType } from "@/types/product";
 import { format, fromUnixTime } from "date-fns";
@@ -29,38 +31,31 @@ export default async function Product({
         />
 
         <div className="flex flex-col gap-4 lg:w-1/4">
-          <h1 className="text-2xl text-primary-content">{product?.name}</h1>
-          <ul className="flex flex-wrap gap-2">
+          <h1 className="text-2xl">{product?.name}</h1>
+          <div className="flex flex-wrap gap-2">
             {product?.tags.map((tag) => (
-              <li
-                key={crypto.randomUUID()}
-                className="badge badge-outline badge-sm lg:badge-md"
-              >
-                {tag}
-              </li>
+              <Badge key={crypto.randomUUID()}>{tag}</Badge>
             ))}
-          </ul>
-          <span className="text-primary-content">
-            {formatter.format(product?.price)}
-          </span>
-          <button className="btn btn-primary">Add to Cart</button>
-          <button className="btn btn-outline">+ Add to Wishlist</button>
+          </div>
+          <span>{formatter.format(product?.price)}</span>
+          <Button>Add to Cart</Button>
+          <Button variant="outline">+ Add to Wishlist</Button>
           <div className="flex items-center justify-between gap-4">
-            <span className="text-primary-content">Metacritic Score</span>
-            <span className="rounded-lg bg-green-700 p-1 text-primary-content">
+            <span>Metacritic Score</span>
+            <span className="rounded-lg bg-green-500 p-1">
               {product?.metacriticScore}
             </span>
           </div>
           <div className="flex items-center justify-between gap-4">
-            <span className="text-primary-content">Developer</span>
+            <span>Developer</span>
             <span className="text-right">{product?.developer}</span>
           </div>
           <div className="flex items-center justify-between gap-4">
-            <span className="text-primary-content">Publisher</span>
+            <span>Publisher</span>
             <span className="text-right">{product?.publisher}</span>
           </div>
           <div className="flex items-center justify-between gap-4">
-            <span className="text-primary-content">Release Date</span>
+            <span>Release Date</span>
             <span className="text-right">
               {product?.releaseDate &&
                 format(fromUnixTime(product?.releaseDate), "dd MMM, yyyy")}
@@ -70,7 +65,7 @@ export default async function Product({
       </section>
 
       <section className="mx-auto w-full max-w-7xl p-8">
-        <h2 className="mb-4 text-primary-content">ABOUT THIS GAME</h2>
+        <h2 className="mb-4">ABOUT THIS GAME</h2>
         <p>{product?.description}</p>
       </section>
     </main>
