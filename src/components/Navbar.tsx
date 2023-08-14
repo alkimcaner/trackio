@@ -12,7 +12,7 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo } from "react";
-import { BiUser, BiLibrary, BiLogOut, BiCart } from "react-icons/bi";
+import { BiUser, BiLibrary, BiLogOut, BiCart, BiHeart } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import {
   DropdownMenu,
@@ -46,51 +46,56 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-20 flex h-16 w-full items-center gap-4 bg-zinc-50 px-4 py-2">
-      <Link href="/">GamingStore</Link>
-      <Input
-        type="text"
-        placeholder="Search Store"
-        className="mx-auto w-full max-w-[12rem]"
-      />
-      {user ? (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <div className="flex items-center gap-2">
-              <Image
-                src={user.photoURL || ""}
-                alt="Profile image"
-                width={32}
-                height={32}
-                className="rounded-full"
-              />
-              {name}
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <Link href={`/profile/${userName}`}>Profile</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href="/library">Library</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <a>Settings</a>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleSignOut}>
-              Sign Out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
-        <Button onClick={handleSignIn} className="">
-          Sign In
-        </Button>
-      )}
-      <Link href="/cart" className={buttonVariants({ variant: "outline" })}>
-        <BiCart className="mr-1" /> Cart
-      </Link>
+    <nav className="sticky top-0 z-20 w-full bg-zinc-50">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 p-4">
+        <Link href="/">GamingStore</Link>
+        <Input
+          type="text"
+          placeholder="Search Store"
+          className="mx-auto w-full max-w-xs"
+        />
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button variant="ghost">
+                <Image
+                  src={user.photoURL || ""}
+                  alt="Profile image"
+                  width={24}
+                  height={24}
+                  className="mr-1 rounded-full"
+                />
+                <span className="text-sm">{name}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <Link href={`/profile/${userName}`}>
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+              </Link>
+              <Link href="/library">
+                <DropdownMenuItem>Library</DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem>
+                <a>Settings</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleSignOut}>
+                Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button onClick={handleSignIn} className="">
+            Sign In
+          </Button>
+        )}
+        <Link href="/wishlist" className={buttonVariants({ variant: "ghost" })}>
+          <BiHeart className="mr-1" /> Wishlist
+        </Link>
+        <Link href="/cart" className={buttonVariants({ variant: "ghost" })}>
+          <BiCart className="mr-1" /> Cart
+        </Link>
+      </div>
     </nav>
   );
 }

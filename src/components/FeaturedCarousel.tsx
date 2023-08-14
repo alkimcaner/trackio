@@ -74,7 +74,7 @@ export default function FeaturedCarousel({
           </p>
           <div className="flex items-center gap-2">
             <Button>Add to Cart</Button>
-            <Button>+ Add to Wishlist</Button>
+            <Button variant="outline">+ Add to Wishlist</Button>
           </div>
         </div>
       </div>
