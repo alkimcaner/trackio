@@ -29,7 +29,7 @@ export default async function Home() {
 
       <section className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-4 p-8 lg:grid-cols-4">
         {products.map((product) => (
-          <Card key={crypto.randomUUID()} product={product} />
+          <Card key={product.id + ":card"} product={product} />
         ))}
       </section>
     </main>

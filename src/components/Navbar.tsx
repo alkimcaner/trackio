@@ -12,8 +12,7 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo } from "react";
-import { BiUser, BiLibrary, BiLogOut, BiCart, BiHeart } from "react-icons/bi";
-import { FiSettings } from "react-icons/fi";
+import { BiCart, BiHeart } from "react-icons/bi";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,7 +45,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-20 w-full bg-zinc-50">
+    <nav className="sticky top-0 z-20 w-full border-b bg-zinc-50">
       <div className="mx-auto flex max-w-7xl items-center gap-2 p-4">
         <Link href="/">GamingStore</Link>
         <Input

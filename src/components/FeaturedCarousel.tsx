@@ -66,7 +66,7 @@ export default function FeaturedCarousel({
           </Link>
           <div className="flex flex-wrap gap-2">
             {products[currentIndex]?.tags.map((tag) => (
-              <Badge key={crypto.randomUUID()}>{tag}</Badge>
+              <Badge key={`${products[currentIndex].id}:${tag}`}>{tag}</Badge>
             ))}
           </div>
           <p className="text-sm text-zinc-100 lg:text-base">
@@ -82,7 +82,7 @@ export default function FeaturedCarousel({
         {products.map((product, index) => (
           <div
             onClick={() => handleSelect(index)}
-            key={crypto.randomUUID()}
+            key={`${product.id}:carousel`}
             className={`relative flex cursor-pointer flex-col items-center gap-4 overflow-hidden rounded-2xl lg:flex-row lg:p-4 ${
               currentIndex === index && "bg-black/5"
             }`}
@@ -98,7 +98,7 @@ export default function FeaturedCarousel({
 
             {currentIndex === index && (
               <motion.div
-                key={product.id}
+                key={`${product.id}:highlight`}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 5, ease: "linear" }}

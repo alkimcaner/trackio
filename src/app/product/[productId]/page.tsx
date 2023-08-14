@@ -34,7 +34,7 @@ export default async function Product({
           <h1 className="text-2xl">{product?.name}</h1>
           <div className="flex flex-wrap gap-2">
             {product?.tags.map((tag) => (
-              <Badge key={crypto.randomUUID()}>{tag}</Badge>
+              <Badge key={`${product.id}:${tag}`}>{tag}</Badge>
             ))}
           </div>
           <span>{formatter.format(product?.price)}</span>
@@ -42,7 +42,7 @@ export default async function Product({
           <Button variant="outline">+ Add to Wishlist</Button>
           <div className="flex items-center justify-between gap-4">
             <span>Metacritic Score</span>
-            <span className="rounded-lg bg-green-500 p-1">
+            <span className="rounded-lg bg-green-400 p-1">
               {product?.metacriticScore}
             </span>
           </div>
