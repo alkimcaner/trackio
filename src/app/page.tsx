@@ -1,22 +1,9 @@
 import Card from "@/components/Card";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
-import { db } from "@/lib/firebase";
 import { ProductType } from "@/types/product";
-import { collection, getDocs } from "firebase/firestore";
-
-const fetchData = async () => {
-  const products: ProductType[] = [];
-  const querySnapshot = await getDocs(collection(db, "products"));
-  querySnapshot.forEach((doc) => {
-    let product = doc.data();
-    product.id = doc.id;
-    products.push(product as ProductType);
-  });
-  return products;
-};
 
 export default async function Home() {
-  const products = await fetchData();
+  const products = [] as ProductType[];
   const featuredProducts = products.filter((product) =>
     product.tags.includes("Featured")
   );

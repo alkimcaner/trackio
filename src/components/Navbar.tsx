@@ -1,17 +1,8 @@
 "use client";
 
-import { auth } from "@/lib/firebase";
-import { userAtom } from "@/lib/store";
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
-import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { BiCart, BiHeart } from "react-icons/bi";
 import {
   DropdownMenu,
@@ -22,43 +13,31 @@ import {
 } from "./ui/dropdown-menu";
 import { Button, buttonVariants } from "./ui/button";
 import { Input } from "./ui/input";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
-  const [user, setUser] = useAtom(userAtom);
-  const name = useMemo(() => user?.displayName?.split(" ")[0], [user]);
-  const userName = useMemo(() => user?.email?.split("@")[0], [user]);
-
-  const handleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
-  };
-  const handleSignOut = async () => {
-    await signOut(auth);
-  };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const { data: session } = useSession();
+  const name = useMemo(() => session?.user?.name?.split(" ")[0], [session]);
+  const userName = useMemo(
+    () => session?.user?.email?.split("@")[0],
+    [session]
+  );
 
   return (
     <nav className="sticky top-0 z-20 w-full border-b bg-zinc-50">
       <div className="mx-auto flex max-w-7xl items-center gap-2 p-4">
-        <Link href="/">GamingStore</Link>
+        <Link href="/">Trackio</Link>
         <Input
           type="text"
-          placeholder="Search Store"
+          placeholder="Search"
           className="mx-auto w-full max-w-xs"
         />
-        {user ? (
+        {session ? (
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Button variant="ghost">
                 <Image
-                  src={user.photoURL || ""}
+                  src={session.user?.image || ""}
                   alt="Profile image"
                   width={24}
                   height={24}
@@ -72,27 +51,22 @@ export default function Navbar() {
               <Link href={`/profile/${userName}`}>
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               </Link>
-              <Link href="/library">
-                <DropdownMenuItem>Library</DropdownMenuItem>
-              </Link>
               <DropdownMenuItem>
                 <a>Settings</a>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleSignOut}>
+              <DropdownMenuItem onClick={() => signOut()}>
                 Sign Out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Button onClick={handleSignIn} className="">
-            Sign In
-          </Button>
+          <Button onClick={() => signIn("google")}>Sign In</Button>
         )}
-        <Link href="/wishlist" className={buttonVariants({ variant: "ghost" })}>
-          <BiHeart className="mr-1" /> Wishlist
-        </Link>
-        <Link href="/cart" className={buttonVariants({ variant: "ghost" })}>
-          <BiCart className="mr-1" /> Cart
+        <Link
+          href="/favorites"
+          className={buttonVariants({ variant: "ghost" })}
+        >
+          <BiHeart className="mr-1" /> Favorites
         </Link>
       </div>
     </nav>
