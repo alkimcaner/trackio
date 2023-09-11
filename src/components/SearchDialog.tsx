@@ -22,10 +22,10 @@ export default function SearchDialog() {
       <Button
         onClick={() => setOpen((open) => !open)}
         variant="outline"
-        className="mx-auto w-full max-w-[12rem]"
+        className="ml-auto w-full max-w-fit sm:max-w-[12rem]"
       >
-        <MagnifyingGlassIcon className="mr-2 h-4 w-4" />
-        Search
+        <span className="hidden sm:inline">Search</span>
+        <MagnifyingGlassIcon className="ml-auto h-4 w-4" />
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>

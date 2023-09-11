@@ -36,52 +36,60 @@ export default function Navbar() {
 
         <SearchDialog />
 
-        <Link href="/lists" className={buttonVariants({ variant: "ghost" })}>
-          <ListBulletIcon className="mr-2 h-4 w-4" /> Lists
-        </Link>
-
         {session ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center">
-              <Image
-                src={session.user?.image || ""}
-                alt="Profile image"
-                width={24}
-                height={24}
-                className="mr-2 rounded-full"
-              />
-              <span className="text-sm">{name}</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <>
+            <Link
+              href="/lists"
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              <ListBulletIcon className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Lists</span>
+            </Link>
 
-              <Link href={`/profile/${userName}`}>
-                <DropdownMenuItem>
-                  <PersonIcon className="mr-2 h-4 w-4" />
-                  Profile
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className={buttonVariants({ variant: "ghost" })}
+              >
+                <Image
+                  src={session.user?.image || ""}
+                  alt="Profile image"
+                  width={24}
+                  height={24}
+                  className="rounded-full sm:mr-2"
+                />
+                <span className="hidden text-sm sm:inline">{name}</span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+
+                <Link href={`/profile/${userName}`}>
+                  <DropdownMenuItem>
+                    <PersonIcon className="mr-2 h-4 w-4" />
+                    Profile
+                  </DropdownMenuItem>
+                </Link>
+
+                <Link href="/favorites">
+                  <DropdownMenuItem>
+                    <HeartIcon className="mr-2 h-4 w-4" />
+                    Favorites
+                  </DropdownMenuItem>
+                </Link>
+
+                <Link href="/settings">
+                  <DropdownMenuItem>
+                    <GearIcon className="mr-2 h-4 w-4" />
+                    Settings
+                  </DropdownMenuItem>
+                </Link>
+
+                <DropdownMenuItem onClick={() => signOut()}>
+                  <ExitIcon className="mr-2 h-4 w-4" />
+                  Sign Out
                 </DropdownMenuItem>
-              </Link>
-
-              <Link href="/favorites">
-                <DropdownMenuItem>
-                  <HeartIcon className="mr-2 h-4 w-4" />
-                  Favorites
-                </DropdownMenuItem>
-              </Link>
-
-              <Link href="/settings">
-                <DropdownMenuItem>
-                  <GearIcon className="mr-2 h-4 w-4" />
-                  Settings
-                </DropdownMenuItem>
-              </Link>
-
-              <DropdownMenuItem onClick={() => signOut()}>
-                <ExitIcon className="mr-2 h-4 w-4" />
-                Sign Out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
         ) : (
           <Button onClick={() => signIn("google")}>Sign In</Button>
         )}
