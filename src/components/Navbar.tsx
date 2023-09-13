@@ -32,7 +32,16 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-20 w-full border-b bg-zinc-50">
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-8 py-4">
-        <Link href="/">Trackio</Link>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="logo"
+            width={100}
+            height={100}
+            className="h-4 w-4"
+          />
+          Trackio
+        </Link>
 
         <SearchDialog />
 

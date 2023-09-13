@@ -6,6 +6,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import GameCard from "./GameCard";
 
 export default function PopularGamesSlider() {
   return (
@@ -25,34 +26,28 @@ export default function PopularGamesSlider() {
           navigation
         >
           <SwiperSlide>
-            <div className="h-64 border">Slide</div>
+            <GameCard />
           </SwiperSlide>
           <SwiperSlide>
-            <div className="h-64 border">Slide</div>
+            <GameCard />
           </SwiperSlide>
           <SwiperSlide>
-            <div className="h-64 border">Slide</div>
+            <GameCard />
           </SwiperSlide>
           <SwiperSlide>
-            <div className="h-64 border">Slide</div>
+            <GameCard />
           </SwiperSlide>
           <SwiperSlide>
-            <div className="h-64 border">Slide</div>
+            <GameCard />
           </SwiperSlide>
           <SwiperSlide>
-            <div className="h-64 border">Slide</div>
+            <GameCard />
           </SwiperSlide>
           <SwiperSlide>
-            <div className="h-64 border">Slide</div>
+            <GameCard />
           </SwiperSlide>
           <SwiperSlide>
-            <div className="h-64 border">Slide</div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="h-64 border">Slide</div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="h-64 border">Slide</div>
+            <GameCard />
           </SwiperSlide>
         </Swiper>
       </div>
