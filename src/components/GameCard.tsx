@@ -6,12 +6,12 @@ import {
 } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 
 export default function GameCard() {
   return (
     <div className="flex select-none flex-col overflow-hidden rounded-2xl border bg-zinc-50">
-      <Link href={`/games/123456`}>
+      <Link href={`/games/id/123456`}>
         <div className="aspect-[3/4] w-full overflow-hidden">
           <Image
             src={

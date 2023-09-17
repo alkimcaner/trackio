@@ -7,8 +7,16 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import GameCard from "./GameCard";
+import useSWR from "swr";
 
-export default function PopularGamesSlider() {
+const fetcher = () =>
+  fetch("/api/games", { method: "POST", body: "fields *;limit 5;" }).then(
+    (res) => res.json()
+  );
+
+export default function BestGamesSlider() {
+  const { data, error, isLoading } = useSWR("/api/games", fetcher);
+  console.log(data);
   return (
     <section>
       <Link href="/games/popular" className="text-lg">
