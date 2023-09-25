@@ -25,21 +25,20 @@ export default function GameCard({ gameData }: any) {
       </Link>
       <div className="flex flex-col gap-2 p-2">
         <div className="flex items-center gap-2">
-          <span className="flex items-center gap-1">
+          <span className="mr-auto flex items-center gap-2">
             <StarFilledIcon className="text-yellow-400" />
             {Math.floor(gameData.total_rating) / 10}
           </span>
           <Button variant="ghost" size="icon">
             <HeartIcon className="text-red-500" />
           </Button>
+          <Button variant="ghost" size="icon">
+            <ListBulletIcon />
+          </Button>
         </div>
         <Link href={`/games/123456`} className="mb-2 hover:underline">
           {gameData.name}
         </Link>
-        <Button variant="secondary" size="sm" className="gap-2">
-          <ListBulletIcon />
-          Add To List
-        </Button>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ export default function SearchDialog() {
       <Button
         onClick={() => setOpen((open) => !open)}
         variant="outline"
-        className="ml-auto w-full max-w-fit sm:max-w-[12rem]"
+        className="ml-4 mr-auto w-full max-w-fit sm:max-w-[12rem]"
       >
         <span className="hidden sm:inline">Search</span>
         <MagnifyingGlassIcon className="ml-auto h-4 w-4" />

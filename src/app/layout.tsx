@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import StoreProvider from "../components/StoreProvider";
 import Navbar from "@/components/Navbar";
 import AuthProvider from "../components/AuthProvider";
 import { getServerSession } from "next-auth";
@@ -25,10 +24,8 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider session={session}>
-          <StoreProvider>
-            <Navbar />
-            {children}
-          </StoreProvider>
+          <Navbar />
+          {children}
         </AuthProvider>
       </body>
     </html>
