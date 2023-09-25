@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "image.api.playstation.com",
+        hostname: "images.igdb.com",
         port: "",
         pathname: "/**",
       },

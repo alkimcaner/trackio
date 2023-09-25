@@ -55,3 +55,44 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Profile {
+  id               String            @id @default(cuid())
+  userName         String
+  name             String
+  image            String?
+  gameCollections  GameCollection[]
+  movieCollections MovieCollection[]
+  favoriteGames    Game[]
+  favoriteMovies   Movie[]
+}
+
+model GameCollection {
+  id        String   @id @default(cuid())
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+  games     Game[]
+}
+
+model MovieCollection {
+  id        String   @id @default(cuid())
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+  movies    Movie[]
+}
+
+model Game {
+  id               String          @id @default(cuid())
+  Profile          Profile?        @relation(fields: [profileId], references: [id])
+  profileId        String?
+  GameCollection   GameCollection? @relation(fields: [gameCollectionId], references: [id])
+  gameCollectionId String?
+}
+
+model Movie {
+  id                String           @id @default(cuid())
+  Profile           Profile?         @relation(fields: [profileId], references: [id])
+  profileId         String?
+  MovieCollection   MovieCollection? @relation(fields: [movieCollectionId], references: [id])
+  movieCollectionId String?
+}

@@ -48,11 +48,11 @@ export default function Navbar() {
         {session ? (
           <>
             <Link
-              href="/lists"
+              href="/collections"
               className={buttonVariants({ variant: "ghost" })}
             >
               <ListBulletIcon className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Lists</span>
+              <span className="hidden sm:inline">Collections</span>
             </Link>
 
             <DropdownMenu>

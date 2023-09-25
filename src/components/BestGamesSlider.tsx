@@ -3,24 +3,16 @@
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
+import GameCard from "./GameCard";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import GameCard from "./GameCard";
-import useSWR from "swr";
 
-const fetcher = () =>
-  fetch("/api/games", { method: "POST", body: "fields *;limit 5;" }).then(
-    (res) => res.json()
-  );
-
-export default function BestGamesSlider() {
-  const { data, error, isLoading } = useSWR("/api/games", fetcher);
-  console.log(data);
+export default function BestGamesSlider({ bestGamesData }: any) {
   return (
-    <section>
-      <Link href="/games/popular" className="text-lg">
-        Popular Games
+    <div>
+      <Link href="/games" className="text-lg">
+        Best Games
       </Link>
       <div className="mt-4">
         <Swiper
@@ -33,32 +25,13 @@ export default function BestGamesSlider() {
           }}
           navigation
         >
-          <SwiperSlide>
-            <GameCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <GameCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <GameCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <GameCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <GameCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <GameCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <GameCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <GameCard />
-          </SwiperSlide>
+          {bestGamesData?.map((gameData: any) => (
+            <SwiperSlide key={gameData.id}>
+              <GameCard gameData={gameData} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
-    </section>
+    </div>
   );
 }
