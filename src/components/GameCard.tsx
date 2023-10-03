@@ -10,7 +10,7 @@ import { Button } from "./ui/button";
 
 export default function GameCard({ gameData }: any) {
   return (
-    <div className="flex select-none flex-col overflow-hidden rounded-2xl border bg-zinc-50">
+    <div className="flex select-none flex-col overflow-hidden rounded-lg border bg-zinc-50">
       <Link href={`/games/${gameData.slug}`}>
         <div className="aspect-[3/4] w-full overflow-hidden">
           <Image
