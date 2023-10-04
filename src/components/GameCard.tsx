@@ -10,20 +10,26 @@ import { Button } from "./ui/button";
 
 export default function GameCard({ gameData }: any) {
   return (
-    <div className="flex select-none flex-col overflow-hidden rounded-lg border bg-zinc-50">
+    <div className="group flex h-[22rem] max-w-xs select-none flex-col overflow-hidden rounded-lg border bg-zinc-50">
       <Link href={`/games/${gameData.slug}`}>
-        <div className="aspect-[3/4] w-full overflow-hidden">
+        <div className="overflow-hidden">
           <Image
             src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${gameData.cover?.image_id}.jpg`}
             alt="Cover image"
-            width={360}
+            width={480}
             height={640}
-            className="h-full w-full object-cover transition duration-500 will-change-transform hover:scale-105"
+            className="aspect-[3/4] object-cover transition duration-500 will-change-transform group-hover:scale-105"
             priority
           />
         </div>
       </Link>
-      <div className="flex flex-col gap-2 p-2">
+      <div className="flex h-full flex-col gap-2 p-2">
+        <Link
+          href={`/games/${gameData.slug}`}
+          className="mb-auto hover:underline"
+        >
+          {gameData.name}
+        </Link>
         <div className="flex items-center gap-2">
           <span className="mr-auto flex items-center gap-2">
             <StarFilledIcon className="text-yellow-400" />
@@ -36,9 +42,6 @@ export default function GameCard({ gameData }: any) {
             <ListBulletIcon />
           </Button>
         </div>
-        <Link href={`/games/123456`} className="mb-2 hover:underline">
-          {gameData.name}
-        </Link>
       </div>
     </div>
   );
