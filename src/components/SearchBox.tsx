@@ -13,7 +13,7 @@ export default function SearchBox() {
   const [open, setOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const { data: searchResults, mutate } = useSWR("search", () =>
-    fetch("http://localhost:3000/api/games", {
+    fetch("/api/games", {
       method: "POST",
       body: `search "${searchInput}";fields *;limit 10;`,
     }).then((res) => res.json())
@@ -61,7 +61,7 @@ export default function SearchBox() {
               key={e.id}
               onClick={() => setOpen(false)}
               href={`/games/${e.slug}`}
-              className="w-full rounded-lg p-2 hover:bg-black/10"
+              className="w-full rounded-lg p-2 hover:bg-zinc-950/10 dark:hover:bg-zinc-50/10"
             >
               {e.name}
             </Link>

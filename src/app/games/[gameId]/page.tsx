@@ -6,7 +6,7 @@ import GameGallery from "@/components/GameGallery";
 
 export default async function Game({ params }: { params: { gameId: string } }) {
   const gameData = (
-    await fetch("http://localhost:3000/api/games", {
+    await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
       method: "POST",
       body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*;where slug = "${params.gameId}";`,
     }).then((res) => res.json())

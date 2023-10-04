@@ -1,7 +1,7 @@
 import BestGamesSlider from "@/components/BestGamesSlider";
 
 export default async function Home() {
-  const bestGamesData = await fetch("http://localhost:3000/api/games", {
+  const bestGamesData = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
     method: "POST",
     body: "fields *,cover.*;where total_rating_count > 500;sort total_rating desc;limit 10;",
   }).then((res) => res.json());
