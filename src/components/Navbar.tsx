@@ -12,7 +12,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Button, buttonVariants } from "./ui/button";
 import { signIn, signOut, useSession } from "next-auth/react";
-import SearchDialog from "./SearchDialog";
+import SearchBox from "./SearchBox";
 import {
   GearIcon,
   PersonIcon,
@@ -32,7 +32,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-20 w-full border-b bg-zinc-50">
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-8 py-4">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="mr-4 flex items-center gap-2">
           <Image
             src="/logo.png"
             alt="logo"
@@ -43,7 +43,7 @@ export default function Navbar() {
           Trackio
         </Link>
 
-        <SearchDialog />
+        <SearchBox />
 
         {session ? (
           <>

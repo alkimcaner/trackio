@@ -14,10 +14,10 @@ export default async function Game({ params }: { params: { gameId: string } }) {
 
   const date = fromUnixTime(gameData?.first_release_date ?? "");
   const formattedDate = format(date, "MMM dd, yyyy");
-  const publisher = gameData.involved_companies.find(
+  const publisher = gameData.involved_companies?.find(
     (e: any) => e.publisher
   )?.company;
-  const developer = gameData.involved_companies.find(
+  const developer = gameData.involved_companies?.find(
     (e: any) => e.developer
   )?.company;
 

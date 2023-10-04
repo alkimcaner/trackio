@@ -1,12 +1,12 @@
 "use client";
 
+import "swiper/css";
+import "swiper/css/navigation";
+
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import GameCard from "./GameCard";
-
-import "swiper/css";
-import "swiper/css/navigation";
 
 export default function BestGamesSlider({ bestGamesData }: any) {
   return (
