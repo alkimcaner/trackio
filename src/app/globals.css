@@ -3,8 +3,6 @@
 @tailwind utilities;
 
 body {
-  @apply bg-zinc-50;
-
   --swiper-navigation-size: 16px;
   --swiper-navigation-top-offset: 50%;
   --swiper-navigation-sides-offset: 10px;

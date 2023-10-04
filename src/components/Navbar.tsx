@@ -20,6 +20,7 @@ import {
   HeartIcon,
   ListBulletIcon,
 } from "@radix-ui/react-icons";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -30,7 +31,7 @@ export default function Navbar() {
   );
 
   return (
-    <nav className="sticky top-0 z-20 w-full border-b bg-zinc-50">
+    <nav className="sticky top-0 z-20 w-full border-b border-zinc-950/10 bg-zinc-50 dark:border-zinc-50/10 dark:bg-zinc-950">
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-8 py-4">
         <Link href="/" className="mr-4 flex items-center gap-2">
           <Image
@@ -48,11 +49,11 @@ export default function Navbar() {
         {session ? (
           <>
             <Link
-              href="/collections"
-              className={buttonVariants({ variant: "ghost" })}
+              href="/lists"
+              className={buttonVariants({ variant: "outline" })}
             >
               <ListBulletIcon className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Collections</span>
+              <span className="hidden sm:inline">Lists</span>
             </Link>
 
             <DropdownMenu>
@@ -102,6 +103,7 @@ export default function Navbar() {
         ) : (
           <Button onClick={() => signIn("google")}>Sign In</Button>
         )}
+        <ThemeToggle />
       </div>
     </nav>
   );

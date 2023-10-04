@@ -46,7 +46,7 @@ export default async function Game({ params }: { params: { gameId: string } }) {
           </Button>
           <Button variant={"outline"}>
             <ListBulletIcon className="mr-2 h-4 w-4" />
-            Add To Collection
+            Add To List
           </Button>
         </div>
         <div className="w-full">

@@ -29,7 +29,7 @@ export default function SearchBox() {
   }, []);
 
   useEffect(() => {
-    const debouncedSearch = debounce(mutate, 1000);
+    const debouncedSearch = debounce(mutate, 500);
     debouncedSearch();
   }, [searchInput]);
 
@@ -47,13 +47,13 @@ export default function SearchBox() {
       <Link
         onClick={() => setOpen(false)}
         href={`/games?q=${searchInput}`}
-        className={buttonVariants()}
+        className={buttonVariants({ variant: "outline" })}
       >
         <MagnifyingGlassIcon />
       </Link>
 
       {open && (
-        <div className="absolute left-0 right-0 top-12 flex flex-col gap-1 rounded-lg bg-white/75 p-2 shadow-lg backdrop-blur-lg">
+        <div className="absolute left-0 right-0 top-12 flex flex-col gap-1 rounded-lg bg-white/75 p-2 shadow-lg backdrop-blur-lg dark:bg-zinc-950/75">
           {!searchResults?.length && <span>There are no results</span>}
 
           {searchResults?.map((e: any) => (
