@@ -53,7 +53,7 @@ export default function SearchBox() {
       </Link>
 
       {open && (
-        <div className="absolute left-0 right-0 top-12 flex max-h-96 flex-col gap-1 overflow-y-scroll rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+        <div className="absolute left-0 right-0 top-12 flex max-h-96 flex-col gap-1 overflow-x-hidden overflow-y-scroll rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
           {!searchResults?.length && <span>There are no results</span>}
 
           {searchResults?.map((e: any) => (

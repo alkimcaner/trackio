@@ -51,8 +51,12 @@ export default async function Game({ params }: { params: { gameId: string } }) {
         </div>
         <div className="w-full">
           <div className="flex flex-col justify-end gap-4 p-4 lg:h-64">
-            <h1 className="text-5xl font-bold text-white">{gameData?.name}</h1>
-            <h2 className="text-2xl font-bold text-white">{formattedDate}</h2>
+            <h1 className="text-5xl font-bold lg:text-zinc-50">
+              {gameData?.name}
+            </h1>
+            <h2 className="text-2xl font-bold lg:text-zinc-50">
+              {formattedDate}
+            </h2>
           </div>
           <div className="p-4">
             {developer && (
