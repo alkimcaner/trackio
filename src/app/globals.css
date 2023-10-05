@@ -21,3 +21,7 @@ body {
   border-radius: 9999px;
   box-shadow: 0 0 8px 0 black;
 }
+
+.swiper-slide {
+  height: auto !important;
+}

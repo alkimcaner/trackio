@@ -36,7 +36,7 @@ export default function SearchBox() {
   return (
     <div
       ref={domRef}
-      className="relative mr-auto flex w-full max-w-xs items-center gap-2"
+      className="relative mx-auto flex w-full max-w-xs items-center gap-2"
     >
       <Input
         value={searchInput}
@@ -47,13 +47,13 @@ export default function SearchBox() {
       <Link
         onClick={() => setOpen(false)}
         href={`/games?q=${searchInput}`}
-        className={buttonVariants({ variant: "outline" })}
+        className={buttonVariants({ variant: "outline", size: "icon" })}
       >
         <MagnifyingGlassIcon />
       </Link>
 
       {open && (
-        <div className="absolute left-0 right-0 top-12 flex flex-col gap-1 rounded-lg bg-white/75 p-2 shadow-lg backdrop-blur-lg dark:bg-zinc-950/75">
+        <div className="absolute left-0 right-0 top-12 flex max-h-96 flex-col gap-1 overflow-y-scroll rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
           {!searchResults?.length && <span>There are no results</span>}
 
           {searchResults?.map((e: any) => (
@@ -61,7 +61,7 @@ export default function SearchBox() {
               key={e.id}
               onClick={() => setOpen(false)}
               href={`/games/${e.slug}`}
-              className="w-full rounded-lg p-2 hover:bg-zinc-950/10 dark:hover:bg-zinc-50/10"
+              className="w-full rounded-md p-2 hover:bg-zinc-950/10 dark:hover:bg-zinc-50/10"
             >
               {e.name}
             </Link>

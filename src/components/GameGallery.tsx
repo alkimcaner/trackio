@@ -18,6 +18,17 @@ export default function GameGallery({ images }: any) {
         disableOnInteraction: false,
       }}
       navigation
+      breakpoints={{
+        360: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      }}
     >
       {images?.map((image: any) => (
         <SwiperSlide key={image.id}>

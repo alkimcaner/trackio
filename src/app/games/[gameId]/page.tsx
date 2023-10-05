@@ -31,8 +31,8 @@ export default async function Game({ params }: { params: { gameId: string } }) {
           className="object-cover blur-2xl brightness-75"
         />
       </div>
-      <section className="mx-auto flex w-full max-w-7xl px-8 pb-16 pt-32">
-        <div className="flex w-72 flex-col gap-4">
+      <section className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:gap-0 lg:pt-32">
+        <div className="mx-auto flex w-72 flex-col gap-4">
           <Image
             src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${gameData?.cover?.image_id}.jpg`}
             alt="Cover image"
@@ -50,7 +50,7 @@ export default async function Game({ params }: { params: { gameId: string } }) {
           </Button>
         </div>
         <div className="w-full">
-          <div className="flex h-64 flex-col justify-end gap-4 p-4">
+          <div className="flex flex-col justify-end gap-4 p-4 lg:h-64">
             <h1 className="text-5xl font-bold text-white">{gameData?.name}</h1>
             <h2 className="text-2xl font-bold text-white">{formattedDate}</h2>
           </div>

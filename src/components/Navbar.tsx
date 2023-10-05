@@ -33,7 +33,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-20 w-full border-b border-zinc-950/10 bg-zinc-50 dark:border-zinc-50/10 dark:bg-zinc-950">
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-8 py-4">
-        <Link href="/" className="mr-4 flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo.png"
             alt="logo"
@@ -41,7 +41,7 @@ export default function Navbar() {
             height={100}
             className="h-4 w-4"
           />
-          Trackio
+          <span className="hidden sm:inline">Trackio</span>
         </Link>
 
         <SearchBox />
@@ -50,7 +50,7 @@ export default function Navbar() {
           <>
             <Link
               href="/lists"
-              className={buttonVariants({ variant: "outline" })}
+              className={buttonVariants({ variant: "ghost" })}
             >
               <ListBulletIcon className="h-4 w-4 sm:mr-2" />
               <span className="hidden sm:inline">Lists</span>

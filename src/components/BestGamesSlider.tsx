@@ -24,6 +24,17 @@ export default function BestGamesSlider({ bestGamesData }: any) {
             disableOnInteraction: false,
           }}
           navigation
+          breakpoints={{
+            360: {
+              slidesPerView: 2,
+            },
+            768: {
+              slidesPerView: 4,
+            },
+            1024: {
+              slidesPerView: 6,
+            },
+          }}
         >
           {bestGamesData?.map((gameData: any) => (
             <SwiperSlide key={gameData.id}>
