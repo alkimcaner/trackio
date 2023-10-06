@@ -7,9 +7,11 @@ import { Button, buttonVariants } from "./ui/button";
 import { debounce } from "@/lib/utils";
 import useSWR from "swr";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SearchBox() {
-  const domRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const domRef = useRef<HTMLFormElement>(null);
   const [open, setOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const { data: searchResults, mutate } = useSWR("search", () =>
@@ -19,13 +21,19 @@ export default function SearchBox() {
     }).then((res) => res.json())
   );
 
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    setOpen(false);
+    router.push(`/games?q=${searchInput}`);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (!domRef.current?.contains(event.target as Node)) setOpen(false);
     };
 
-    document.body.addEventListener("click", handleClickOutside);
-    return () => document.body.removeEventListener("click", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -34,7 +42,8 @@ export default function SearchBox() {
   }, [searchInput]);
 
   return (
-    <div
+    <form
+      onSubmit={handleSearch}
       ref={domRef}
       className="relative mx-auto flex w-full max-w-xs items-center gap-2"
     >
@@ -44,30 +53,27 @@ export default function SearchBox() {
         onChange={(e) => setSearchInput(e.target.value)}
         placeholder="Search games"
       />
-      <Link
-        onClick={() => setOpen(false)}
-        href={`/games?q=${searchInput}`}
-        className={buttonVariants({ variant: "outline", size: "icon" })}
-      >
+      <Button type="submit">
         <MagnifyingGlassIcon />
-      </Link>
+      </Button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-12 flex max-h-96 flex-col gap-1 overflow-x-hidden overflow-y-scroll rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
-          {!searchResults?.length && <span>There are no results</span>}
-
-          {searchResults?.map((e: any) => (
-            <Link
-              key={e.id}
-              onClick={() => setOpen(false)}
-              href={`/games/${e.slug}`}
-              className="w-full rounded-md p-2 hover:bg-zinc-950/10 dark:hover:bg-zinc-50/10"
-            >
-              {e.name}
-            </Link>
-          ))}
+        <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+          <div className="flex max-h-96 flex-col gap-1 overflow-y-scroll p-1">
+            {!searchResults?.length && <span>There are no results</span>}
+            {searchResults?.map((e: any) => (
+              <Link
+                key={e.id}
+                onClick={() => setOpen(false)}
+                href={`/games/${e.slug}`}
+                className="w-full rounded-sm p-2 hover:bg-zinc-950/10 dark:hover:bg-zinc-50/10"
+              >
+                {e.name}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
-    </div>
+    </form>
   );
 }

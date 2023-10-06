@@ -41,7 +41,7 @@ export default function Navbar() {
             height={100}
             className="h-4 w-4"
           />
-          <span className="hidden sm:inline">Trackio</span>
+          <span className="mr-4 hidden sm:inline">Trackio</span>
         </Link>
 
         <SearchBox />

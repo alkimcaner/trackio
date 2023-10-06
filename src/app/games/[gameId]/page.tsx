@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { format, fromUnixTime } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { HeartFilledIcon, ListBulletIcon } from "@radix-ui/react-icons";
+import {
+  HeartFilledIcon,
+  ListBulletIcon,
+  StarFilledIcon,
+} from "@radix-ui/react-icons";
 import GameGallery from "@/components/GameGallery";
 
 export default async function Game({ params }: { params: { gameId: string } }) {
@@ -57,6 +61,10 @@ export default async function Game({ params }: { params: { gameId: string } }) {
             <h2 className="text-2xl font-bold lg:text-zinc-50">
               {formattedDate}
             </h2>
+            <span className="flex items-center gap-2 text-xl">
+              <StarFilledIcon className="text-yellow-400" />
+              {Math.floor(gameData.total_rating) / 10}
+            </span>
           </div>
           <div className="p-4">
             {developer && (
