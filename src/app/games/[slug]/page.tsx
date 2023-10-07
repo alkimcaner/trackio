@@ -1,18 +1,18 @@
 import Image from "next/image";
 import { format, fromUnixTime } from "date-fns";
-import { Button } from "@/components/ui/button";
-import {
-  HeartFilledIcon,
-  ListBulletIcon,
-  StarFilledIcon,
-} from "@radix-ui/react-icons";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 import GameGallery from "@/components/GameGallery";
+import GamePageActionButtons from "@/components/GamePageActionButtons";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
-export default async function Game({ params }: { params: { gameId: string } }) {
+export default async function Game({ params }: { params: { slug: string } }) {
+  const session = await getServerSession(authOptions);
+
   const gameData = (
     await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
       method: "POST",
-      body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*;where slug = "${params.gameId}";`,
+      body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*; where slug = "${params.slug}";`,
     }).then((res) => res.json())
   )[0];
 
@@ -44,14 +44,7 @@ export default async function Game({ params }: { params: { gameId: string } }) {
             height={640}
             className="aspect-[3/4] w-full rounded-lg object-cover shadow-lg"
           />
-          <Button>
-            <HeartFilledIcon className="mr-2 h-4 w-4" />
-            Favorite
-          </Button>
-          <Button variant={"outline"}>
-            <ListBulletIcon className="mr-2 h-4 w-4" />
-            Add To List
-          </Button>
+          {session && <GamePageActionButtons gameData={gameData} />}
         </div>
         <div className="w-full">
           <div className="flex flex-col justify-end gap-4 p-4 lg:h-64">

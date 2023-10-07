@@ -11,13 +11,11 @@ import GameCard from "./GameCard";
 export default function BestGamesSlider({ bestGamesData }: any) {
   return (
     <div>
-      <Link href="/games" className="text-lg">
-        Best Games
-      </Link>
-      <div className="mt-4">
+      <h1 className="mb-4 text-lg">Best Games</h1>
+      <div>
         <Swiper
           modules={[Navigation, Autoplay]}
-          spaceBetween={24}
+          spaceBetween={16}
           slidesPerView={6}
           autoplay={{
             delay: 5000,

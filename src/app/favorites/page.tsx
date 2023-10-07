@@ -1,6 +1,7 @@
+import FavoriteGames from "@/components/FavoriteGames";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function Favorites() {
   const session = await getServerSession(authOptions);
@@ -9,5 +10,12 @@ export default async function Favorites() {
     redirect("/");
   }
 
-  return <div>Favorites page</div>;
+  return (
+    <main>
+      <section className="mx-auto w-full max-w-7xl p-8">
+        <h1 className="mb-4 text-lg">Favorite Games</h1>
+        <FavoriteGames />
+      </section>
+    </main>
+  );
 }

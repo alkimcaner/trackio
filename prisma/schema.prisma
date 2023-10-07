@@ -47,12 +47,14 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  handle         String        @unique @default(cuid())
   bannerUrl      String?
-  handle         String      @unique @default(cuid())
   gameLists      GameList[]
   movieLists     MovieList[]
   favoriteGames  String[]
   favoriteMovies String[]
+  gameStatus     GameStatus[]
+  movieStatus    MovieStatus[]
 }
 
 model VerificationToken {
@@ -75,4 +77,20 @@ model MovieList {
   movies String[]
   User   User?    @relation(fields: [userId], references: [id])
   userId String?
+}
+
+model GameStatus {
+  id       String  @id @default(cuid())
+  gameId   Int
+  finished Boolean @default(false)
+  User     User?   @relation(fields: [userId], references: [id])
+  userId   String?
+}
+
+model MovieStatus {
+  id       String  @id @default(cuid())
+  movieId  Int
+  finished Boolean @default(false)
+  User     User?   @relation(fields: [userId], references: [id])
+  userId   String?
 }

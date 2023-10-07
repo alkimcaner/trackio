@@ -5,21 +5,25 @@ import { useEffect, useRef, useState } from "react";
 import { Input } from "./ui/input";
 import { Button, buttonVariants } from "./ui/button";
 import { debounce } from "@/lib/utils";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+const searchGames = (searchInput: string) =>
+  fetch("/api/games", {
+    method: "POST",
+    body: `search "${searchInput}";fields *;limit 10;`,
+  }).then((res) => res.json());
 
 export default function SearchBox() {
   const router = useRouter();
   const domRef = useRef<HTMLFormElement>(null);
   const [open, setOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const { data: searchResults, mutate } = useSWR("search", () =>
-    fetch("/api/games", {
-      method: "POST",
-      body: `search "${searchInput}";fields *;limit 10;`,
-    }).then((res) => res.json())
-  );
+  const { data: searchResults, refetch } = useQuery({
+    queryKey: ["search"],
+    queryFn: () => searchGames(searchInput),
+  });
 
   const handleSearch = (e: any) => {
     e.preventDefault();
@@ -37,7 +41,7 @@ export default function SearchBox() {
   }, []);
 
   useEffect(() => {
-    const debouncedSearch = debounce(mutate, 500);
+    const debouncedSearch = debounce(refetch, 500);
     debouncedSearch();
   }, [searchInput]);
 

@@ -11,7 +11,7 @@ export default function GameGallery({ images }: any) {
   return (
     <Swiper
       modules={[Navigation, Autoplay]}
-      spaceBetween={24}
+      spaceBetween={16}
       slidesPerView={3}
       autoplay={{
         delay: 5000,
