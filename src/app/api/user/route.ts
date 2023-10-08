@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(userData);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Something unexpected happened." });
   }
 }
