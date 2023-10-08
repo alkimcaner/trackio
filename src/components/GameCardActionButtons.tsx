@@ -56,6 +56,8 @@ export default function GameCardActionButtons({ gameData }: any) {
     },
   });
 
+  if (!userData) return <></>;
+
   return (
     <>
       <Button

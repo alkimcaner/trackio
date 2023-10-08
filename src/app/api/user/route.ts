@@ -10,7 +10,8 @@ const prisma = new PrismaClient();
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "Unauthorized access." });
+    if (!session)
+      return new NextResponse("Unauthorized access.", { status: 500 });
 
     const email = session.user?.email || "";
 
@@ -20,11 +21,12 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    if (!userData) return NextResponse.json({ error: "Couldn't find user." });
+    if (!userData)
+      return new NextResponse("Couldn't find user.", { status: 500 });
 
     return NextResponse.json(userData);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error });
+    return new NextResponse("Something unexpected happened.", { status: 500 });
   }
 }

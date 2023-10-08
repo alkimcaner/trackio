@@ -15,13 +15,17 @@ const getGames = (favoriteGames: string[]) => {
 };
 
 export default function FavoriteGames() {
-  const { data: userData } = useQuery({
+  const { data: userData, isInitialLoading: isUserInitialLoading } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
   });
 
-  const { data: gamesData, isLoading: isGamesLoading } = useQuery({
-    queryKey: ["favoriteGames"].concat(userData?.favoriteGames),
+  const {
+    data: gamesData,
+    isLoading: isGamesLoading,
+    isInitialLoading: isGamesInitialLoading,
+  } = useQuery({
+    queryKey: ["favoriteGames"],
     queryFn: () => getGames(userData.favoriteGames),
     enabled: !!userData,
   });
@@ -31,7 +35,7 @@ export default function FavoriteGames() {
 
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-      {isGamesLoading && (
+      {(isGamesInitialLoading || isUserInitialLoading) && (
         <>
           <Skeleton className="h-80 w-full" />
           <Skeleton className="h-80 w-full" />

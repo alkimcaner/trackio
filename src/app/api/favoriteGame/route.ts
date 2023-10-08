@@ -9,7 +9,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = String(await request.json());
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "Unauthorized access." });
+    if (!session)
+      return new NextResponse("Unauthorized access.", { status: 500 });
 
     const email = session.user?.email || "";
 
@@ -19,7 +20,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    if (!userData) return NextResponse.json({ error: "Couldn't find user." });
+    if (!userData)
+      return new NextResponse("Couldn't find user.", { status: 500 });
 
     if (userData.favoriteGames.includes(body)) {
       userData.favoriteGames = userData.favoriteGames.filter((e) => e !== body);
@@ -41,6 +43,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(userData.favoriteGames);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Something unexpected happened." });
+    return new NextResponse("Something unexpected happened.", { status: 500 });
   }
 }
