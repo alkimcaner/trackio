@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 const searchGames = (searchInput: string) =>
   fetch("/api/games", {
     method: "POST",
-    body: `search "${searchInput}";fields *;limit 10;`,
+    body: `search "${searchInput}"; fields *;limit 10;`,
   }).then((res) => res.json());
 
 export default function SearchBox() {
@@ -64,7 +64,9 @@ export default function SearchBox() {
       {open && (
         <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
           <div className="flex max-h-96 flex-col gap-1 overflow-y-scroll p-1">
-            {!searchResults?.length && <span>There are no results</span>}
+            {!searchResults?.length && (
+              <span className="p-1">There are no results</span>
+            )}
             {searchResults?.map((e: any) => (
               <Link
                 key={e.id}

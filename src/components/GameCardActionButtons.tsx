@@ -16,7 +16,7 @@ const favoriteGame = (id: string) =>
     body: id,
   }).then((res) => res.json());
 
-export default function GamePageActionButtons({ gameData }: any) {
+export default function GameCardActionButtons({ gameData }: any) {
   const queryClient = useQueryClient();
 
   const { data: userData, isLoading: isUserLoading } = useQuery({
@@ -59,24 +59,23 @@ export default function GamePageActionButtons({ gameData }: any) {
   return (
     <>
       <Button
+        size="icon"
         variant={
           userData?.favoriteGames?.includes(String(gameData.id))
             ? "destructive"
-            : "outline"
+            : "ghost"
         }
         onClick={() => mutation.mutate(String(gameData.id))}
         disabled={mutation.isLoading || isUserLoading}
       >
         {userData?.favoriteGames?.includes(String(gameData.id)) ? (
-          <HeartFilledIcon className="mr-2 h-4 w-4" />
+          <HeartFilledIcon />
         ) : (
-          <HeartIcon className="mr-2 h-4 w-4" />
+          <HeartIcon />
         )}
-        Favorite
       </Button>
-      <Button variant={"default"}>
-        <ListBulletIcon className="mr-2 h-4 w-4" />
-        Add To List
+      <Button variant="ghost" size="icon">
+        <ListBulletIcon />
       </Button>
     </>
   );

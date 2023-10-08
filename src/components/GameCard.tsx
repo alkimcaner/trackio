@@ -1,12 +1,7 @@
-import {
-  HeartFilledIcon,
-  HeartIcon,
-  ListBulletIcon,
-  StarFilledIcon,
-} from "@radix-ui/react-icons";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import GameCardActionButtons from "./GameCardActionButtons";
 
 export default function GameCard({ gameData }: any) {
   return (
@@ -35,12 +30,7 @@ export default function GameCard({ gameData }: any) {
             <StarFilledIcon className="text-yellow-400" />
             {Math.floor(gameData.total_rating) / 10}
           </span>
-          <Button variant="ghost" size="icon">
-            <HeartIcon className="text-red-500" />
-          </Button>
-          <Button variant="ghost" size="icon">
-            <ListBulletIcon />
-          </Button>
+          <GameCardActionButtons gameData={gameData} />
         </div>
       </div>
     </div>

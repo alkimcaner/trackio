@@ -6,14 +6,16 @@ import { Skeleton } from "./ui/skeleton";
 
 const getUser = () => fetch("/api/user").then((res) => res.json());
 
-const getGames = (favoriteGames: string[]) =>
-  fetch("/api/games", {
+const getGames = (favoriteGames: string[]) => {
+  if (!favoriteGames.length) return [];
+  return fetch("/api/games", {
     method: "POST",
     body: `fields *,cover.*; where id = (${favoriteGames.join(",")});`,
   }).then((res) => res.json());
+};
 
 export default function FavoriteGames() {
-  const { data: userData, isLoading: isUserLoading } = useQuery({
+  const { data: userData } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
   });
@@ -24,14 +26,17 @@ export default function FavoriteGames() {
     enabled: !!userData,
   });
 
+  if (!gamesData?.length && !isGamesLoading)
+    return <div>There are no favorite games.</div>;
+
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
-      {(isUserLoading || isGamesLoading) && (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      {isGamesLoading && (
         <>
-          <Skeleton className="h-72 w-full" />
-          <Skeleton className="h-72 w-full" />
-          <Skeleton className="h-72 w-full" />
-          <Skeleton className="h-72 w-full" />
+          <Skeleton className="h-80 w-full" />
+          <Skeleton className="h-80 w-full" />
+          <Skeleton className="h-80 w-full" />
+          <Skeleton className="h-80 w-full" />
         </>
       )}
       {gamesData?.map((gameData: any) => (
