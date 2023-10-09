@@ -2,6 +2,12 @@ import { StarFilledIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
 import GameCardActionButtons from "./GameCardActionButtons";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 export default function GameCard({ gameData }: any) {
   return (
@@ -19,12 +25,22 @@ export default function GameCard({ gameData }: any) {
         </div>
       </Link>
       <div className="flex h-full flex-col gap-2 p-2">
-        <Link
-          href={`/games/${gameData.slug}`}
-          className="mb-auto hover:underline"
-        >
-          {gameData.name}
-        </Link>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href={`/games/${gameData.slug}`}
+                className="mb-auto overflow-hidden text-ellipsis whitespace-nowrap hover:underline"
+              >
+                {gameData.name}
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="max-w-[8rem] text-center">{gameData.name}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
         <div className="flex items-center gap-2">
           <span className="mr-auto flex items-center gap-2">
             <StarFilledIcon className="text-yellow-400" />

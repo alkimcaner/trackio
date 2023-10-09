@@ -53,7 +53,7 @@ export default function SearchBox() {
     >
       <Input
         value={searchInput}
-        onClick={() => setOpen(true)}
+        onFocus={() => setOpen(true)}
         onChange={(e) => setSearchInput(e.target.value)}
         placeholder="Search games"
       />
