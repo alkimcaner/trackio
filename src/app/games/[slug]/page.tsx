@@ -26,16 +26,16 @@ export default async function Game({ params }: { params: { slug: string } }) {
   )?.company;
 
   return (
-    <main className="relative">
-      <div className="absolute top-0 -z-10 h-96 w-full overflow-hidden">
-        <Image
-          src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${gameData?.cover?.image_id}.jpg`}
-          alt="Cover image"
-          fill
-          className="object-cover blur-2xl brightness-75"
-        />
-      </div>
-      <section className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:gap-0 lg:pt-32">
+    <main>
+      <Image
+        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${gameData?.cover?.image_id}.jpg`}
+        alt="Cover image"
+        width={1920}
+        height={1080}
+        className="fixed top-0 -z-10 h-full w-full object-cover opacity-25 blur-xl"
+      />
+
+      <section className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-4 lg:flex-row lg:pt-16">
         <div className="mx-auto flex w-72 flex-col gap-4">
           <Image
             src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${gameData?.cover?.image_id}.jpg`}
@@ -46,39 +46,32 @@ export default async function Game({ params }: { params: { slug: string } }) {
           />
           {session && <GamePageActionButtons gameData={gameData} />}
         </div>
-        <div className="w-full">
-          <div className="flex flex-col justify-end gap-4 p-4 lg:h-64">
-            <h1 className="text-5xl font-bold lg:text-zinc-50">
-              {gameData?.name}
-            </h1>
-            <h2 className="text-2xl font-bold lg:text-zinc-50">
-              {formattedDate}
-            </h2>
-            <span className="flex items-center gap-2 text-xl">
-              <StarFilledIcon className="text-yellow-400" />
-              {Math.floor(gameData.total_rating) / 10}
-            </span>
-          </div>
-          <div className="p-4">
-            {developer && (
-              <p className="mb-4">
-                <span className="font-semibold">Developer: </span>
-                {developer?.name}
-              </p>
-            )}
+        <div className="w-full space-y-2 lg:pt-16">
+          <h1 className="text-4xl font-bold lg:text-5xl">{gameData?.name}</h1>
+          <h2 className="text-lg">{formattedDate}</h2>
+          <p className="flex items-center gap-2 text-lg">
+            <StarFilledIcon className="text-yellow-400" />
+            {Math.floor(gameData.total_rating) / 10}
+          </p>
 
-            {publisher && (
-              <p className="mb-4">
-                <span className="font-semibold">Publisher: </span>
-                {publisher?.name}
-              </p>
-            )}
+          {developer && (
+            <p>
+              <span className="font-semibold">Developer: </span>
+              {developer?.name}
+            </p>
+          )}
 
-            <p>{gameData?.summary}</p>
-          </div>
+          {publisher && (
+            <p>
+              <span className="font-semibold">Publisher: </span>
+              {publisher?.name}
+            </p>
+          )}
+
+          <p>{gameData?.summary}</p>
         </div>
       </section>
-      <section className="p-8">
+      <section className="p-4">
         <GameGallery images={gameData?.screenshots} />
       </section>
     </main>
