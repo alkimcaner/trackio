@@ -1,7 +1,7 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { debounce } from "@/lib/utils";
@@ -18,22 +18,25 @@ const searchGames = (searchInput: string) =>
 export default function SearchBar() {
   const router = useRouter();
   const domRef = useRef<HTMLFormElement>(null);
-  const [open, setOpen] = useState(false);
+  const [isResultsVisible, setIsResultsVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const { data: searchResults, refetch } = useQuery({
     queryKey: ["search"],
     queryFn: () => searchGames(searchInput),
   });
+  const debouncedRefetch = useMemo(() => debounce(refetch, 500), [refetch]);
 
   const handleSubmitSearch = (e: any) => {
     e.preventDefault();
-    setOpen(false);
+    setIsResultsVisible(false);
     router.push(`/games?q=${searchInput}`);
   };
 
+  // Click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (!domRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!domRef.current?.contains(event.target as Node))
+        setIsResultsVisible(false);
     };
 
     document.addEventListener("click", handleClickOutside);
@@ -41,8 +44,7 @@ export default function SearchBar() {
   }, []);
 
   useEffect(() => {
-    const debouncedSearch = debounce(refetch, 500);
-    debouncedSearch();
+    debouncedRefetch();
   }, [searchInput]);
 
   return (
@@ -53,15 +55,18 @@ export default function SearchBar() {
     >
       <Input
         value={searchInput}
-        onFocus={() => setOpen(true)}
-        onChange={(e) => setSearchInput(e.target.value)}
+        onFocus={() => setIsResultsVisible(true)}
+        onChange={(e) => {
+          setIsResultsVisible(true);
+          setSearchInput(e.target.value);
+        }}
         placeholder="Search games"
       />
       <Button type="submit">
         <MagnifyingGlassIcon />
       </Button>
 
-      {open && (
+      {isResultsVisible && (
         <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
           <div className="flex max-h-96 flex-col gap-1 overflow-y-scroll p-1">
             {!searchResults?.length && (
@@ -70,7 +75,7 @@ export default function SearchBar() {
             {searchResults?.map((e: any) => (
               <Link
                 key={e.id}
-                onClick={() => setOpen(false)}
+                onClick={() => setIsResultsVisible(false)}
                 href={`/games/${e.slug}`}
                 className="w-full rounded-sm p-2 hover:bg-zinc-950/10 dark:hover:bg-zinc-50/10"
               >
