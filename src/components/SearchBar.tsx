@@ -3,7 +3,7 @@
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "./ui/input";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 import { debounce } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -12,10 +12,10 @@ import { useRouter } from "next/navigation";
 const searchGames = (searchInput: string) =>
   fetch("/api/games", {
     method: "POST",
-    body: `search "${searchInput}"; fields *;limit 10;`,
+    body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 100; sort total_rating desc;`,
   }).then((res) => res.json());
 
-export default function SearchBox() {
+export default function SearchBar() {
   const router = useRouter();
   const domRef = useRef<HTMLFormElement>(null);
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export default function SearchBox() {
     queryFn: () => searchGames(searchInput),
   });
 
-  const handleSearch = (e: any) => {
+  const handleSubmitSearch = (e: any) => {
     e.preventDefault();
     setOpen(false);
     router.push(`/games?q=${searchInput}`);
@@ -47,7 +47,7 @@ export default function SearchBox() {
 
   return (
     <form
-      onSubmit={handleSearch}
+      onSubmit={handleSubmitSearch}
       ref={domRef}
       className="relative mx-auto flex w-full max-w-xs items-center gap-2"
     >

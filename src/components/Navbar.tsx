@@ -12,7 +12,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Button, buttonVariants } from "./ui/button";
 import { signIn, signOut, useSession } from "next-auth/react";
-import SearchBox from "./SearchBox";
+import SearchBar from "./SearchBar";
 import {
   GearIcon,
   PersonIcon,
@@ -44,7 +44,7 @@ export default function Navbar() {
           <span className="mr-4 hidden sm:inline">Trackio</span>
         </Link>
 
-        <SearchBox />
+        <SearchBar />
 
         {session ? (
           <>

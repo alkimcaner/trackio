@@ -29,7 +29,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
     <main>
       <Image
         src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${gameData?.cover?.image_id}.jpg`}
-        alt="Cover image"
+        alt="Background image"
         width={1920}
         height={1080}
         className="fixed top-0 -z-10 h-full w-full object-cover opacity-25 blur-xl"
