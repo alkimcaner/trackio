@@ -9,11 +9,14 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const searchGames = (searchInput: string) =>
-  fetch("/api/games", {
+const searchGames = (searchInput: string) => {
+  if (!searchInput) return [];
+
+  return fetch("/api/games", {
     method: "POST",
     body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 100; sort total_rating desc;`,
   }).then((res) => res.json());
+};
 
 export default function SearchBar() {
   const router = useRouter();

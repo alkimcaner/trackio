@@ -101,7 +101,7 @@ export default function Navbar() {
             </DropdownMenu>
           </>
         ) : (
-          <Button onClick={() => signIn("google")}>Sign In</Button>
+          <Button onClick={() => signIn("google")}>Sign In With Google</Button>
         )}
         <ThemeToggle />
       </div>
