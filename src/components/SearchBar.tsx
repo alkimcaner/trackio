@@ -70,7 +70,7 @@ export default function SearchBar() {
       </Button>
 
       {isResultsVisible && (
-        <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+        <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border border-zinc-200 bg-white text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
           <div className="flex max-h-96 flex-col gap-1 overflow-y-scroll p-1">
             {!searchResults?.length && (
               <span className="p-1">There are no results</span>
