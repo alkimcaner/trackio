@@ -24,6 +24,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
   return (
     <main>
       <Image
+        priority
         src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${gameData?.cover?.image_id}.jpg`}
         alt="Background image"
         width={1920}
@@ -34,6 +35,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
       <section className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-4 lg:flex-row lg:pt-16">
         <div className="mx-auto flex w-72 flex-col gap-4">
           <Image
+            priority
             src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${gameData?.cover?.image_id}.jpg`}
             alt="Cover image"
             width={360}
