@@ -3,17 +3,17 @@ import GamesSlider from "@/components/GamesSlider";
 export default async function Home() {
   const bestGamesData = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
     method: "POST",
-    body: "fields *,cover.*; where total_rating_count > 100; sort total_rating desc; limit 10;",
+    body: "fields *,cover.*; where total_rating_count > 100; sort total_rating desc;",
   }).then((res) => res.json());
 
   const ps4GamesData = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
     method: "POST",
-    body: "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {48}; sort total_rating desc; limit 10;",
+    body: "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {48}; sort total_rating desc;",
   }).then((res) => res.json());
 
   const nsGamesData = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
     method: "POST",
-    body: "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {130}; sort total_rating desc; limit 10;",
+    body: "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {130}; sort total_rating desc;",
   }).then((res) => res.json());
 
   return (

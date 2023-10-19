@@ -10,7 +10,9 @@ const getGames = (favoriteGames: string[]) => {
   if (!favoriteGames.length) return [];
   return fetch("/api/games", {
     method: "POST",
-    body: `fields *,cover.*; where id = (${favoriteGames.join(",")});`,
+    body: `fields *,cover.*; where id = (${favoriteGames.join(
+      ","
+    )}); limit 500;`,
   }).then((res) => res.json());
 };
 
