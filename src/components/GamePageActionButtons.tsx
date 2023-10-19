@@ -7,6 +7,7 @@ import {
 } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 const getUser = () => fetch("/api/user").then((res) => res.json());
 
@@ -17,6 +18,7 @@ const favoriteGame = (id: string) =>
   }).then((res) => res.json());
 
 export default function GamePageActionButtons({ gameData }: any) {
+  const { data: session } = useSession();
   const queryClient = useQueryClient();
 
   const { data: userData, isLoading: isUserLoading } = useQuery({
@@ -55,6 +57,8 @@ export default function GamePageActionButtons({ gameData }: any) {
       queryClient.invalidateQueries({ queryKey: ["favoriteGames"] });
     },
   });
+
+  if (!session) return <></>;
 
   return (
     <>

@@ -3,12 +3,8 @@ import { format, fromUnixTime } from "date-fns";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import GameGallery from "@/components/GameGallery";
 import GamePageActionButtons from "@/components/GamePageActionButtons";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
 
 export default async function Game({ params }: { params: { slug: string } }) {
-  const session = await getServerSession(authOptions);
-
   const gameData = (
     await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
       method: "POST",
@@ -44,7 +40,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
             height={640}
             className="aspect-[3/4] w-full rounded-lg object-cover shadow-lg"
           />
-          {session && <GamePageActionButtons gameData={gameData} />}
+          <GamePageActionButtons gameData={gameData} />
         </div>
         <div className="w-full space-y-2 lg:pt-16">
           <h1 className="text-4xl font-bold lg:text-5xl">{gameData?.name}</h1>
