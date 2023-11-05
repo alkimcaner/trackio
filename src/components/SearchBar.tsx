@@ -14,7 +14,7 @@ const searchGames = (searchInput: string) => {
 
   return fetch("/api/games", {
     method: "POST",
-    body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 100; sort total_rating desc;`,
+    body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
   }).then((res) => res.json());
 };
 

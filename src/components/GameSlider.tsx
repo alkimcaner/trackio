@@ -45,7 +45,7 @@ export default function GameSlider({ gamesData }: any) {
       ))}
     </Swiper>
   ) : (
-    <div className="grid grid-cols-2 grid-rows-1 gap-4 md:grid-cols-4 lg:grid-cols-6">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
       <Skeleton className="aspect-[9/16] w-full" />
       <Skeleton />
       <Skeleton />
