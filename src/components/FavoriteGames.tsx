@@ -36,13 +36,13 @@ export default function FavoriteGames() {
     return <div>There are no favorite games.</div>;
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
       {(isGamesInitialLoading || isUserInitialLoading) && (
         <>
-          <Skeleton className="h-80 w-full" />
-          <Skeleton className="h-80 w-full" />
-          <Skeleton className="h-80 w-full" />
-          <Skeleton className="h-80 w-full" />
+          <Skeleton className="aspect-[9/16] w-full" />
+          <Skeleton className="aspect-[9/16] w-full" />
+          <Skeleton className="aspect-[9/16] w-full" />
+          <Skeleton className="aspect-[9/16] w-full" />
         </>
       )}
       {gamesData?.map((gameData: any) => (

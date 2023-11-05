@@ -6,9 +6,17 @@ import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import SliderImage from "./SliderImage";
+import { useEffect, useState } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 export default function ImageSlider({ images }: any) {
-  return (
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  return isMounted ? (
     <Swiper
       modules={[Navigation, Autoplay]}
       spaceBetween={16}
@@ -36,5 +44,11 @@ export default function ImageSlider({ images }: any) {
         </SwiperSlide>
       ))}
     </Swiper>
+  ) : (
+    <div className="grid grid-cols-1 grid-rows-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <Skeleton className="aspect-video w-full" />
+      <Skeleton />
+      <Skeleton />
+    </div>
   );
 }
