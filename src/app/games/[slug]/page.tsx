@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { format, fromUnixTime } from "date-fns";
 import { StarFilledIcon } from "@radix-ui/react-icons";
-import GameGallery from "@/components/GameGallery";
+import ImageSlider from "@/components/ImageSlider";
 import GamePageActionButtons from "@/components/GamePageActionButtons";
 
 export default async function Game({ params }: { params: { slug: string } }) {
@@ -70,7 +70,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
         </div>
       </section>
       <section className="p-4">
-        <GameGallery images={gameData?.screenshots} />
+        <ImageSlider images={gameData?.screenshots} />
       </section>
     </main>
   );

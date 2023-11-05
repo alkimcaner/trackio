@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 const getUser = () => fetch("/api/user").then((res) => res.json());
 
 const favoriteGame = (id: string) =>
-  fetch("/api/favoriteGame", {
+  fetch("/api/favorite-game", {
     method: "POST",
     body: id,
   }).then((res) => res.json());

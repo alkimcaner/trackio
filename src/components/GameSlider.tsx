@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import GameCard from "./GameCard";
 
-export default function GamesSlider({ gamesData }: any) {
+export default function GameSlider({ gamesData }: any) {
   return (
     <div>
       <Swiper

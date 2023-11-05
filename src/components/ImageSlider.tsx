@@ -5,9 +5,9 @@ import "swiper/css/navigation";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
-import GalleryImage from "./GalleryImage";
+import SliderImage from "./SliderImage";
 
-export default function GameGallery({ images }: any) {
+export default function ImageSlider({ images }: any) {
   return (
     <Swiper
       modules={[Navigation, Autoplay]}
@@ -32,7 +32,7 @@ export default function GameGallery({ images }: any) {
     >
       {images?.map((image: any) => (
         <SwiperSlide key={image.id}>
-          <GalleryImage image={image} />
+          <SliderImage image={image} />
         </SwiperSlide>
       ))}
     </Swiper>

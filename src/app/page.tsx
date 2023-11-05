@@ -1,4 +1,4 @@
-import GamesSlider from "@/components/GamesSlider";
+import GameSlider from "@/components/GameSlider";
 
 export default async function Home() {
   const bestGamesData = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
@@ -21,15 +21,15 @@ export default async function Home() {
       <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
         <div>
           <h1 className="mb-4 text-lg">Best Games</h1>
-          <GamesSlider gamesData={bestGamesData} />
+          <GameSlider gamesData={bestGamesData} />
         </div>
         <div>
           <h1 className="mb-4 text-lg">Best Playstation 4 Exclusives</h1>
-          <GamesSlider gamesData={ps4GamesData} />
+          <GameSlider gamesData={ps4GamesData} />
         </div>
         <div>
           <h1 className="mb-4 text-lg">Best Nintendo Switch Exclusives</h1>
-          <GamesSlider gamesData={nsGamesData} />
+          <GameSlider gamesData={nsGamesData} />
         </div>
       </section>
     </main>

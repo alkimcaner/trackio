@@ -11,7 +11,7 @@ import {
 
 export default function GameCard({ gameData }: any) {
   return (
-    <div className="group flex h-full select-none flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="group flex select-none flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
       <Link href={`/games/${gameData.slug}`}>
         <div className="aspect-[3/4] overflow-hidden">
           <Image

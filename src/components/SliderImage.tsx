@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Skeleton } from "./ui/skeleton";
 
-export default function GalleryImage({ image }: any) {
+export default function SliderImage({ image }: any) {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
     <>
