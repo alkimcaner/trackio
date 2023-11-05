@@ -24,6 +24,7 @@ export default function GamePageActionButtons({ gameData }: any) {
   const { data: userData, isLoading: isUserLoading } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
+    enabled: !!session,
   });
 
   const mutation = useMutation({
