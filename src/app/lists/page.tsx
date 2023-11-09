@@ -1,13 +1,24 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function Lists() {
-  const session = await getServerSession(authOptions);
+import CreateListDialog from "@/components/CreateListDialog";
+import { useQuery } from "@tanstack/react-query";
 
-  if (!session) {
-    redirect("/");
-  }
+const getUser = () => fetch("/api/user").then((res) => res.json());
 
-  return <div>Lists page</div>;
+export default function Lists() {
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+  });
+
+  return (
+    <main>
+      <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
+        <CreateListDialog />
+        {user?.gameLists?.map((list: any) => (
+          <div key={list?.id}>{list?.name}</div>
+        ))}
+      </section>
+    </main>
+  );
 }

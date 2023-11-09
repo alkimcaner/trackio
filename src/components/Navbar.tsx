@@ -25,10 +25,6 @@ import { ThemeToggle } from "./ThemeToggle";
 export default function Navbar() {
   const { data: session } = useSession();
   const name = useMemo(() => session?.user?.name?.split(" ")[0], [session]);
-  const userName = useMemo(
-    () => session?.user?.email?.split("@")[0],
-    [session]
-  );
 
   return (
     <nav className="sticky top-0 z-20 w-full border-b bg-background">
@@ -70,7 +66,7 @@ export default function Navbar() {
                 <span className="hidden text-sm sm:inline">{name}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <Link href={`/profile/${userName}`}>
+                <Link href={`/user/johndoe`}>
                   <DropdownMenuItem>
                     <PersonIcon className="mr-2 h-4 w-4" />
                     Profile

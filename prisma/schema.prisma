@@ -44,7 +44,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  handle           String      @unique @default(cuid())
+  username         String      @unique @default(cuid())
   bannerUrl        String?
   bio              String?
   gameLists        GameList[]
@@ -63,16 +63,18 @@ model VerificationToken {
 
 model GameList {
   id      String   @id @default(cuid())
-  gameIds String[]
+  name    String
   public  Boolean  @default(false)
+  gameIds String[]
   User    User?    @relation(fields: [userId], references: [id])
   userId  String?
 }
 
 model MovieList {
   id       String   @id @default(cuid())
-  movieIds String[]
+  name     String
   public   Boolean  @default(false)
+  movieIds String[]
   User     User?    @relation(fields: [userId], references: [id])
   userId   String?
 }

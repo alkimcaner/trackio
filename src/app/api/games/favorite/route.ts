@@ -1,17 +1,17 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-export const dynamic = "force-dynamic";
-
 const prisma = new PrismaClient();
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
+    const body = await request.text();
     const session = await getServerSession(authOptions);
-    if (!session)
+    if (!session) {
       return new NextResponse("Unauthorized access.", { status: 500 });
+    }
 
     const email = session.user?.email || "";
 
@@ -19,14 +19,28 @@ export async function GET(request: NextRequest) {
       where: {
         email,
       },
-      include: {
-        gameLists: true,
-      },
     });
 
     if (!user) return new NextResponse("Couldn't find user.", { status: 500 });
 
-    return NextResponse.json(user);
+    if (user.favoriteGameIds.includes(body)) {
+      user.favoriteGameIds = user.favoriteGameIds.filter((e) => e !== body);
+    } else {
+      user.favoriteGameIds.push(body);
+    }
+
+    await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        favoriteGameIds: {
+          set: user.favoriteGameIds,
+        },
+      },
+    });
+
+    return NextResponse.json(user.favoriteGameIds);
   } catch (error) {
     console.error(error);
     return new NextResponse("Something unexpected happened.", { status: 500 });

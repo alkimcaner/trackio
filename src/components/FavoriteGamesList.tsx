@@ -3,6 +3,7 @@
 import GameCard from "./GameCard";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "./ui/skeleton";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const getUser = () => fetch("/api/user").then((res) => res.json());
 
@@ -17,6 +18,7 @@ const getGames = (favoriteGameIds: string[]) => {
 };
 
 export default function FavoriteGamesList() {
+  const [parent, enableAnimations] = useAutoAnimate();
   const { data: user, isInitialLoading: isUserInitialLoading } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
@@ -36,7 +38,10 @@ export default function FavoriteGamesList() {
     return <div>There are no favorite games.</div>;
 
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
+    <div
+      ref={parent}
+      className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6"
+    >
       {(isGamesInitialLoading || isUserInitialLoading) && (
         <>
           <Skeleton className="aspect-[9/16] w-full" />
