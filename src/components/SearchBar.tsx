@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { debounce } from "@/lib/utils";
+import { debounce } from "@/lib/debounce";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -63,14 +63,14 @@ export default function SearchBar() {
           setIsResultsVisible(true);
           setSearchInput(e.target.value);
         }}
-        placeholder="Search games"
+        placeholder="Search"
       />
       <Button type="submit">
         <MagnifyingGlassIcon />
       </Button>
 
       {isResultsVisible && (
-        <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border border-zinc-200 bg-white text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+        <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border bg-popover text-sm shadow-lg">
           <div className="flex max-h-96 flex-col gap-1 overflow-y-scroll p-1">
             {!searchResults?.length && (
               <span className="p-1">There are no results</span>
@@ -80,7 +80,7 @@ export default function SearchBar() {
                 key={e.id}
                 onClick={() => setIsResultsVisible(false)}
                 href={`/games/${e.slug}`}
-                className="w-full rounded-sm p-2 hover:bg-zinc-950/10 dark:hover:bg-zinc-50/10"
+                className="w-full rounded-sm p-2 hover:bg-primary/10"
               >
                 {e.name}
               </Link>

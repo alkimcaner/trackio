@@ -11,7 +11,7 @@ import {
 
 export default function GameCard({ gameData }: any) {
   return (
-    <div className="group flex select-none flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="group flex select-none flex-col overflow-hidden rounded-lg border bg-card">
       <Link href={`/games/${gameData.slug}`}>
         <div className="aspect-[3/4] overflow-hidden">
           <Image
@@ -42,10 +42,10 @@ export default function GameCard({ gameData }: any) {
         </TooltipProvider>
 
         <div className="flex items-center gap-2">
-          <span className="mr-auto flex items-center gap-2">
+          <p className="mr-auto flex items-center gap-2 py-2">
             <StarFilledIcon className="text-yellow-400" />
             {Math.floor(gameData.total_rating) / 10}
-          </span>
+          </p>
           <GameCardActionButtons gameData={gameData} />
         </div>
       </div>

@@ -31,7 +31,7 @@ export default function Navbar() {
   );
 
   return (
-    <nav className="sticky top-0 z-20 w-full bg-white dark:bg-zinc-950">
+    <nav className="sticky top-0 z-20 w-full border-b bg-background">
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-8 py-4">
         <Link href="/" className="flex items-center gap-2">
           <Image
@@ -70,8 +70,6 @@ export default function Navbar() {
                 <span className="hidden text-sm sm:inline">{name}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-
                 <Link href={`/profile/${userName}`}>
                   <DropdownMenuItem>
                     <PersonIcon className="mr-2 h-4 w-4" />

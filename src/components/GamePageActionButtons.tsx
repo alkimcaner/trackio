@@ -79,7 +79,7 @@ export default function GamePageActionButtons({ gameData }: any) {
         )}
         Favorite
       </Button>
-      <Button variant={"default"}>
+      <Button variant={"outline"}>
         <ListBulletIcon className="mr-2 h-4 w-4" />
         Add To List
       </Button>
