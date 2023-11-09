@@ -5,19 +5,19 @@ import ImageSlider from "@/components/ImageSlider";
 import GamePageActionButtons from "@/components/GamePageActionButtons";
 
 export default async function Game({ params }: { params: { slug: string } }) {
-  const gameData = (
+  const game = (
     await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
       method: "POST",
       body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*; where slug = "${params.slug}";`,
     }).then((res) => res.json())
   )[0];
 
-  const date = fromUnixTime(gameData?.first_release_date ?? "");
+  const date = fromUnixTime(game?.first_release_date ?? "");
   const formattedDate = format(date, "MMM dd, yyyy");
-  const publisher = gameData.involved_companies?.find(
+  const publisher = game.involved_companies?.find(
     (e: any) => e.publisher
   )?.company;
-  const developer = gameData.involved_companies?.find(
+  const developer = game.involved_companies?.find(
     (e: any) => e.developer
   )?.company;
 
@@ -25,7 +25,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
     <main>
       <Image
         priority
-        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${gameData?.cover?.image_id}.jpg`}
+        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game?.cover?.image_id}.jpg`}
         alt="Background image"
         width={1920}
         height={1080}
@@ -36,20 +36,20 @@ export default async function Game({ params }: { params: { slug: string } }) {
         <div className="mx-auto flex w-72 flex-col gap-4">
           <Image
             priority
-            src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${gameData?.cover?.image_id}.jpg`}
+            src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game?.cover?.image_id}.jpg`}
             alt="Cover image"
             width={360}
             height={640}
             className="aspect-[3/4] w-full rounded-lg object-cover shadow-lg"
           />
-          <GamePageActionButtons gameData={gameData} />
+          <GamePageActionButtons game={game} />
         </div>
         <div className="w-full space-y-2 lg:pt-16">
-          <h1 className="text-4xl font-bold lg:text-5xl">{gameData?.name}</h1>
+          <h1 className="text-4xl font-bold lg:text-5xl">{game?.name}</h1>
           <h2 className="text-lg">{formattedDate}</h2>
           <p className="flex items-center gap-2 text-lg">
             <StarFilledIcon className="text-yellow-400" />
-            {Math.floor(gameData.total_rating) / 10}
+            {Math.floor(game.total_rating) / 10}
           </p>
 
           {developer && (
@@ -66,11 +66,11 @@ export default async function Game({ params }: { params: { slug: string } }) {
             </p>
           )}
 
-          <p>{gameData?.summary}</p>
+          <p>{game?.summary}</p>
         </div>
       </section>
       <section className="p-4">
-        <ImageSlider images={gameData?.screenshots} />
+        <ImageSlider images={game?.screenshots} />
       </section>
     </main>
   );

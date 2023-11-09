@@ -1,4 +1,4 @@
-import FavoriteGames from "@/components/FavoriteGames";
+import FavoriteGamesList from "@/components/FavoriteGamesList";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/route";
@@ -13,8 +13,10 @@ export default async function Favorites() {
   return (
     <main>
       <section className="mx-auto w-full max-w-7xl p-8">
-        <h1 className="mb-4 text-lg">Favorite Games</h1>
-        <FavoriteGames />
+        <div>
+          <h1 className="mb-4 text-lg">Favorite Games</h1>
+          <FavoriteGamesList />
+        </div>
       </section>
     </main>
   );

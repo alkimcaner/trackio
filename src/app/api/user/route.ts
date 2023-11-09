@@ -15,16 +15,15 @@ export async function GET(request: NextRequest) {
 
     const email = session.user?.email || "";
 
-    const userData = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
         email,
       },
     });
 
-    if (!userData)
-      return new NextResponse("Couldn't find user.", { status: 500 });
+    if (!user) return new NextResponse("Couldn't find user.", { status: 500 });
 
-    return NextResponse.json(userData);
+    return NextResponse.json(user);
   } catch (error) {
     console.error(error);
     return new NextResponse("Something unexpected happened.", { status: 500 });

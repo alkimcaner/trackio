@@ -14,19 +14,18 @@ export async function POST(request: NextRequest) {
 
     const email = session.user?.email || "";
 
-    const userData = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
         email,
       },
     });
 
-    if (!userData)
-      return new NextResponse("Couldn't find user.", { status: 500 });
+    if (!user) return new NextResponse("Couldn't find user.", { status: 500 });
 
-    if (userData.favoriteGames.includes(body)) {
-      userData.favoriteGames = userData.favoriteGames.filter((e) => e !== body);
+    if (user.favoriteGameIds.includes(body)) {
+      user.favoriteGameIds = user.favoriteGameIds.filter((e) => e !== body);
     } else {
-      userData.favoriteGames.push(body);
+      user.favoriteGameIds.push(body);
     }
 
     await prisma.user.update({
@@ -34,13 +33,13 @@ export async function POST(request: NextRequest) {
         email,
       },
       data: {
-        favoriteGames: {
-          set: userData.favoriteGames,
+        favoriteGameIds: {
+          set: user.favoriteGameIds,
         },
       },
     });
 
-    return NextResponse.json(userData.favoriteGames);
+    return NextResponse.json(user.favoriteGameIds);
   } catch (error) {
     console.error(error);
     return new NextResponse("Something unexpected happened.", { status: 500 });

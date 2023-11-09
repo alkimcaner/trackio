@@ -9,7 +9,7 @@ import GameCard from "./GameCard";
 import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
 
-export default function GameSlider({ gamesData }: any) {
+export default function GameSlider({ games }: any) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -38,9 +38,9 @@ export default function GameSlider({ gamesData }: any) {
         },
       }}
     >
-      {gamesData?.map((gameData: any) => (
-        <SwiperSlide key={gameData.id}>
-          <GameCard gameData={gameData} />
+      {games?.map((game: any) => (
+        <SwiperSlide key={game.id}>
+          <GameCard game={game} />
         </SwiperSlide>
       ))}
     </Swiper>

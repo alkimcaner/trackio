@@ -17,11 +17,11 @@ const favoriteGame = (id: string) =>
     body: id,
   }).then((res) => res.json());
 
-export default function GamePageActionButtons({ gameData }: any) {
+export default function GamePageActionButtons({ game }: any) {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
 
-  const { data: userData, isLoading: isUserLoading } = useQuery({
+  const { data: user, isLoading: isUserLoading } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
     enabled: !!session,
@@ -33,25 +33,25 @@ export default function GamePageActionButtons({ gameData }: any) {
       await queryClient.cancelQueries({ queryKey: ["user"] });
 
       // Snapshot the previous value
-      const previousUserData = queryClient.getQueryData(["user"]);
+      const previousUser = queryClient.getQueryData(["user"]);
 
-      let newUserData: any = previousUserData;
+      let newUser: any = previousUser;
 
-      if (newUserData.favoriteGames.includes(payload)) {
-        newUserData.favoriteGames = newUserData.favoriteGames.filter(
+      if (newUser.favoriteGameIds.includes(payload)) {
+        newUser.favoriteGameIds = newUser.favoriteGameIds.filter(
           (e: any) => e !== payload
         );
       } else {
-        newUserData.favoriteGames.push(payload);
+        newUser.favoriteGameIds.push(payload);
       }
 
       // Optimistically update
-      queryClient.setQueryData(["user"], newUserData);
+      queryClient.setQueryData(["user"], newUser);
 
-      return { previousUserData };
+      return { previousUser: previousUser };
     },
     onError: (err, payload, context) => {
-      queryClient.setQueryData(["user"], context?.previousUserData);
+      queryClient.setQueryData(["user"], context?.previousUser);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
@@ -65,14 +65,14 @@ export default function GamePageActionButtons({ gameData }: any) {
     <>
       <Button
         variant={
-          userData?.favoriteGames?.includes(String(gameData.id))
+          user?.favoriteGameIds?.includes(String(game.id))
             ? "destructive"
             : "outline"
         }
-        onClick={() => mutation.mutate(String(gameData.id))}
+        onClick={() => mutation.mutate(String(game.id))}
         disabled={mutation.isLoading || isUserLoading}
       >
-        {userData?.favoriteGames?.includes(String(gameData.id)) ? (
+        {user?.favoriteGameIds?.includes(String(game.id)) ? (
           <HeartFilledIcon className="mr-2 h-4 w-4" />
         ) : (
           <HeartIcon className="mr-2 h-4 w-4" />
