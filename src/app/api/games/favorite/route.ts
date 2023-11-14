@@ -9,15 +9,14 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.text();
     const session = await getServerSession(authOptions);
+
     if (!session) {
       return new NextResponse("Unauthorized access.", { status: 500 });
     }
 
-    const email = session.user?.email || "";
-
     const user = await prisma.user.findFirst({
       where: {
-        email,
+        id: session.user.id,
       },
     });
 
@@ -31,7 +30,7 @@ export async function POST(request: NextRequest) {
 
     await prisma.user.update({
       where: {
-        email,
+        id: session.user.id,
       },
       data: {
         favoriteGameIds: {

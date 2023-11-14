@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 interface RequestBody {
   name: string;
-  public: boolean;
+  isPublic: boolean;
 }
 
 const prisma = new PrismaClient();
@@ -14,22 +14,21 @@ export async function POST(request: NextRequest) {
   try {
     const body: RequestBody = await request.json();
     const session = await getServerSession(authOptions);
+
     if (!session) {
       return new NextResponse("Unauthorized access.", { status: 500 });
     }
 
-    const email = session.user?.email || "";
-
     const user = await prisma.user.findFirst({
       where: {
-        email,
+        id: session.user.id,
       },
     });
 
     await prisma.gameList.create({
       data: {
         name: body.name,
-        public: body.public,
+        isPublic: body.isPublic,
         userId: user?.id,
       },
     });

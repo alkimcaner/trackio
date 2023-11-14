@@ -10,14 +10,13 @@ const prisma = new PrismaClient();
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
+
     if (!session)
       return new NextResponse("Unauthorized access.", { status: 500 });
 
-    const email = session.user?.email || "";
-
     const user = await prisma.user.findFirst({
       where: {
-        email,
+        id: session.user.id,
       },
       include: {
         gameLists: true,

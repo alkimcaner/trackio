@@ -62,18 +62,18 @@ model VerificationToken {
 }
 
 model GameList {
-  id      String   @id @default(cuid())
-  name    String
-  public  Boolean  @default(false)
-  gameIds String[]
-  User    User?    @relation(fields: [userId], references: [id])
-  userId  String?
+  id       String   @id @default(cuid())
+  name     String
+  isPublic Boolean  @default(false)
+  gameIds  String[]
+  User     User?    @relation(fields: [userId], references: [id])
+  userId   String?
 }
 
 model MovieList {
   id       String   @id @default(cuid())
   name     String
-  public   Boolean  @default(false)
+  isPublic Boolean  @default(false)
   movieIds String[]
   User     User?    @relation(fields: [userId], references: [id])
   userId   String?

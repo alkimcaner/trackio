@@ -8,8 +8,7 @@ import {
 import { Button } from "./ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-
-const getUser = () => fetch("/api/user").then((res) => res.json());
+import { getUser } from "@/lib/queryFunctions";
 
 const favoriteGame = (id: string) =>
   fetch("/api/games/favorite", {

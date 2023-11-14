@@ -4,8 +4,7 @@ import GameCard from "./GameCard";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "./ui/skeleton";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-
-const getUser = () => fetch("/api/user").then((res) => res.json());
+import { getUser } from "@/lib/queryFunctions";
 
 const getGames = (favoriteGameIds: string[]) => {
   if (!favoriteGameIds.length) return [];

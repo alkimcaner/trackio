@@ -21,11 +21,16 @@ import {
   ListBulletIcon,
 } from "@radix-ui/react-icons";
 import { ThemeToggle } from "./ThemeToggle";
+import { useQuery } from "@tanstack/react-query";
+import { getUser } from "@/lib/queryFunctions";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+  });
   const name = useMemo(() => session?.user?.name?.split(" ")[0], [session]);
-
   return (
     <nav className="sticky top-0 z-20 w-full border-b bg-background">
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-8 py-4">
@@ -66,7 +71,7 @@ export default function Navbar() {
                 <span className="hidden text-sm sm:inline">{name}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <Link href={`/user/johndoe`}>
+                <Link href={`/user/${user?.username}`}>
                   <DropdownMenuItem>
                     <PersonIcon className="mr-2 h-4 w-4" />
                     Profile
