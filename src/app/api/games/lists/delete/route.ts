@@ -4,8 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
 interface RequestBody {
-  name: string;
-  isPublic: boolean;
+  id: string;
 }
 
 const prisma = new PrismaClient();
@@ -16,26 +15,25 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return new NextResponse("Unauthorized access.", { status: 500 });
+      return NextResponse.json(
+        { message: "Unauthorized access" },
+        { status: 500 }
+      );
     }
 
-    const user = await prisma.user.findFirst({
+    const deletedList = await prisma.gameList.delete({
       where: {
-        id: session.user.id,
+        id: body.id,
+        userId: session.user.id,
       },
     });
 
-    const createdList = await prisma.gameList.create({
-      data: {
-        name: body.name,
-        isPublic: body.isPublic,
-        userId: user?.id,
-      },
-    });
-
-    return NextResponse.json(createdList);
+    return NextResponse.json(deletedList);
   } catch (error) {
     console.error(error);
-    return new NextResponse("Something unexpected happened.", { status: 500 });
+    return NextResponse.json(
+      { message: "Something unexpected happened" },
+      { status: 500 }
+    );
   }
 }

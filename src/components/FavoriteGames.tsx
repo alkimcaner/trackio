@@ -4,19 +4,9 @@ import GameCard from "./GameCard";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "./ui/skeleton";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { getUser } from "@/lib/queryFunctions";
+import { getGames, getUser } from "@/lib/queryFunctions";
 
-const getGames = (favoriteGameIds: string[]) => {
-  if (!favoriteGameIds.length) return [];
-  return fetch("/api/games", {
-    method: "POST",
-    body: `fields *,cover.*; where id = (${favoriteGameIds.join(
-      ","
-    )}); limit 500;`,
-  }).then((res) => res.json());
-};
-
-export default function FavoriteGamesList() {
+export default function FavoriteGames() {
   const [parent, enableAnimations] = useAutoAnimate();
   const { data: user, isInitialLoading: isUserInitialLoading } = useQuery({
     queryKey: ["user"],
@@ -29,10 +19,9 @@ export default function FavoriteGamesList() {
     isInitialLoading: isGamesInitialLoading,
   } = useQuery({
     queryKey: ["favoriteGames"],
-    queryFn: () => getGames(user.favoriteGameIds),
+    queryFn: () => getGames(user?.favoriteGameIds),
     enabled: !!user,
   });
-
   if (!games?.length && !isGamesLoading)
     return <div>There are no favorite games.</div>;
 

@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 export async function POST(request: NextRequest) {
   try {
     const body: RequestBody = await request.json();
-    return NextResponse.json({});
+    return NextResponse.json(body);
   } catch (error) {
     console.error(error);
     return new NextResponse("Something unexpected happened.", { status: 500 });

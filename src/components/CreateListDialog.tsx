@@ -32,6 +32,10 @@ export default function CreateListDialog() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createList,
+    onMutate: () => {
+      setName("My List");
+      setIsPublic(false);
+    },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
@@ -40,7 +44,7 @@ export default function CreateListDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Create a List</Button>
+        <Button>Create a List</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

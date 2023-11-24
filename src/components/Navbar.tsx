@@ -71,26 +71,26 @@ export default function Navbar() {
                 <span className="hidden text-sm sm:inline">{name}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <Link href={`/user/${user?.username}`}>
-                  <DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href={`/user/${user?.username}`}>
                     <PersonIcon className="mr-2 h-4 w-4" />
                     Profile
-                  </DropdownMenuItem>
-                </Link>
+                  </Link>
+                </DropdownMenuItem>
 
-                <Link href="/favorites">
-                  <DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/favorites">
                     <HeartIcon className="mr-2 h-4 w-4" />
                     Favorites
-                  </DropdownMenuItem>
-                </Link>
+                  </Link>
+                </DropdownMenuItem>
 
-                <Link href="/settings">
-                  <DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings">
                     <GearIcon className="mr-2 h-4 w-4" />
                     Settings
-                  </DropdownMenuItem>
-                </Link>
+                  </Link>
+                </DropdownMenuItem>
 
                 <DropdownMenuItem onClick={() => signOut()}>
                   <ExitIcon className="mr-2 h-4 w-4" />
