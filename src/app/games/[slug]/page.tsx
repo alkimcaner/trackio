@@ -50,7 +50,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
           <h2 className="text-lg">{formattedDate}</h2>
           <p className="flex items-center gap-2 text-lg">
             <StarFilledIcon className="text-yellow-400" />
-            {Math.floor(game.total_rating) / 10}
+            {Math.floor(game?.total_rating) / 10}
           </p>
 
           {developer && (
