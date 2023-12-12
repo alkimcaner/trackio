@@ -11,8 +11,9 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session)
-      return new NextResponse("Unauthorized access.", { status: 500 });
+    if (!session) {
+      return NextResponse.json({});
+    }
 
     const user = await prisma.user.findFirst({
       where: {
@@ -23,11 +24,13 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    if (!user) return new NextResponse("Couldn't find user.", { status: 500 });
+    if (!user) {
+      return NextResponse.json({});
+    }
 
     return NextResponse.json(user);
   } catch (error) {
     console.error(error);
-    return new NextResponse("Something unexpected happened.", { status: 500 });
+    return new NextResponse("Something unexpected happened", { status: 500 });
   }
 }

@@ -18,6 +18,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data);
   } catch (error) {
     console.error(error);
-    return new NextResponse("Something unexpected happened.", { status: 500 });
+    return new NextResponse("Something unexpected happened", { status: 500 });
   }
 }

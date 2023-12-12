@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return new NextResponse("Unauthorized access.", { status: 500 });
+      return new NextResponse("Unauthorized access", { status: 500 });
     }
 
     const user = await prisma.user.findFirst({
@@ -20,7 +20,9 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    if (!user) return new NextResponse("Couldn't find user.", { status: 500 });
+    if (!user) {
+      return new NextResponse("User not found", { status: 500 });
+    }
 
     if (user.favoriteGameIds.includes(body)) {
       user.favoriteGameIds = user.favoriteGameIds.filter((e) => e !== body);
@@ -42,6 +44,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(user.favoriteGameIds);
   } catch (error) {
     console.error(error);
-    return new NextResponse("Something unexpected happened.", { status: 500 });
+    return new NextResponse("Something unexpected happened", { status: 500 });
   }
 }

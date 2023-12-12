@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return new NextResponse("Unauthorized access.", { status: 500 });
+      return new NextResponse("Unauthorized access", { status: 500 });
     }
 
     const user = await prisma.user.findFirst({
@@ -36,6 +36,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(createdList);
   } catch (error) {
     console.error(error);
-    return new NextResponse("Something unexpected happened.", { status: 500 });
+    return new NextResponse("Something unexpected happened", { status: 500 });
   }
 }

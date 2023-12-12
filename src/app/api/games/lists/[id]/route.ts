@@ -21,13 +21,10 @@ export async function GET(
     if (list?.userId === session?.user.id || list?.isPublic) {
       return NextResponse.json(list);
     } else {
-      return NextResponse.json({ message: "List not found" }, { status: 500 });
+      return NextResponse.json({});
     }
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { message: "Something unexpected happened" },
-      { status: 500 }
-    );
+    return new NextResponse("Something unexpected happened", { status: 500 });
   }
 }

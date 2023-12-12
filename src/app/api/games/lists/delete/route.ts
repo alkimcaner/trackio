@@ -15,10 +15,7 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return NextResponse.json(
-        { message: "Unauthorized access" },
-        { status: 500 }
-      );
+      return new NextResponse("Unauthorized access", { status: 500 });
     }
 
     const deletedList = await prisma.gameList.delete({
@@ -31,9 +28,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(deletedList);
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { message: "Something unexpected happened" },
-      { status: 500 }
-    );
+    return new NextResponse("Something unexpected happened", { status: 500 });
   }
 }
