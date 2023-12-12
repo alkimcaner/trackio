@@ -4,6 +4,8 @@ import { StarFilledIcon } from "@radix-ui/react-icons";
 import ImageSlider from "@/components/ImageSlider";
 import GamePageActionButtons from "@/components/GamePageActionButtons";
 
+export const revalidate = 60;
+
 export default async function Game({ params }: { params: { slug: string } }) {
   const game = (
     await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
