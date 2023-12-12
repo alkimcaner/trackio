@@ -8,8 +8,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   TrashIcon,
   Pencil2Icon,
-  GlobeIcon,
+  BarChartIcon,
   DotsVerticalIcon,
+  ClockIcon,
 } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -20,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 
 const deleteList = (payload: { id: string }) =>
   fetch("/api/games/lists/delete", {
@@ -38,10 +40,12 @@ export default function ListsLayout({
   const [parent, enableAnimations] = useAutoAnimate();
   const params = useParams();
   const queryClient = useQueryClient();
+
   const { data: user } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
   });
+
   const mutation = useMutation({
     mutationFn: deleteList,
     onSettled: () => {
@@ -52,28 +56,49 @@ export default function ListsLayout({
   return (
     <div className="flex">
       {user && (
-        <aside ref={parent} className="flex flex-col gap-2 p-2">
-          <CreateListDialog />
+        <aside ref={parent} className="space-y-2 p-2">
+          <div className="px-4 py-1 text-xs text-muted-foreground">
+            Public Lists
+          </div>
 
           <Button
             asChild
-            variant={params?.id === undefined ? "secondary" : "ghost"}
+            variant={params?.id === "popular" ? "secondary" : "ghost"}
             className="justify-start"
           >
-            <Link href="/lists" className="gap-1">
-              <GlobeIcon />
-              Public Lists
+            <Link href="/lists/popular" className="w-full gap-2">
+              <BarChartIcon />
+              Popular
             </Link>
           </Button>
 
+          <Button
+            asChild
+            variant={params?.id === "recent" ? "secondary" : "ghost"}
+            className="justify-start"
+          >
+            <Link href="/lists/recent" className="w-full gap-2">
+              <ClockIcon />
+              Recent
+            </Link>
+          </Button>
+
+          <Separator />
+
+          <div className="px-4 py-1 text-xs text-muted-foreground">
+            My Lists
+          </div>
+
+          <CreateListDialog />
+
           {user?.gameLists?.map((list: any) => (
-            <div key={list?.id} className="flex w-full gap-1">
+            <div key={list?.id} className="flex gap-2">
               <Button
                 asChild
                 variant={params?.id === list?.id ? "secondary" : "ghost"}
                 className="justify-start"
               >
-                <Link href={`/lists/${list?.id}`} className="w-48 gap-2">
+                <Link href={`/lists/${list?.id}`} className="w-52 gap-2">
                   <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                     {list?.name}
                   </div>

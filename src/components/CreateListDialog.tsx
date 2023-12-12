@@ -16,6 +16,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Switch } from "./ui/switch";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Pencil2Icon } from "@radix-ui/react-icons";
 
 const createList = (payload: { name: string; isPublic: boolean }) =>
   fetch("/api/games/lists/create", {
@@ -44,7 +45,9 @@ export default function CreateListDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Create a List</Button>
+        <Button variant={"outline"} className="w-64 justify-between">
+          New List <Pencil2Icon />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

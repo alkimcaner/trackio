@@ -36,5 +36,9 @@ export const getUser = async () => {
     throw new Error(res.statusText);
   }
 
-  return res.json() as Promise<User>;
+  return res.json() as Promise<
+    User & {
+      gameLists: GameList[];
+    }
+  >;
 };

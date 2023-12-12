@@ -7,7 +7,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useQuery } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
 
-export default function Lists({ params }: { params: { id: string } }) {
+export default function List({ params }: { params: { id: string } }) {
   const [parent, enableAnimations] = useAutoAnimate();
 
   const { data: list, isError } = useQuery({

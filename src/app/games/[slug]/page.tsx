@@ -14,10 +14,11 @@ export default async function Game({ params }: { params: { slug: string } }) {
 
   const date = fromUnixTime(game?.first_release_date ?? "");
   const formattedDate = format(date, "MMM dd, yyyy");
-  const publisher = game.involved_companies?.find(
+
+  const publisher = game?.involved_companies?.find(
     (e: any) => e.publisher
   )?.company;
-  const developer = game.involved_companies?.find(
+  const developer = game?.involved_companies?.find(
     (e: any) => e.developer
   )?.company;
 
