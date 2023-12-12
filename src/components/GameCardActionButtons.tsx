@@ -65,14 +65,14 @@ export default function GameCardActionButtons({ game }: any) {
       <Button
         size="icon"
         variant={
-          user?.favoriteGameIds?.includes(String(game.id))
+          user?.favoriteGameIds?.includes(String(game?.id))
             ? "destructive"
             : "ghost"
         }
-        onClick={() => mutation.mutate(String(game.id))}
+        onClick={() => mutation.mutate(String(game?.id))}
         disabled={mutation.isLoading || isUserLoading}
       >
-        {user?.favoriteGameIds?.includes(String(game.id)) ? (
+        {user?.favoriteGameIds?.includes(String(game?.id)) ? (
           <HeartFilledIcon />
         ) : (
           <HeartIcon />
