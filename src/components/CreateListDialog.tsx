@@ -51,7 +51,7 @@ export default function CreateListDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create a List</DialogTitle>
+          <DialogTitle>Create New List</DialogTitle>
           <DialogDescription>
             Make changes to your list here. Click create when you are done.
           </DialogDescription>

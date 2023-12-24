@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { getUser } from "@/lib/queryFunctions";
+import SaveToListDialog from "./SaveToListDialog";
 
 const favoriteGame = (id: string) =>
   fetch("/api/games/favorite", {
@@ -78,9 +79,7 @@ export default function GameCardActionButtons({ game }: any) {
           <HeartIcon />
         )}
       </Button>
-      <Button variant="ghost" size="icon">
-        <ListBulletIcon />
-      </Button>
+      <SaveToListDialog icon />
     </>
   );
 }
