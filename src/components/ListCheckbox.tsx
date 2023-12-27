@@ -32,7 +32,7 @@ export default function ListCheckbox({
     onSettled: () => {
       setIsChecked((prev) => !prev);
       queryClient.invalidateQueries({ queryKey: ["lists"] });
-      queryClient.invalidateQueries({ queryKey: ["list"] });
+      queryClient.invalidateQueries({ queryKey: ["list", list.id] });
     },
   });
 
@@ -55,7 +55,7 @@ export default function ListCheckbox({
         checked={isChecked}
         onCheckedChange={handleCheckedChange}
       />
-      <Label htmlFor={list.id}>{list.name}</Label>
+      <Label htmlFor={`checkbox-${list.id}`}>{list.name}</Label>
       {list?.isPublic && <Badge variant={"secondary"}>Public</Badge>}
     </div>
   );
