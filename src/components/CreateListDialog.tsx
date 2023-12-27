@@ -38,7 +38,7 @@ export default function CreateListDialog() {
       setIsPublic(false);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["lists"] });
     },
   });
 
