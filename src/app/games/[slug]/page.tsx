@@ -2,7 +2,7 @@ import Image from "next/image";
 import { format, fromUnixTime } from "date-fns";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import ImageSlider from "@/components/ImageSlider";
-import GamePageActionButtons from "@/components/GamePageActionButtons";
+import SaveToListDialog from "@/components/SaveToListDialog";
 
 export const revalidate = 60;
 
@@ -45,7 +45,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
             height={640}
             className="aspect-[3/4] w-full rounded-lg object-cover shadow-lg"
           />
-          <GamePageActionButtons game={game} />
+          <SaveToListDialog gameId={String(game?.id)} />
         </div>
         <div className="w-full space-y-2 lg:pt-16">
           <h1 className="text-4xl font-bold lg:text-5xl">{game?.name}</h1>

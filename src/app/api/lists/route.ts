@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../auth/[...nextauth]/route";
+import { authOptions } from "../auth/[...nextauth]/route";
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
@@ -9,6 +9,23 @@ interface RequestBody {
 }
 
 const prisma = new PrismaClient();
+
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    const lists = await prisma.gameList.findMany({
+      where: {
+        userId: session?.user.id,
+      },
+    });
+
+    return NextResponse.json(lists);
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Something unexpected happened", { status: 500 });
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {

@@ -19,7 +19,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 
 const createList = (payload: { name: string; isPublic: boolean }) =>
-  fetch("/api/games/lists/create", {
+  fetch("/api/lists", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

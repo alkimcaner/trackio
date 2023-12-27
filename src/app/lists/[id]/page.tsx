@@ -2,7 +2,7 @@
 
 import GameCard from "@/components/GameCard";
 import { Badge } from "@/components/ui/badge";
-import { getGameList, getGames } from "@/lib/queryFunctions";
+import { getList, getGames } from "@/lib/queryFunctions";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useQuery } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
@@ -12,7 +12,7 @@ export default function List({ params }: { params: { id: string } }) {
 
   const { data: list, isError } = useQuery({
     queryKey: ["list", params.id],
-    queryFn: () => getGameList({ id: params.id }),
+    queryFn: () => getList(params.id),
   });
 
   const { data: games } = useQuery({

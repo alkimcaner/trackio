@@ -19,9 +19,6 @@ export async function GET(request: NextRequest) {
       where: {
         id: session.user.id,
       },
-      include: {
-        gameLists: true,
-      },
     });
 
     if (!user) {

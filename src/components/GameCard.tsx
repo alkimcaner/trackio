@@ -1,13 +1,13 @@
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
-import GameCardActionButtons from "./GameCardActionButtons";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import SaveToListDialog from "./SaveToListDialog";
 
 export default function GameCard({ game }: any) {
   return (
@@ -46,7 +46,7 @@ export default function GameCard({ game }: any) {
             <StarFilledIcon className="text-yellow-400" />
             {Math.floor(game?.total_rating) / 10}
           </p>
-          <GameCardActionButtons game={game} />
+          <SaveToListDialog gameId={String(game?.id)} icon />
         </div>
       </div>
     </div>

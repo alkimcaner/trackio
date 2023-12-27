@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -12,36 +11,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ListBulletIcon } from "@radix-ui/react-icons";
-import { getUser } from "@/lib/queryFunctions";
-import { Checkbox } from "./ui/checkbox";
-import { Label } from "./ui/label";
-import { Badge } from "./ui/badge";
+import { getMyLists } from "@/lib/queryFunctions";
+import ListCheckbox from "./ListCheckbox";
+import { useSession } from "next-auth/react";
 
-const updateList = (payload: { listId: string }) =>
-  fetch("/api/games/lists/update", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  }).then((res) => res.json());
+export default function SaveToListDialog({
+  gameId,
+  icon,
+}: {
+  gameId: string;
+  icon?: boolean;
+}) {
+  const { data: session } = useSession();
 
-export default function GameListDialog({ icon }: { icon?: boolean }) {
-  const queryClient = useQueryClient();
-
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: getUser,
+  const { data: lists } = useQuery({
+    queryKey: ["lists"],
+    queryFn: getMyLists,
   });
 
-  const mutation = useMutation({
-    mutationFn: updateList,
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-    },
-  });
+  if (!session) return <></>;
 
   return (
     <Dialog>
@@ -62,12 +52,12 @@ export default function GameListDialog({ icon }: { icon?: boolean }) {
           <DialogTitle>Save To List</DialogTitle>
         </DialogHeader>
         <div className="mt-4 flex flex-col gap-6">
-          {user?.gameLists.map((list) => (
-            <div key={list.id} className="flex items-center gap-4">
-              <Checkbox id={list.id} />
-              <Label htmlFor={list.id}>{list.name}</Label>
-              {list?.isPublic && <Badge variant={"secondary"}>Public</Badge>}
-            </div>
+          {lists?.map((list) => (
+            <ListCheckbox
+              key={`checkbox-${list.id}`}
+              gameId={gameId}
+              list={list}
+            />
           ))}
         </div>
       </DialogContent>

@@ -3,7 +3,7 @@
 import CreateListDialog from "@/components/CreateListDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { getUser } from "@/lib/queryFunctions";
+import { getMyLists, getUser } from "@/lib/queryFunctions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   TrashIcon,
@@ -23,13 +23,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 
-const deleteList = (payload: { id: string }) =>
-  fetch("/api/games/lists/delete", {
-    method: "POST",
+const deleteList = (id: string) =>
+  fetch(`/api/lists/${id}`, {
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload),
   }).then((res) => res.json());
 
 export default function ListsLayout({
@@ -46,10 +45,15 @@ export default function ListsLayout({
     queryFn: getUser,
   });
 
-  const mutation = useMutation({
+  const { data: lists } = useQuery({
+    queryKey: ["lists"],
+    queryFn: getMyLists,
+  });
+
+  const deleteMutation = useMutation({
     mutationFn: deleteList,
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["lists"] });
     },
   });
 
@@ -91,7 +95,7 @@ export default function ListsLayout({
 
           <CreateListDialog />
 
-          {user?.gameLists?.map((list: any) => (
+          {lists?.map((list: any) => (
             <div key={list?.id} className="flex gap-2">
               <Button
                 asChild
@@ -119,7 +123,7 @@ export default function ListsLayout({
                     Edit
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => mutation.mutate({ id: list.id })}
+                    onClick={() => deleteMutation.mutate(list.id)}
                   >
                     <TrashIcon className="mr-2 h-4 w-4" />
                     Delete

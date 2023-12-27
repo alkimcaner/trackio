@@ -19,8 +19,18 @@ export const getGames = async (favoriteGameIds?: string[]) => {
   return res.json();
 };
 
-export const getGameList = async ({ id }: { id: string }) => {
-  const res = await fetch(`/api/games/lists/${id}`);
+export const getMyLists = async () => {
+  const res = await fetch(`/api/lists`);
+
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+
+  return res.json() as Promise<GameList[]>;
+};
+
+export const getList = async (id: string) => {
+  const res = await fetch(`/api/lists/${id}`);
 
   if (!res.ok) {
     throw new Error(res.statusText);
@@ -36,9 +46,5 @@ export const getUser = async () => {
     throw new Error(res.statusText);
   }
 
-  return res.json() as Promise<
-    User & {
-      gameLists: GameList[];
-    }
-  >;
+  return res.json() as Promise<User>;
 };
