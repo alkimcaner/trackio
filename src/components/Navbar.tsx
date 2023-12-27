@@ -79,13 +79,6 @@ export default function Navbar() {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem asChild>
-                  <Link href="/favorites">
-                    <HeartIcon className="mr-2 h-4 w-4" />
-                    Favorites
-                  </Link>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem asChild>
                   <Link href="/settings">
                     <GearIcon className="mr-2 h-4 w-4" />
                     Settings

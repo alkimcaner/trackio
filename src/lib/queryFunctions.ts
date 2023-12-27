@@ -1,15 +1,13 @@
 import type { GameList, User } from "@prisma/client";
 
-export const getGames = async (favoriteGameIds?: string[]) => {
-  if (!favoriteGameIds || !favoriteGameIds?.length) {
+export const getGames = async (gameIds?: string[]) => {
+  if (!gameIds || !gameIds?.length) {
     return [];
   }
 
   const res = await fetch("/api/games", {
     method: "POST",
-    body: `fields *,cover.*; where id = (${favoriteGameIds.join(
-      ","
-    )}); limit 500;`,
+    body: `fields *,cover.*; where id = (${gameIds.join(",")}); limit 500;`,
   });
 
   if (!res.ok) {
