@@ -32,6 +32,7 @@ export default function ListCheckbox({
     onSettled: () => {
       setIsChecked((prev) => !prev);
       queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ["list"] });
     },
   });
 
