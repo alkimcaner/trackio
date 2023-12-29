@@ -16,9 +16,10 @@ export default function List({ params }: { params: { id: string } }) {
   });
 
   const { data: games } = useQuery({
-    queryKey: ["list", params.id, "games"],
+    queryKey: ["list", params.id, "games", list?.gameIds],
     queryFn: () => getGames(list?.gameIds),
     enabled: !!list,
+    keepPreviousData: true,
   });
 
   if (isError) {

@@ -19,6 +19,10 @@ export async function GET(
       },
     });
 
+    if (!list) {
+      return new NextResponse("List not found", { status: 500 });
+    }
+
     return NextResponse.json(list);
   } catch (error) {
     console.error(error);
