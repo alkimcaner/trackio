@@ -15,14 +15,11 @@ export async function GET(
     const list = await prisma.gameList.findFirst({
       where: {
         id: params.id,
+        OR: [{ isPublic: true }, { userId: session?.user.id }],
       },
     });
 
-    if (list?.userId === session?.user.id || list?.isPublic) {
-      return NextResponse.json(list);
-    } else {
-      return NextResponse.json({});
-    }
+    return NextResponse.json(list);
   } catch (error) {
     console.error(error);
     return new NextResponse("Something unexpected happened", { status: 500 });
