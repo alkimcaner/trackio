@@ -54,7 +54,7 @@ export default function SearchBar() {
     <form
       onSubmit={handleSubmitSearch}
       ref={domRef}
-      className="relative mx-auto flex w-full max-w-xs items-center gap-2"
+      className="relative ml-auto flex w-full max-w-[12rem] items-center gap-2"
     >
       <Input
         value={searchInput}
@@ -65,9 +65,6 @@ export default function SearchBar() {
         }}
         placeholder="Search"
       />
-      <Button type="submit">
-        <MagnifyingGlassIcon />
-      </Button>
 
       {isResultsVisible && (
         <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border bg-popover text-sm shadow-lg">

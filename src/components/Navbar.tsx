@@ -1,39 +1,30 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Button, buttonVariants } from "./ui/button";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { buttonVariants } from "./ui/button";
 import SearchBar from "./SearchBar";
 import {
   GearIcon,
   PersonIcon,
   ExitIcon,
-  HeartIcon,
   ListBulletIcon,
 } from "@radix-ui/react-icons";
 import { ThemeToggle } from "./ThemeToggle";
-import { useQuery } from "@tanstack/react-query";
-import { getUser } from "@/lib/queryFunctions";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default function Navbar() {
-  const { data: session } = useSession();
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: getUser,
-  });
-  const name = useMemo(() => session?.user?.name?.split(" ")[0], [session]);
+export default async function Navbar() {
+  const session = await getServerSession(authOptions);
+  const name = session?.user?.name?.split(" ")[0];
+
   return (
-    <nav className="sticky top-0 z-20 w-full border-b bg-background">
-      <div className="mx-auto flex max-w-7xl items-center gap-2 px-8 py-4">
+    <nav className="sticky top-0 z-20 w-full bg-background">
+      <div className="mx-auto flex max-w-5xl items-center gap-2 px-8 py-2">
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo.png"
@@ -49,14 +40,6 @@ export default function Navbar() {
 
         {session ? (
           <>
-            <Link
-              href="/lists"
-              className={buttonVariants({ variant: "ghost" })}
-            >
-              <ListBulletIcon className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Lists</span>
-            </Link>
-
             <DropdownMenu>
               <DropdownMenuTrigger
                 className={buttonVariants({ variant: "ghost" })}
@@ -72,9 +55,16 @@ export default function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem asChild>
-                  <Link href={`/user/${user?.username}`}>
+                  <Link href={`/user/${session.user.id}`}>
                     <PersonIcon className="mr-2 h-4 w-4" />
                     Profile
+                  </Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem asChild>
+                  <Link href={`/user/${session.user.id}/lists`}>
+                    <ListBulletIcon className="mr-2 h-4 w-4" />
+                    Lists
                   </Link>
                 </DropdownMenuItem>
 
@@ -85,15 +75,22 @@ export default function Navbar() {
                   </Link>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem onClick={() => signOut()}>
-                  <ExitIcon className="mr-2 h-4 w-4" />
-                  Sign Out
+                <DropdownMenuItem asChild>
+                  <Link href="/api/auth/signout">
+                    <ExitIcon className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </>
         ) : (
-          <Button onClick={() => signIn("google")}>Sign In With Google</Button>
+          <Link
+            className={buttonVariants({ variant: "ghost" })}
+            href="/api/auth/signin/google"
+          >
+            Sign In With Google
+          </Link>
         )}
         <ThemeToggle />
       </div>

@@ -1,11 +1,11 @@
-import { GameList } from "@prisma/client";
+import { List } from "@prisma/client";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Badge } from "./ui/badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const updateList = (list: GameList) =>
+const updateList = (list: List) =>
   fetch(`/api/lists/${list.id}`, {
     method: "PUT",
     headers: {
@@ -19,11 +19,9 @@ export default function ListCheckbox({
   list,
 }: {
   gameId: string;
-  list: GameList;
+  list: List;
 }) {
-  const [isChecked, setIsChecked] = useState(() =>
-    list.gameIds.includes(gameId)
-  );
+  const [isChecked, setIsChecked] = useState(() => list.items.includes(gameId));
 
   const queryClient = useQueryClient();
 
@@ -39,10 +37,10 @@ export default function ListCheckbox({
   const handleCheckedChange = () => {
     let newList = list;
 
-    if (newList.gameIds.includes(gameId)) {
-      newList.gameIds = newList.gameIds.filter((id) => id !== gameId);
+    if (newList.items.includes(gameId)) {
+      newList.items = newList.items.filter((id) => id !== gameId);
     } else {
-      newList.gameIds.push(gameId);
+      newList.items.push(gameId);
     }
 
     updateMutation.mutate(newList);
@@ -56,7 +54,7 @@ export default function ListCheckbox({
         onCheckedChange={handleCheckedChange}
       />
       <Label htmlFor={`checkbox-${list.id}`}>{list.name}</Label>
-      {list?.isPublic && <Badge variant={"secondary"}>Public</Badge>}
+      {list?.isPrivate && <Badge variant={"secondary"}>Private</Badge>}
     </div>
   );
 }

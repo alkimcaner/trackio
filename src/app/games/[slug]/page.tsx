@@ -35,7 +35,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
         className="fixed top-0 -z-10 h-full w-full object-cover opacity-25 blur-xl"
       />
 
-      <section className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-4 lg:flex-row lg:pt-16">
+      <section className="mx-auto flex w-full max-w-5xl flex-col gap-4 p-4 lg:flex-row lg:pt-16">
         <div className="mx-auto flex w-72 flex-col gap-4">
           <Image
             priority

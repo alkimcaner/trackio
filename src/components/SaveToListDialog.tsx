@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -11,25 +9,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { useQuery } from "@tanstack/react-query";
 import { ListBulletIcon } from "@radix-ui/react-icons";
-import { getMyLists } from "@/lib/queryFunctions";
 import ListCheckbox from "./ListCheckbox";
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default function SaveToListDialog({
+export default async function SaveToListDialog({
   gameId,
   icon,
 }: {
   gameId: string;
   icon?: boolean;
 }) {
-  const { data: session } = useSession();
-
-  const { data: lists } = useQuery({
-    queryKey: ["lists"],
-    queryFn: getMyLists,
-  });
+  const session = await getServerSession(authOptions);
 
   if (!session) return <></>;
 
@@ -52,13 +44,13 @@ export default function SaveToListDialog({
           <DialogTitle>Save To List</DialogTitle>
         </DialogHeader>
         <div className="mt-4 flex flex-col gap-6">
-          {lists?.map((list) => (
+          {/* {lists?.map((list) => (
             <ListCheckbox
               key={`checkbox-${list.id}`}
               gameId={gameId}
               list={list}
             />
-          ))}
+          ))} */}
         </div>
       </DialogContent>
     </Dialog>
