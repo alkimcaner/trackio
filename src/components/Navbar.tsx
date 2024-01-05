@@ -84,11 +84,8 @@ export default async function Navbar() {
             </DropdownMenu>
           </>
         ) : (
-          <Link
-            className={buttonVariants({ variant: "ghost" })}
-            href="/api/auth/signin/google"
-          >
-            Sign In With Google
+          <Link className={buttonVariants()} href="/api/auth/signin">
+            Sign In
           </Link>
         )}
         <ThemeToggle />
