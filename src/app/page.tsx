@@ -1,21 +1,19 @@
 import GameCard from "@/components/GameCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
+import { getGames } from "@/lib/queries";
 
 export default async function Home() {
-  const bestGames = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
-    method: "POST",
-    body: "fields *,cover.*; where total_rating_count > 100; sort total_rating desc; limit 4;",
-  }).then((res) => res.json());
+  const bestGames = await getGames(
+    "fields *,cover.*; where total_rating_count > 100; sort total_rating desc; limit 4;"
+  );
 
-  const ps4Games = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
-    method: "POST",
-    body: "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {48}; sort total_rating desc; limit 4;",
-  }).then((res) => res.json());
+  const ps4Games = await getGames(
+    "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {48}; sort total_rating desc; limit 4;"
+  );
 
-  const nsGames = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
-    method: "POST",
-    body: "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {130}; sort total_rating desc; limit 4;",
-  }).then((res) => res.json());
+  const nsGames = await getGames(
+    "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {130}; sort total_rating desc; limit 4;"
+  );
 
   return (
     <main>

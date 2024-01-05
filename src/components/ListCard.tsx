@@ -1,10 +1,10 @@
-import { ListWithUser, getGames } from "@/lib/queries";
+import { ListWithUser, getGamesById } from "@/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 
 export default async function ListCard({ list }: { list: ListWithUser }) {
-  const items = await getGames(list.items.slice(0, 4));
+  const items = await getGamesById(list.items.slice(0, 4));
   return (
     <div>
       <Link

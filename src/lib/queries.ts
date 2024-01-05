@@ -3,17 +3,48 @@ import { prisma } from "./prisma";
 
 export type ListWithUser = NonNullable<Awaited<ReturnType<typeof getList>>>;
 
-export const getGames = async (gameIds?: string[]) => {
-  if (!gameIds?.length) {
-    return [];
+export const getGames = async (query: string) => {
+  try {
+    const options = {
+      method: "POST",
+      headers: {
+        "Client-ID": process.env.IGDB_ID ?? "",
+        Authorization: `Bearer ${process.env.IGDB_TOKEN}`,
+      },
+      body: query,
+    };
+
+    const res = await fetch("https://api.igdb.com/v4/games", options);
+
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return;
   }
+};
 
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
-    method: "POST",
-    body: `fields *,cover.*; where id = (${gameIds.join(",")}); limit 500;`,
-  });
+export const getGamesById = async (gameIds?: string[]) => {
+  try {
+    if (!gameIds?.length) {
+      return [];
+    }
 
-  return res.json();
+    const options = {
+      method: "POST",
+      headers: {
+        "Client-ID": process.env.IGDB_ID ?? "",
+        Authorization: `Bearer ${process.env.IGDB_TOKEN}`,
+      },
+      body: `fields *,cover.*; where id = (${gameIds.join(",")}); limit 500;`,
+    };
+
+    const res = await fetch("https://api.igdb.com/v4/games", options);
+
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return;
+  }
 };
 
 export const getUserLists = async (userId: string) => {

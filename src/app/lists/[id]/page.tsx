@@ -2,7 +2,7 @@ import GameCard from "@/components/GameCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { getGames, getList } from "@/lib/queries";
+import { getGamesById, getList } from "@/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ export default async function List({ params }: { params: { id: string } }) {
   // get list
   const list = await getList(params.id);
   // get games
-  const games = await getGames(list?.items);
+  const games = await getGamesById(list?.items);
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">

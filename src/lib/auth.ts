@@ -23,5 +23,5 @@ export const {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET!,
+  secret: process.env.AUTH_SECRET!,
 });

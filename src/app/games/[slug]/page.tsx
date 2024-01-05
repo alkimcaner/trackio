@@ -3,15 +3,13 @@ import { format, fromUnixTime } from "date-fns";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import ImageSlider from "@/components/ImageSlider";
 import SaveToListDialog from "@/components/SaveToListDialog";
-
-export const revalidate = 60;
+import { getGames } from "@/lib/queries";
 
 export default async function Game({ params }: { params: { slug: string } }) {
   const game = (
-    await fetch(`${process.env.NEXTAUTH_URL}/api/games`, {
-      method: "POST",
-      body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*; where slug = "${params.slug}";`,
-    }).then((res) => res.json())
+    await getGames(
+      `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*; where slug = "${params.slug}";`
+    )
   )[0];
 
   const date = fromUnixTime(game?.first_release_date ?? "");
