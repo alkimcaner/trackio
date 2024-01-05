@@ -11,9 +11,8 @@ import {
 } from "./ui/dialog";
 import { ListBulletIcon } from "@radix-ui/react-icons";
 import ListCheckbox from "./ListCheckbox";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getUserLists } from "@/lib/queries";
+import { auth } from "@/lib/auth";
 
 export default async function SaveToListDialog({
   gameId,
@@ -22,7 +21,7 @@ export default async function SaveToListDialog({
   gameId: string;
   icon?: boolean;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) return <></>;
 

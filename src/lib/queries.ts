@@ -1,8 +1,5 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
-
-const prisma = new PrismaClient();
+import { auth } from "./auth";
+import { prisma } from "./prisma";
 
 export type ListWithUser = NonNullable<Awaited<ReturnType<typeof getList>>>;
 
@@ -21,7 +18,7 @@ export const getGames = async (gameIds?: string[]) => {
 
 export const getUserLists = async (userId: string) => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const lists = await prisma.list.findMany({
       where: {
@@ -42,7 +39,7 @@ export const getUserLists = async (userId: string) => {
 
 export const getList = async (listId: string) => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     const list = await prisma.list.findFirst({
       where: {
@@ -63,7 +60,7 @@ export const getList = async (listId: string) => {
 
 export const getUser = async () => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) return;
 

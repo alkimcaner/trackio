@@ -15,11 +15,10 @@ import {
   ListBulletIcon,
 } from "@radix-ui/react-icons";
 import { ThemeToggle } from "./ThemeToggle";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/lib/auth";
 
 export default async function Navbar() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const name = session?.user?.name?.split(" ")[0];
 
   return (

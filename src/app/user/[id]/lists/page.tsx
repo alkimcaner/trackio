@@ -1,9 +1,8 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ListCard from "@/components/ListCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import { buttonVariants } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
 import { getUserLists } from "@/lib/queries";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -12,7 +11,7 @@ export default async function UserLists({
 }: {
   params: { id: string };
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) redirect("/");
 

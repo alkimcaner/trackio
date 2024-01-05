@@ -1,16 +1,14 @@
 "use server";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { List, PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
+import { List } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
-const prisma = new PrismaClient();
+import { prisma } from "./prisma";
+import { auth } from "./auth";
 
 export const createList = async (formData: FormData) => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) return;
 
@@ -39,7 +37,7 @@ export const createList = async (formData: FormData) => {
 
 export const updateList = async (payload: List) => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) return;
 
@@ -60,7 +58,7 @@ export const updateList = async (payload: List) => {
 
 export const deleteList = async (listId: string) => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) return;
 

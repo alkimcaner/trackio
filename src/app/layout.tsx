@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Providers from "@/app/providers";
 
+export const runtime = "edge";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
