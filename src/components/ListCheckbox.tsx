@@ -1,40 +1,21 @@
-import { List } from "@prisma/client";
+"use client";
+
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Badge } from "./ui/badge";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-
-const updateList = (list: List) =>
-  fetch(`/api/lists/${list.id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(list),
-  }).then((res) => res.json());
+import { updateList } from "@/lib/actions";
+import { ListWithUser } from "@/lib/queries";
 
 export default function ListCheckbox({
   gameId,
   list,
 }: {
   gameId: string;
-  list: List;
+  list: ListWithUser;
 }) {
-  const [isChecked, setIsChecked] = useState(() => list.items.includes(gameId));
+  const isChecked = list.items.includes(gameId);
 
-  const queryClient = useQueryClient();
-
-  const updateMutation = useMutation({
-    mutationFn: updateList,
-    onSettled: () => {
-      setIsChecked((prev) => !prev);
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
-      queryClient.invalidateQueries({ queryKey: ["list", list.id] });
-    },
-  });
-
-  const handleCheckedChange = () => {
+  const handleSave = () => {
     let newList = list;
 
     if (newList.items.includes(gameId)) {
@@ -43,7 +24,14 @@ export default function ListCheckbox({
       newList.items.push(gameId);
     }
 
-    updateMutation.mutate(newList);
+    updateList({
+      description: newList.description,
+      id: newList.id,
+      isPrivate: newList.isPrivate,
+      items: newList.items,
+      name: newList.name,
+      userId: newList.userId,
+    });
   };
 
   return (
@@ -51,7 +39,7 @@ export default function ListCheckbox({
       <Checkbox
         id={`checkbox-${list.id}`}
         checked={isChecked}
-        onCheckedChange={handleCheckedChange}
+        onClick={handleSave}
       />
       <Label htmlFor={`checkbox-${list.id}`}>{list.name}</Label>
       {list?.isPrivate && <Badge variant={"secondary"}>Private</Badge>}

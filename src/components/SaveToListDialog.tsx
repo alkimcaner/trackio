@@ -13,6 +13,7 @@ import { ListBulletIcon } from "@radix-ui/react-icons";
 import ListCheckbox from "./ListCheckbox";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getUserLists } from "@/lib/queries";
 
 export default async function SaveToListDialog({
   gameId,
@@ -24,6 +25,8 @@ export default async function SaveToListDialog({
   const session = await getServerSession(authOptions);
 
   if (!session) return <></>;
+
+  const lists = await getUserLists(session.user.id);
 
   return (
     <Dialog>
@@ -44,13 +47,13 @@ export default async function SaveToListDialog({
           <DialogTitle>Save To List</DialogTitle>
         </DialogHeader>
         <div className="mt-4 flex flex-col gap-6">
-          {/* {lists?.map((list) => (
+          {lists?.map((list) => (
             <ListCheckbox
               key={`checkbox-${list.id}`}
               gameId={gameId}
               list={list}
             />
-          ))} */}
+          ))}
         </div>
       </DialogContent>
     </Dialog>

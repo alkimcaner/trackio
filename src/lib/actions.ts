@@ -37,7 +37,7 @@ export const createList = async (formData: FormData) => {
   }
 };
 
-export const updateList = async (listId: string, payload: List) => {
+export const updateList = async (payload: List) => {
   try {
     const session = await getServerSession(authOptions);
 
@@ -45,11 +45,13 @@ export const updateList = async (listId: string, payload: List) => {
 
     await prisma.list.update({
       where: {
-        id: listId,
+        id: payload.id,
         userId: session.user.id,
       },
       data: payload,
     });
+
+    revalidatePath(`/lists/${payload.id}`);
   } catch (error) {
     console.error(error);
     return;
