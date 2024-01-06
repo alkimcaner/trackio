@@ -3,7 +3,6 @@
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { debounce } from "@/lib/debounce";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -65,7 +64,6 @@ export default function SearchBar() {
         }}
         placeholder="Search"
       />
-
       {isResultsVisible && (
         <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border bg-popover text-sm shadow-lg">
           <div className="flex max-h-96 flex-col gap-1 overflow-y-scroll p-1">

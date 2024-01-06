@@ -7,8 +7,10 @@ import { prisma } from "./prisma";
 import { auth } from "./auth";
 
 export const createList = async (formData: FormData) => {
+  let session;
+
   try {
-    const session = await auth();
+    session = await auth();
 
     if (!session) return;
 
@@ -28,10 +30,13 @@ export const createList = async (formData: FormData) => {
     });
 
     revalidatePath(`/user/${session.user.id}/lists`);
-    // redirect("/");
   } catch (error) {
     console.error(error);
     return;
+  } finally {
+    if (!!session) {
+      redirect(`/user/${session.user.id}/lists`);
+    }
   }
 };
 
@@ -57,8 +62,10 @@ export const updateList = async (payload: List) => {
 };
 
 export const deleteList = async (listId: string) => {
+  let session;
+
   try {
-    const session = await auth();
+    session = await auth();
 
     if (!session) return;
 
@@ -68,8 +75,14 @@ export const deleteList = async (listId: string) => {
         userId: session.user.id,
       },
     });
+
+    revalidatePath(`/lists/${listId}`);
   } catch (error) {
     console.error(error);
     return;
+  } finally {
+    if (!!session) {
+      redirect(`/user/${session.user.id}/lists`);
+    }
   }
 };

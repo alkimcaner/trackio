@@ -28,7 +28,9 @@ export default async function UserLists({
         </Link>
       </section>
       <section>
-        <h1 className="mb-4 text-2xl font-bold">Your Lists</h1>
+        <h1 className="mb-4 text-2xl font-bold">
+          {lists[0].User?.name?.split(" ")[0]}&apos;s Lists
+        </h1>
         <ResponsiveGrid>
           {lists?.map((list) => (
             <ListCard key={list.id} list={list} />
