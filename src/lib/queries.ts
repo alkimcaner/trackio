@@ -75,7 +75,7 @@ export const getList = async (listId: string) => {
     const list = await prisma.list.findFirst({
       where: {
         id: listId,
-        OR: [{ isPrivate: true }, { userId: session?.user.id }],
+        OR: [{ isPrivate: false }, { userId: session?.user.id }],
       },
       include: {
         User: true,
