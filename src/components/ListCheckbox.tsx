@@ -3,7 +3,7 @@
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Badge } from "./ui/badge";
-import { updateList } from "@/lib/actions";
+import { saveToList } from "@/lib/actions";
 import { ListWithUser } from "@/lib/queries";
 
 export default function ListCheckbox({
@@ -24,7 +24,7 @@ export default function ListCheckbox({
       newList.items.push(gameId);
     }
 
-    updateList({
+    saveToList({
       description: newList.description,
       id: newList.id,
       isPrivate: newList.isPrivate,

@@ -40,24 +40,42 @@ export const createList = async (formData: FormData) => {
   }
 };
 
-export const updateList = async (payload: List) => {
+export const updateList = async (formData: FormData) => {
+  let session;
+
   try {
-    const session = await auth();
+    session = await auth();
 
     if (!session) return;
+
+    const payload = {
+      id: formData.get("listId")?.toString() || "",
+      name: formData.get("name")?.toString() || "",
+      description: formData.get("description")?.toString() || "",
+      isPrivate: !!formData.get("isPrivate")?.toString(),
+    };
 
     await prisma.list.update({
       where: {
         id: payload.id,
         userId: session.user.id,
       },
-      data: payload,
+      data: {
+        name: payload.name,
+        description: payload.description,
+        isPrivate: payload.isPrivate,
+        userId: session.user.id,
+      },
     });
 
-    revalidatePath(`/lists/${payload.id}`);
+    revalidatePath(`/user/${session.user.id}/lists`);
   } catch (error) {
     console.error(error);
     return;
+  } finally {
+    if (!!session) {
+      redirect(`/lists/${formData.get("listId")?.toString()}`);
+    }
   }
 };
 
@@ -84,5 +102,26 @@ export const deleteList = async (listId: string) => {
     if (!!session) {
       redirect(`/user/${session.user.id}/lists`);
     }
+  }
+};
+
+export const saveToList = async (payload: List) => {
+  try {
+    const session = await auth();
+
+    if (!session) return;
+
+    await prisma.list.update({
+      where: {
+        id: payload.id,
+        userId: session.user.id,
+      },
+      data: payload,
+    });
+
+    revalidatePath(`/lists/${payload.id}`);
+  } catch (error) {
+    console.error(error);
+    return;
   }
 };
