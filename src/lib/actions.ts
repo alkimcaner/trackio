@@ -10,15 +10,22 @@ export const createList = async (formData: FormData) => {
   let session;
 
   try {
-    session = await auth();
-
-    if (!session) return;
-
     const payload = {
-      name: formData.get("name")?.toString() || "",
-      description: formData.get("description")?.toString() || "",
+      name: formData.get("name")?.toString(),
+      description: formData.get("description")?.toString(),
       isPrivate: !!formData.get("isPrivate")?.toString(),
     };
+
+    session = await auth();
+
+    if (
+      !session ||
+      !payload.name ||
+      !payload.description ||
+      !payload.isPrivate
+    ) {
+      return;
+    }
 
     await prisma.list.create({
       data: {
@@ -44,16 +51,24 @@ export const updateList = async (formData: FormData) => {
   let session;
 
   try {
-    session = await auth();
-
-    if (!session) return;
-
     const payload = {
-      id: formData.get("listId")?.toString() || "",
-      name: formData.get("name")?.toString() || "",
-      description: formData.get("description")?.toString() || "",
+      id: formData.get("listId")?.toString(),
+      name: formData.get("name")?.toString(),
+      description: formData.get("description")?.toString(),
       isPrivate: !!formData.get("isPrivate")?.toString(),
     };
+
+    session = await auth();
+
+    if (
+      !session ||
+      !payload.id ||
+      !payload.name ||
+      !payload.description ||
+      !payload.isPrivate
+    ) {
+      return;
+    }
 
     await prisma.list.update({
       where: {
@@ -85,7 +100,7 @@ export const deleteList = async (listId: string) => {
   try {
     session = await auth();
 
-    if (!session) return;
+    if (!session || !listId) return;
 
     await prisma.list.delete({
       where: {
