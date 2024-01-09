@@ -24,6 +24,7 @@ export default async function EditList({ params }: { params: { id: string } }) {
           <div>
             <Label htmlFor="name">Name</Label>
             <Input
+              required
               name="name"
               type="text"
               placeholder="Name"
@@ -34,6 +35,7 @@ export default async function EditList({ params }: { params: { id: string } }) {
           <div>
             <Label htmlFor="description">Description</Label>
             <Textarea
+              required
               name="description"
               defaultValue={list?.description}
               className="max-w-xs"

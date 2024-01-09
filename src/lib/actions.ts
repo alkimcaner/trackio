@@ -22,7 +22,7 @@ export const createList = async (formData: FormData) => {
       !session ||
       !payload.name ||
       !payload.description ||
-      !payload.isPrivate
+      payload.isPrivate == null
     ) {
       return;
     }
@@ -65,7 +65,7 @@ export const updateList = async (formData: FormData) => {
       !payload.id ||
       !payload.name ||
       !payload.description ||
-      !payload.isPrivate
+      payload.isPrivate == null
     ) {
       return;
     }

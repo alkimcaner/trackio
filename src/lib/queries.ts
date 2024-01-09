@@ -56,6 +56,9 @@ export const getUserLists = async (userId: string) => {
         userId: userId,
         OR: [{ isPrivate: false }, { userId: session?.user.id }],
       },
+      orderBy: {
+        name: "asc",
+      },
       include: {
         User: true,
       },

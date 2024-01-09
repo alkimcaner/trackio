@@ -17,11 +17,11 @@ export default async function CreateList() {
         <form action={createList} className="space-y-8">
           <div>
             <Label htmlFor="name">Name</Label>
-            <Input name="name" type="text" className="max-w-xs" />
+            <Input required name="name" type="text" className="max-w-xs" />
           </div>
           <div>
             <Label htmlFor="description">Description</Label>
-            <Textarea name="description" className="max-w-xs" />
+            <Textarea required name="description" className="max-w-xs" />
           </div>
           <div className="flex items-center gap-2">
             <Label htmlFor="private">Private</Label>

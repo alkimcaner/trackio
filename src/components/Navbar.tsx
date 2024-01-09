@@ -44,6 +44,7 @@ export default async function Navbar() {
                 className={buttonVariants({ variant: "ghost" })}
               >
                 <Image
+                  priority
                   src={session.user?.image || ""}
                   alt="Profile image"
                   width={24}
