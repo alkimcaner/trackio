@@ -3,7 +3,7 @@ import { format, fromUnixTime } from "date-fns";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import ImageSlider from "@/components/ImageSlider";
 import SaveToListDialog from "@/components/SaveToListDialog";
-import { getGames } from "@/lib/queries";
+import { getGames } from "@/lib/actions";
 
 export default async function Game({ params }: { params: { slug: string } }) {
   const game = (

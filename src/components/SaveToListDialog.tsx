@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -11,21 +13,26 @@ import {
 } from "./ui/dialog";
 import { ListBulletIcon } from "@radix-ui/react-icons";
 import ListCheckbox from "./ListCheckbox";
-import { getUserLists } from "@/lib/queries";
-import { auth } from "@/lib/auth";
+import { getUserLists } from "@/lib/actions";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
 
-export default async function SaveToListDialog({
+export default function SaveToListDialog({
   gameId,
   icon,
 }: {
   gameId: string;
   icon?: boolean;
 }) {
-  const session = await auth();
+  const { data: session } = useSession();
+
+  const { data: lists } = useQuery({
+    queryKey: ["userLists", session?.user.id],
+    queryFn: () => getUserLists(session?.user.id),
+    enabled: !!session,
+  });
 
   if (!session) return <></>;
-
-  const lists = await getUserLists(session.user.id);
 
   return (
     <Dialog>

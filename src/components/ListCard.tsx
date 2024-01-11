@@ -1,17 +1,24 @@
-import { ListWithUser, getGamesById } from "@/lib/queries";
+"use client";
+
+import { ListWithUser, getGamesById } from "@/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
+import { useQuery } from "@tanstack/react-query";
 
-export default async function ListCard({ list }: { list: ListWithUser }) {
-  const items = await getGamesById(list.items.slice(0, 4));
+export default function ListCard({ list }: { list: ListWithUser }) {
+  const { data: games } = useQuery({
+    queryKey: ["games", list?.items],
+    queryFn: () => getGamesById(list?.items),
+  });
+
   return (
     <div>
       <Link
         href={`/lists/${list.id}`}
         className="grid aspect-[3/4] grid-cols-2 overflow-hidden rounded-lg bg-muted ring-primary transition hover:ring-2"
       >
-        {items.map((item: any) => (
+        {games?.map((item: any) => (
           <Image
             key={`list-cover-${item?.cover?.image_id}`}
             src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item?.cover?.image_id}.jpg`}

@@ -1,21 +1,12 @@
 "use client";
 
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Input } from "./ui/input";
 import { debounce } from "@/lib/debounce";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-const searchGames = (searchInput: string) => {
-  if (!searchInput) return [];
-
-  return fetch("/api/games", {
-    method: "POST",
-    body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
-  }).then((res) => res.json());
-};
+import { getGames } from "@/lib/actions";
 
 export default function SearchBar() {
   const router = useRouter();
@@ -24,7 +15,12 @@ export default function SearchBar() {
   const [searchInput, setSearchInput] = useState("");
   const { data: searchResults, refetch } = useQuery({
     queryKey: ["search"],
-    queryFn: () => searchGames(searchInput),
+    queryFn: () => {
+      if (!searchInput) return [];
+      return getGames(
+        `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`
+      );
+    },
   });
   const debouncedRefetch = useMemo(() => debounce(refetch, 500), [refetch]);
 

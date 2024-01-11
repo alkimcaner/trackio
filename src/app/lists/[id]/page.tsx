@@ -1,21 +1,37 @@
+"use client";
+
 import { DeleteListDialog } from "@/components/DeleteListDialog";
 import GameCard from "@/components/GameCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { auth } from "@/lib/auth";
-import { getGamesById, getList } from "@/lib/queries";
+import { getGamesById, getList } from "@/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import ListNotFound from "@/components/ListNotFound";
+import LoadingPage from "@/components/LoadingPage";
 
-export default async function List({ params }: { params: { id: string } }) {
-  const list = await getList(params.id);
-  if (!list) redirect("/lists");
+export default function List({ params }: { params: { id: string } }) {
+  const { data: list, isLoading } = useQuery({
+    queryKey: ["lists", params.id],
+    queryFn: () => getList(params.id),
+  });
 
-  const session = await auth();
-  const isAuthorized = list.userId === session?.user.id;
-  const games = await getGamesById(list.items);
+  const { data: games } = useQuery({
+    queryKey: ["games", list?.items],
+    queryFn: () => getGamesById(list?.items),
+    enabled: !!list,
+  });
+
+  const { data: session } = useSession();
+  const isAuthorized = list?.userId === session?.user.id;
+
+  if (isLoading) return <LoadingPage />;
+
+  if (!list) return <ListNotFound />;
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">

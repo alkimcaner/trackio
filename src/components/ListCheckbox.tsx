@@ -3,8 +3,8 @@
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Badge } from "./ui/badge";
-import { saveToList } from "@/lib/actions";
-import { ListWithUser } from "@/lib/queries";
+import { saveToList, ListWithUser } from "@/lib/actions";
+import { useMutation } from "@tanstack/react-query";
 
 export default function ListCheckbox({
   gameId,
@@ -15,6 +15,8 @@ export default function ListCheckbox({
 }) {
   const isChecked = list.items.includes(gameId);
 
+  const saveToListMutation = useMutation({ mutationFn: saveToList });
+
   const handleSave = () => {
     let newList = list;
 
@@ -24,7 +26,7 @@ export default function ListCheckbox({
       newList.items.push(gameId);
     }
 
-    saveToList({
+    saveToListMutation.mutate({
       description: newList.description,
       id: newList.id,
       isPrivate: newList.isPrivate,

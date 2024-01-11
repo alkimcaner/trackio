@@ -1,15 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { createList } from "@/lib/actions";
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-export default async function CreateList() {
-  const session = await auth();
-  if (!session) redirect("/");
+export default function CreateList() {
+  const session = useSession();
+
+  if (!session) return <>Please sign in</>;
 
   return (
     <main>

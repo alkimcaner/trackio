@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,10 +17,10 @@ import {
   ListBulletIcon,
 } from "@radix-ui/react-icons";
 import { ThemeToggle } from "./ThemeToggle";
-import { auth } from "@/lib/auth";
+import { useSession } from "next-auth/react";
 
-export default async function Navbar() {
-  const session = await auth();
+export default function Navbar() {
+  const { data: session } = useSession();
   const name = session?.user?.name?.split(" ")[0];
 
   return (

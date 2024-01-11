@@ -1,18 +1,20 @@
+"use client";
+
 import ListCard from "@/components/ListCard";
+import LoadingPage from "@/components/LoadingPage";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import { buttonVariants } from "@/components/ui/button";
-import { getUserLists } from "@/lib/queries";
+import { getUserLists } from "@/lib/actions";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-export default async function UserLists({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const lists = await getUserLists(params.id);
+export default function UserLists({ params }: { params: { id: string } }) {
+  const { data: lists, isLoading } = useQuery({
+    queryKey: ["userLists", params.id],
+    queryFn: () => getUserLists(params.id),
+  });
 
-  if (!lists) redirect("/");
+  if (isLoading) return <LoadingPage />;
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
@@ -25,16 +27,18 @@ export default async function UserLists({
           Create new list
         </Link>
       </section>
-      <section>
-        <h1 className="mb-4 text-2xl font-bold">
-          {lists[0].User?.name?.split(" ")[0]}&apos;s Lists
-        </h1>
-        <ResponsiveGrid>
-          {lists?.map((list) => (
-            <ListCard key={list.id} list={list} />
-          ))}
-        </ResponsiveGrid>
-      </section>
+      {lists && (
+        <section>
+          <h1 className="mb-4 text-2xl font-bold">
+            {lists[0].User?.name?.split(" ")[0]}&apos;s Lists
+          </h1>
+          <ResponsiveGrid>
+            {lists?.map((list) => (
+              <ListCard key={list.id} list={list} />
+            ))}
+          </ResponsiveGrid>
+        </section>
+      )}
     </main>
   );
 }

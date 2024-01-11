@@ -1,12 +1,11 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+"use client";
 
-export default async function Settings() {
-  const session = await auth();
+import { useSession } from "next-auth/react";
 
-  if (!session) {
-    redirect("/");
-  }
+export default function Settings() {
+  const session = useSession();
+
+  if (!session) return <>Please sign in</>;
 
   return <div>Settings page</div>;
 }
