@@ -3,9 +3,9 @@
 import { useSession } from "next-auth/react";
 
 export default function Settings() {
-  const session = useSession();
+  const { data: session } = useSession();
 
-  if (!session) return <>Please sign in</>;
+  if (!session) return <div>Please sign in</div>;
 
   return <div>Settings page</div>;
 }

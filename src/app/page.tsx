@@ -16,33 +16,31 @@ export default async function Home() {
   );
 
   return (
-    <main>
-      <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
-        <div>
-          <h1 className="mb-4 text-lg">Best Games</h1>
-          <ResponsiveGrid>
-            {bestGames?.map((game: any) => (
-              <GameCard key={game.id} game={game} />
-            ))}
-          </ResponsiveGrid>
-        </div>
-        <div>
-          <h1 className="mb-4 text-lg">Best Playstation 4 Exclusives</h1>
-          <ResponsiveGrid>
-            {ps4Games?.map((game: any) => (
-              <GameCard key={game.id} game={game} />
-            ))}
-          </ResponsiveGrid>
-        </div>
-        <div>
-          <h1 className="mb-4 text-lg">Best Nintendo Switch Exclusives</h1>
-          <ResponsiveGrid>
-            {nsGames?.map((game: any) => (
-              <GameCard key={game.id} game={game} />
-            ))}
-          </ResponsiveGrid>
-        </div>
-      </section>
-    </main>
+    <section className="space-y-8">
+      <div>
+        <h1 className="mb-4 text-lg">Best Games</h1>
+        <ResponsiveGrid>
+          {bestGames?.map((game: any) => (
+            <GameCard key={game.id} game={game} />
+          ))}
+        </ResponsiveGrid>
+      </div>
+      <div>
+        <h1 className="mb-4 text-lg">Best Playstation 4 Exclusives</h1>
+        <ResponsiveGrid>
+          {ps4Games?.map((game: any) => (
+            <GameCard key={game.id} game={game} />
+          ))}
+        </ResponsiveGrid>
+      </div>
+      <div>
+        <h1 className="mb-4 text-lg">Best Nintendo Switch Exclusives</h1>
+        <ResponsiveGrid>
+          {nsGames?.map((game: any) => (
+            <GameCard key={game.id} game={game} />
+          ))}
+        </ResponsiveGrid>
+      </div>
+    </section>
   );
 }

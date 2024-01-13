@@ -32,7 +32,7 @@ export default function SaveToListDialog({
     enabled: !!session,
   });
 
-  if (!session) return <></>;
+  if (!session) return null;
 
   return (
     <Dialog>
@@ -42,9 +42,9 @@ export default function SaveToListDialog({
             <ListBulletIcon />
           </Button>
         ) : (
-          <Button variant={"outline"}>
+          <Button variant={"outline"} className="min-w-fit">
             <ListBulletIcon className="mr-2 h-4 w-4" />
-            Save To List
+            <span>Save To List</span>
           </Button>
         )}
       </DialogTrigger>

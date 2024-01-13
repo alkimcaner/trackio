@@ -9,31 +9,31 @@ import { createList } from "@/lib/actions";
 import { useSession } from "next-auth/react";
 
 export default function CreateList() {
-  const session = useSession();
+  const { data: session } = useSession();
 
-  if (!session) return <>Please sign in</>;
+  if (!session) {
+    return <div>Please sign in</div>;
+  }
 
   return (
-    <main>
-      <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
-        <form action={createList} className="space-y-8">
-          <div>
-            <Label htmlFor="name">Name</Label>
-            <Input required name="name" type="text" className="max-w-xs" />
-          </div>
-          <div>
-            <Label htmlFor="description">Description</Label>
-            <Textarea required name="description" className="max-w-xs" />
-          </div>
-          <div className="flex items-center gap-2">
-            <Label htmlFor="private">Private</Label>
-            <Switch name="isPrivate" id="private" />
-          </div>
-          <div>
-            <Button type="submit">Create</Button>
-          </div>
-        </form>
-      </section>
-    </main>
+    <section>
+      <form action={createList} className="space-y-8">
+        <div>
+          <Label htmlFor="name">Name</Label>
+          <Input required name="name" type="text" className="max-w-xs" />
+        </div>
+        <div>
+          <Label htmlFor="description">Description</Label>
+          <Textarea required name="description" className="max-w-xs" />
+        </div>
+        <div className="flex items-center gap-2">
+          <Label htmlFor="private">Private</Label>
+          <Switch name="isPrivate" id="private" />
+        </div>
+        <div>
+          <Button type="submit">Create</Button>
+        </div>
+      </form>
+    </section>
   );
 }

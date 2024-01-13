@@ -23,34 +23,45 @@ export default async function Game({ params }: { params: { slug: string } }) {
   )?.company;
 
   return (
-    <main>
+    <>
       <Image
         priority
         src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game?.cover?.image_id}.jpg`}
         alt="Background image"
         width={1920}
         height={1080}
-        className="fixed top-0 -z-10 h-full w-full object-cover opacity-25 blur-xl"
+        className="fixed left-0 top-0 -z-10 h-full w-full object-cover opacity-25 blur-2xl"
       />
+      <section className="flex items-center justify-between gap-4">
+        <h1 className="text-xl font-bold lg:text-2xl">{game?.name}</h1>
+        <SaveToListDialog gameId={String(game?.id)} />
+      </section>
 
-      <section className="mx-auto flex w-full max-w-5xl flex-col gap-4 p-4 lg:flex-row lg:pt-16">
-        <div className="mx-auto flex w-72 flex-col gap-4">
+      <div className="grid grid-cols-3 gap-4">
+        <section className="col-span-3 lg:col-span-2">
+          <ImageSlider images={game?.screenshots} />
+        </section>
+
+        <section className="col-span-3 space-y-2 text-sm lg:col-span-1">
           <Image
             priority
-            src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game?.cover?.image_id}.jpg`}
+            src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game?.cover?.image_id}.jpg`}
             alt="Cover image"
-            width={360}
-            height={640}
-            className="aspect-[3/4] w-full rounded-lg object-cover shadow-lg"
+            width={569}
+            height={320}
+            className="aspect-video w-full rounded-lg object-cover shadow-lg"
           />
-          <SaveToListDialog gameId={String(game?.id)} />
-        </div>
-        <div className="w-full space-y-2 lg:pt-16">
-          <h1 className="text-4xl font-bold lg:text-5xl">{game?.name}</h1>
-          <h2 className="text-lg">{formattedDate}</h2>
-          <p className="flex items-center gap-2 text-lg">
+          <p>{game?.summary}</p>
+
+          <p className="flex items-center gap-1">
+            <span className="font-semibold">Reviews: </span>
             <StarFilledIcon className="text-yellow-400" />
-            {Math.floor(game?.total_rating) / 10}
+            {Math.floor(game?.total_rating) / 10} / 10
+          </p>
+
+          <p>
+            <span className="font-semibold">Relase Date: </span>
+            {formattedDate}
           </p>
 
           {developer && (
@@ -66,13 +77,8 @@ export default async function Game({ params }: { params: { slug: string } }) {
               {publisher?.name}
             </p>
           )}
-
-          <p>{game?.summary}</p>
-        </div>
-      </section>
-      <section className="p-4">
-        <ImageSlider images={game?.screenshots} />
-      </section>
-    </main>
+        </section>
+      </div>
+    </>
   );
 }
