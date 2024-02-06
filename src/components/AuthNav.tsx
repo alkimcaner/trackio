@@ -16,17 +16,12 @@ import {
   ListBulletIcon,
   PersonIcon,
 } from "@radix-ui/react-icons";
-import { Skeleton } from "./ui/skeleton";
 
 export default function AuthNav() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const name = session?.user?.name?.split(" ")[0];
 
-  if (status === "loading") {
-    return <Skeleton className="h-10 w-20" />;
-  }
-
-  if (status === "unauthenticated") {
+  if (!session) {
     return <Button onClick={() => signIn("google")}>Sign In</Button>;
   }
 

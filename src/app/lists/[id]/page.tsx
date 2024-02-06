@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import ListSkeleton from "@/components/ListSkeleton";
+import { Loader2 } from "lucide-react";
 
 export default function List({ params }: { params: { id: string } }) {
   const { data: list, isLoading } = useQuery({
@@ -28,11 +28,19 @@ export default function List({ params }: { params: { id: string } }) {
   const isAuthorized = list?.userId === session?.user.id;
 
   if (isLoading) {
-    return <ListSkeleton />;
+    return (
+      <div className="flex h-[calc(100vh-8rem)] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   if (!list) {
-    return <h1 className="mt-32 text-center text-lg">List not found</h1>;
+    return (
+      <div className="flex h-[calc(100vh-8rem)] items-center justify-center">
+        List not found
+      </div>
+    );
   }
 
   return (

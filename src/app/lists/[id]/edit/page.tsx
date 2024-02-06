@@ -19,7 +19,11 @@ export default function EditList({ params }: { params: { id: string } }) {
   const isAuthorized = list?.userId === session?.user.id;
 
   if (!isAuthorized) {
-    return <>List not found</>;
+    return (
+      <div className="flex h-[calc(100vh-8rem)] items-center justify-center">
+        List not found
+      </div>
+    );
   }
 
   return (
