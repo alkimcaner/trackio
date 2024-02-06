@@ -8,14 +8,10 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 export default function UserLists({ params }: { params: { id: string } }) {
-  const { data: lists, isLoading } = useQuery({
+  const { data: lists } = useQuery({
     queryKey: ["userLists", params.id],
     queryFn: () => getUserLists(params.id),
   });
-
-  if (isLoading) {
-    return <>loading...</>;
-  }
 
   return (
     <>
