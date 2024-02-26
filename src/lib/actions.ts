@@ -3,6 +3,7 @@
 import { PrismaClient, List } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { auth } from "./auth";
+import { get } from "@vercel/edge-config";
 
 const prisma = new PrismaClient();
 
@@ -16,7 +17,7 @@ export const getGames = async (query: string) => {
       method: "POST",
       headers: {
         "Client-ID": process.env.IGDB_ID ?? "",
-        Authorization: `Bearer ${process.env.IGDB_TOKEN}`,
+        Authorization: `Bearer ${await get("igdb_token")}`,
       },
       body: query,
     };
@@ -40,7 +41,7 @@ export const getGamesById = async (gameIds?: string[]) => {
       method: "POST",
       headers: {
         "Client-ID": process.env.IGDB_ID ?? "",
-        Authorization: `Bearer ${process.env.IGDB_TOKEN}`,
+        Authorization: `Bearer ${await get("igdb_token")}`,
       },
       body: `fields *,cover.*; where id = (${gameIds.join(
         ","
