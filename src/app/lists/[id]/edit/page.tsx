@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { updateList, getList } from "@/lib/actions";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function EditList({ params }: { params: { id: string } }) {
   const { data: list } = useQuery({
@@ -58,7 +59,13 @@ export default function EditList({ params }: { params: { id: string } }) {
             defaultChecked={list?.isPrivate}
           />
         </div>
-        <div>
+        <div className="flex gap-2">
+          <Link
+            href={`/lists/${params.id}`}
+            className={buttonVariants({ variant: "secondary" })}
+          >
+            Cancel
+          </Link>
           <Button type="submit">Update</Button>
         </div>
       </form>

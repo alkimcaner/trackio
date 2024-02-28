@@ -26,8 +26,8 @@ export default function ImageSlider({ images }: any) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="invisible lg:visible" />
+      <CarouselNext className="invisible lg:visible" />
     </Carousel>
   );
 }
