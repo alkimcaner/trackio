@@ -42,7 +42,7 @@ export default function SaveToListDialog({
             <ListBulletIcon />
           </Button>
         ) : (
-          <Button variant={"outline"} className="min-w-fit">
+          <Button variant={"default"} className="min-w-fit">
             <ListBulletIcon className="mr-2 h-4 w-4" />
             <span>Save To List</span>
           </Button>

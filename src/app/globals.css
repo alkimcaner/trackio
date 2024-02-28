@@ -57,16 +57,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-/* Swiper */
-
-body {
-  --swiper-navigation-size: 16px;
-  --swiper-navigation-top-offset: 50%;
-  --swiper-navigation-sides-offset: 10px;
-  --swiper-navigation-color: white;
-}
-
-.swiper-slide {
-  height: auto !important;
-}

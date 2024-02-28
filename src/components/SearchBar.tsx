@@ -59,6 +59,7 @@ export default function SearchBar() {
           setSearchInput(e.target.value);
         }}
         placeholder="Search"
+        className="bg-transparent"
       />
       {isResultsVisible && (
         <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border bg-popover text-sm shadow-lg">

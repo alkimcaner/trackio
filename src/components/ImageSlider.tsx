@@ -1,29 +1,33 @@
 "use client";
 
-import "swiper/css";
-import "swiper/css/navigation";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+import Autoplay from "embla-carousel-autoplay";
 import SliderImage from "./SliderImage";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "./ui/carousel";
 
 export default function ImageSlider({ images }: any) {
   return (
-    <Swiper
-      modules={[Navigation, Autoplay]}
-      slidesPerView={1}
-      spaceBetween={16}
-      autoplay={{
-        delay: 5000,
-        disableOnInteraction: false,
-      }}
-      navigation
+    <Carousel
+      plugins={[
+        Autoplay({
+          delay: 5000,
+        }),
+      ]}
     >
-      {images?.map((image: any) => (
-        <SwiperSlide key={image.id}>
-          <SliderImage image={image} />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+      <CarouselContent>
+        {images?.map((image: any) => (
+          <CarouselItem key={image.id}>
+            <SliderImage image={image} />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
   );
 }
