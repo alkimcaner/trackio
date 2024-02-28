@@ -63,7 +63,7 @@ export default function List({ params }: { params: { id: string } }) {
         {/* List owner */}
         <Link
           href={`/user/${list.userId}`}
-          className="group flex w-fit items-center gap-2 text-xs"
+          className="group mt-1 flex w-fit items-center gap-2 text-xs"
         >
           <Image
             src={list.User?.image || ""}

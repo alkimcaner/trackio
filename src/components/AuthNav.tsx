@@ -16,10 +16,11 @@ import {
   ListBulletIcon,
   PersonIcon,
 } from "@radix-ui/react-icons";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export default function AuthNav() {
   const { data: session } = useSession();
-  const name = session?.user?.name?.split(" ")[0];
+  const nameArray = session?.user?.name?.split(" ");
 
   if (!session) {
     return <Button onClick={() => signIn("google")}>Sign In</Button>;
@@ -29,15 +30,19 @@ export default function AuthNav() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className={buttonVariants({ variant: "ghost" })}>
-          <Image
-            priority
-            src={session?.user?.image || ""}
-            alt="Profile image"
-            width={24}
-            height={24}
-            className="rounded-full sm:mr-2"
-          />
-          <span className="hidden text-sm sm:inline">{name}</span>
+          <Avatar>
+            <AvatarImage
+              src={session?.user?.image || ""}
+              alt="Profile image"
+              className="rounded-full p-1"
+            />
+            <AvatarFallback>
+              {nameArray?.map((name) => name[0]).join("")}
+            </AvatarFallback>
+          </Avatar>
+          <span className="ml-1 hidden text-sm sm:inline">
+            {nameArray?.at(0)}
+          </span>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild>
