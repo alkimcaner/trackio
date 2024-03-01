@@ -28,7 +28,7 @@ export default function AuthNav() {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className={buttonVariants({ variant: "ghost" })}>
+        <DropdownMenuTrigger className="flex items-center gap-1">
           <Avatar>
             <AvatarImage
               src={session?.user?.image || ""}
@@ -39,9 +39,7 @@ export default function AuthNav() {
               {nameArray?.map((name) => name[0]).join("")}
             </AvatarFallback>
           </Avatar>
-          <span className="ml-1 hidden text-sm sm:inline">
-            {nameArray?.at(0)}
-          </span>
+          <span className="hidden text-sm sm:inline">{nameArray?.at(0)}</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild>

@@ -49,7 +49,7 @@ export default function SearchBar() {
     <form
       onSubmit={handleSubmitSearch}
       ref={domRef}
-      className="relative ml-auto flex w-full max-w-[12rem] items-center gap-2"
+      className="relative mx-auto flex w-full max-w-xs items-center gap-2"
     >
       <Input
         value={searchInput}
