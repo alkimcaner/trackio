@@ -42,8 +42,8 @@ export default function GameCard({ game }: any) {
         </TooltipProvider>
 
         <div className="flex items-center gap-2">
-          <p className="mr-auto flex items-center gap-2 py-2">
-            <StarFilledIcon className="text-yellow-400" />
+          <p className="mr-auto flex items-center gap-1 py-2">
+            <StarFilledIcon />
             {Math.floor(game?.total_rating) / 10}
           </p>
           <SaveToListDialog gameId={String(game?.id)} icon />

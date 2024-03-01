@@ -64,13 +64,13 @@ export default async function Game({ params }: { params: { slug: string } }) {
       />
       <section className="flex items-center gap-4">
         <h1 className="text-2xl font-bold lg:text-3xl">{game?.name}</h1>
-        <span className="ml-auto flex min-w-fit items-center gap-1 text-lg font-thin">
-          <StarFilledIcon className="h-6 w-6 text-yellow-400" />
-          <span className="text-xl font-bold">
+        <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-thin">
+          <StarFilledIcon className="h-4 w-4" />
+          <span className="font-bold">
             {Math.floor(game?.total_rating) / 10}
           </span>
           <span className="text-muted-foreground">/ 10</span>
-        </span>
+        </div>
       </section>
 
       <section>
@@ -86,25 +86,26 @@ export default async function Game({ params }: { params: { slug: string } }) {
         <div className="col-span-3 flex flex-col gap-4 lg:col-span-1">
           <SaveToListDialog gameId={String(game?.id)} />
 
-          <div className="flex gap-4">
-            <span className="font-semibold">Release Date:</span>
-            <span className="text-muted-foreground">{formattedDate}</span>
+          <div>
+            <div className="font-semibold">Release Date</div>
+            <div className="text-muted-foreground">{formattedDate}</div>
           </div>
 
           {developer && (
-            <div className="flex gap-4">
-              <span className="font-semibold">Developer:</span>
-              <span className="text-muted-foreground">{developer?.name}</span>
+            <div>
+              <div className="font-semibold">Developer</div>
+              <div className="text-muted-foreground">{developer?.name}</div>
             </div>
           )}
 
           {publisher && (
-            <div className="flex gap-4">
-              <span className="font-semibold">Publisher:</span>
-              <span className="text-muted-foreground">{publisher?.name}</span>
+            <div>
+              <div className="font-semibold">Publisher</div>
+              <div className="text-muted-foreground">{publisher?.name}</div>
             </div>
           )}
 
+          <div className="font-semibold">Websites</div>
           <div className="flex flex-wrap gap-4">
             {websites.map((site) => (
               <Link
