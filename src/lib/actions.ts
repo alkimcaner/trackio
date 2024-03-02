@@ -63,7 +63,7 @@ export const getUser = async () => {
 
     if (!session) return;
 
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: {
         id: session.user.id,
       },
@@ -106,7 +106,7 @@ export const getList = async (listId: string) => {
   try {
     const session = await auth();
 
-    const list = await prisma.list.findFirst({
+    const list = await prisma.list.findUnique({
       where: {
         id: listId,
         OR: [{ isPrivate: false }, { userId: session?.user.id }],
@@ -231,18 +231,43 @@ export const updateList = async (formData: FormData) => {
   }
 };
 
-export const saveToList = async (payload: List) => {
+export const saveToList = async ({
+  listId,
+  gameId,
+}: {
+  listId: string;
+  gameId: string;
+}) => {
   try {
     const session = await auth();
 
-    if (!session) return;
+    if (!session || listId == null || gameId == null) return;
+
+    const list = await prisma.list.findUnique({
+      where: {
+        id: listId,
+        userId: session.user.id,
+      },
+    });
+
+    if (!list) return;
+
+    let items = list.items;
+
+    if (items.includes(gameId)) {
+      items = items.filter((id) => id !== gameId);
+    } else {
+      items.push(gameId);
+    }
 
     await prisma.list.update({
       where: {
-        id: payload.id,
+        id: listId,
         userId: session.user.id,
       },
-      data: payload,
+      data: {
+        items: items,
+      },
     });
   } catch (error) {
     console.error(error);

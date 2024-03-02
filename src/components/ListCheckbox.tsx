@@ -4,7 +4,8 @@ import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Badge } from "./ui/badge";
 import { saveToList, ListWithUser } from "@/lib/actions";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 export default function ListCheckbox({
   gameId,
@@ -13,37 +14,34 @@ export default function ListCheckbox({
   gameId: string;
   list: ListWithUser;
 }) {
-  const isChecked = list.items.includes(gameId);
-
-  const saveToListMutation = useMutation({ mutationFn: saveToList });
-
-  const handleSave = () => {
-    let newList = list;
-
-    if (newList.items.includes(gameId)) {
-      newList.items = newList.items.filter((id) => id !== gameId);
-    } else {
-      newList.items.push(gameId);
-    }
-
-    saveToListMutation.mutate({
-      description: newList.description,
-      id: newList.id,
-      isPrivate: newList.isPrivate,
-      items: newList.items,
-      name: newList.name,
-      userId: newList.userId,
-    });
-  };
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: saveToList,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userLists", session?.user.id]);
+    },
+  });
+  const isListsLoading = queryClient.isFetching([
+    "userLists",
+    session?.user.id,
+  ]);
 
   return (
     <div key={list.id} className="flex items-center gap-4">
       <Checkbox
         id={`checkbox-${list.id}`}
-        checked={isChecked}
-        onClick={handleSave}
+        checked={list.items.includes(gameId)}
+        disabled={mutation.isLoading || !!isListsLoading}
+        onClick={() => mutation.mutate({ listId: list.id, gameId })}
+        className="disabled:cursor-wait"
       />
-      <Label htmlFor={`checkbox-${list.id}`}>{list.name}</Label>
+      <Label
+        htmlFor={`checkbox-${list.id}`}
+        className="peer-disabled:cursor-wait"
+      >
+        {list.name}
+      </Label>
       {list?.isPrivate && <Badge variant={"secondary"}>Private</Badge>}
     </div>
   );
