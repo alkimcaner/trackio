@@ -1,10 +1,11 @@
 import { auth } from "@/lib/auth";
 import { PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -13,7 +14,7 @@ export async function POST(
     const session = await auth();
 
     if (!session || params.id == null || body.gameId == null)
-      return new Response("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
 
     const list = await prisma.list.findUnique({
       where: {
@@ -22,7 +23,7 @@ export async function POST(
       },
     });
 
-    if (!list) return new Response("List not found", { status: 400 });
+    if (!list) return new NextResponse("List not found", { status: 400 });
 
     let items = list.items;
 
@@ -42,9 +43,9 @@ export async function POST(
       },
     });
 
-    return Response.json(result);
+    return NextResponse.json(result);
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 400 });
+    return new NextResponse("Error", { status: 400 });
   }
 }

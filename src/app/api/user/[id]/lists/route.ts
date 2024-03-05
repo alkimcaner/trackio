@@ -1,14 +1,15 @@
 import { auth } from "@/lib/auth";
 import { PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    if (!params.id) return [];
+    if (!params.id) return NextResponse.json([]);
 
     const session = await auth();
 
@@ -25,9 +26,9 @@ export async function GET(
       },
     });
 
-    return Response.json(lists);
+    return NextResponse.json(lists);
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 400 });
+    return new NextResponse("Error", { status: 400 });
   }
 }

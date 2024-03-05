@@ -1,17 +1,18 @@
 import { auth } from "@/lib/auth";
 import { PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
 // Create list
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
     const session = await auth();
 
     if (!session || !body.name || !body.description || body.isPrivate == null) {
-      return new Response("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const result = await prisma.list.create({
@@ -23,9 +24,9 @@ export async function POST(req: Request) {
       },
     });
 
-    return Response.json(result);
+    return NextResponse.json(result);
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 400 });
+    return new NextResponse("Error", { status: 400 });
   }
 }

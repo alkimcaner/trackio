@@ -1,10 +1,11 @@
 import { get } from "@vercel/edge-config";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.text();
 
-    if (!body) return Response.json([]);
+    if (!body) return NextResponse.json([]);
 
     const options = {
       method: "POST",
@@ -23,9 +24,9 @@ export async function POST(req: Request) {
 
     const games = await res.json();
 
-    return Response.json(games);
+    return NextResponse.json(games);
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 400 });
+    return new NextResponse("Error", { status: 400 });
   }
 }

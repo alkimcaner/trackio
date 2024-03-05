@@ -1,4 +1,6 @@
-export async function GET(req: Request) {
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(req: NextRequest) {
   try {
     if (
       req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
@@ -33,9 +35,9 @@ export async function GET(req: Request) {
     );
 
     const result = await updateEdgeConfig.json();
-    return Response.json(result);
+    return NextResponse.json(result);
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 400 });
+    return new NextResponse("Error", { status: 400 });
   }
 }

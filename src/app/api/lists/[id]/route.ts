@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { List, PrismaClient, User } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
@@ -7,7 +8,7 @@ export type ListWithUser = List & { User: User };
 
 // Get list
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -23,15 +24,15 @@ export async function GET(
       },
     });
 
-    return Response.json(list);
+    return NextResponse.json(list);
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 400 });
+    return new NextResponse("Error", { status: 400 });
   }
 }
 
 // Update list
-export async function PUT(req: Request) {
+export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();
 
@@ -44,7 +45,7 @@ export async function PUT(req: Request) {
       !body.description ||
       body.isPrivate == null
     ) {
-      return new Response("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const result = await prisma.list.update({
@@ -60,23 +61,23 @@ export async function PUT(req: Request) {
       },
     });
 
-    return Response.json(result);
+    return NextResponse.json(result);
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 400 });
+    return new NextResponse("Error", { status: 400 });
   }
 }
 
 // Delete list
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
     const session = await auth();
 
     if (!session || !params.id)
-      return new Response("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
 
     const result = await prisma.list.delete({
       where: {
@@ -85,9 +86,9 @@ export async function DELETE(
       },
     });
 
-    return Response.json(result);
+    return NextResponse.json(result);
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 400 });
+    return new NextResponse("Error", { status: 400 });
   }
 }
