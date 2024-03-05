@@ -5,22 +5,44 @@ import GameCard from "@/components/GameCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { getGamesById, getList } from "@/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import { ListWithUser } from "@/app/api/lists/[id]/route";
+import { gameIdsToQuery } from "@/lib/helpers";
 
 export default function List({ params }: { params: { id: string } }) {
-  const { data: list, isLoading } = useQuery({
-    queryKey: ["lists", params.id],
-    queryFn: () => getList(params.id),
+  const { data: list, isLoading } = useQuery<ListWithUser>({
+    queryKey: ["list", params.id],
+    queryFn: async () => {
+      const res = await fetch(`/api/lists/${params.id}`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+
+      return res.json();
+    },
   });
 
-  const { data: games } = useQuery({
-    queryKey: ["games", list?.items],
-    queryFn: () => getGamesById(list?.items),
+  const { data: items } = useQuery({
+    queryKey: ["list", params.id, "items"],
+    queryFn: async () => {
+      if (!list?.items.length) return [];
+
+      const res = await fetch("/api/games", {
+        method: "POST",
+        body: gameIdsToQuery(list?.items),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+
+      return res.json();
+    },
     enabled: !!list,
   });
 
@@ -79,8 +101,8 @@ export default function List({ params }: { params: { id: string } }) {
       <p className="text-muted-foreground">{list.description}</p>
       <Separator />
       <ResponsiveGrid>
-        {games?.map((game: any) => (
-          <GameCard key={game.id} game={game} />
+        {items?.map((item: any) => (
+          <GameCard key={item.id} game={item} />
         ))}
       </ResponsiveGrid>
     </section>

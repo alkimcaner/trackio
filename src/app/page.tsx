@@ -1,6 +1,6 @@
 import GameCard from "@/components/GameCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
-import { getGames } from "@/lib/actions";
+import { getGames } from "@/lib/rsc-queries";
 
 export default async function Home() {
   const bestGames = await getGames(

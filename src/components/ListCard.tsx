@@ -1,15 +1,29 @@
 "use client";
 
-import { ListWithUser, getGamesById } from "@/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
+import { ListWithUser } from "@/app/api/lists/[id]/route";
 import { useQuery } from "@tanstack/react-query";
+import { gameIdsToQuery } from "@/lib/helpers";
 
 export default function ListCard({ list }: { list: ListWithUser }) {
-  const { data: games } = useQuery({
-    queryKey: ["games", list?.items],
-    queryFn: () => getGamesById(list?.items),
+  const { data: items } = useQuery({
+    queryKey: ["list", list.id, "items"],
+    queryFn: async () => {
+      if (!list?.items.length) return [];
+
+      const res = await fetch("/api/games", {
+        method: "POST",
+        body: gameIdsToQuery(list?.items),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+
+      return res.json();
+    },
   });
 
   return (
@@ -18,7 +32,7 @@ export default function ListCard({ list }: { list: ListWithUser }) {
         href={`/lists/${list.id}`}
         className="grid aspect-[3/4] grid-cols-2 overflow-hidden rounded-lg bg-muted ring-primary transition hover:ring-2"
       >
-        {games?.map((item: any) => (
+        {items?.map((item: any) => (
           <Image
             key={`list-cover-${item?.cover?.image_id}`}
             src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item?.cover?.image_id}.jpg`}

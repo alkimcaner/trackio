@@ -2,26 +2,39 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Input } from "./ui/input";
-import { debounce } from "@/lib/debounce";
+import { debounce } from "@/lib/helpers";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getGames } from "@/lib/actions";
 
 export default function SearchBar() {
   const router = useRouter();
   const domRef = useRef<HTMLFormElement>(null);
   const [isResultsVisible, setIsResultsVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const { data: searchResults, refetch } = useQuery({
+
+  const {
+    data: searchResults,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["search"],
-    queryFn: () => {
+    queryFn: async () => {
       if (!searchInput) return [];
-      return getGames(
-        `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`
-      );
+
+      const res = await fetch("/api/games", {
+        method: "POST",
+        body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+
+      return res.json();
     },
   });
+
   const debouncedRefetch = useMemo(() => debounce(refetch, 500), [refetch]);
 
   const handleSubmitSearch = (e: any) => {

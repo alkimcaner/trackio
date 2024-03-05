@@ -1,11 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
   try {
     if (
       req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
     ) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new Response("Unauthorized", { status: 401 });
     }
 
     const generateIGDBToken = await fetch(
@@ -35,9 +33,9 @@ export async function GET(req: NextRequest) {
     );
 
     const result = await updateEdgeConfig.json();
-    return NextResponse.json(result);
+    return Response.json(result);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ status: "error" });
+    return new Response("Error", { status: 400 });
   }
 }

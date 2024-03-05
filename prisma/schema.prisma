@@ -62,6 +62,8 @@ model List {
   description String
   isPrivate   Boolean  @default(false)
   items       String[]
+  tags        String[]
+  createdAt   DateTime @default(now())
   User        User?    @relation(fields: [userId], references: [id])
   userId      String?
 }

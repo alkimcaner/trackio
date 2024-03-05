@@ -1,16 +1,24 @@
 "use client";
 
+import { ListWithUser } from "@/app/api/lists/[id]/route";
 import ListCard from "@/components/ListCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import { buttonVariants } from "@/components/ui/button";
-import { getUserLists } from "@/lib/actions";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 export default function UserLists({ params }: { params: { id: string } }) {
-  const { data: lists } = useQuery({
+  const { data: lists } = useQuery<ListWithUser[]>({
     queryKey: ["userLists", params.id],
-    queryFn: () => getUserLists(params.id),
+    queryFn: async () => {
+      const res = await fetch(`/api/user/${params.id}/lists`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+
+      return res.json();
+    },
   });
 
   return (

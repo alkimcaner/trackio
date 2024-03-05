@@ -14,3 +14,9 @@ export function debounce<T extends (...args: any[]) => void>(
     }, delay);
   };
 }
+
+export function gameIdsToQuery(gameIds: string[]) {
+  return `fields *,cover.*; where id = (${gameIds.join(
+    ","
+  )}); sort name asc; limit 500;`;
+}

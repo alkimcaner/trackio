@@ -3,8 +3,8 @@ import { format, fromUnixTime } from "date-fns";
 import { ExternalLinkIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import ImageSlider from "@/components/ImageSlider";
 import SaveToListDialog from "@/components/SaveToListDialog";
-import { getGames } from "@/lib/actions";
 import Link from "next/link";
+import { getGames } from "@/lib/rsc-queries";
 
 type WebsiteType = {
   name: string;
@@ -39,14 +39,18 @@ export default async function Game({ params }: { params: { slug: string } }) {
       `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where slug = "${params.slug}";`
     )
   )[0];
+
   const date = fromUnixTime(game?.first_release_date ?? "");
   const formattedDate = format(date, "MMM dd, yyyy");
+
   const publisher = game?.involved_companies?.find(
     (e: any) => e.publisher
   )?.company;
+
   const developer = game?.involved_companies?.find(
     (e: any) => e.developer
   )?.company;
+
   const websites: WebsiteType[] = game?.websites.map((e: any) => ({
     name: Websites[e.category],
     url: e.url,
@@ -109,7 +113,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
           <div className="flex flex-wrap gap-4">
             {websites.map((site) => (
               <Link
-                key={`link-${site}`}
+                key={`link-${site.url}`}
                 href={site.url}
                 target="_blank"
                 rel="noopener noreferrer"
