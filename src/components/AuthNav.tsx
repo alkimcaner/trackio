@@ -29,11 +29,11 @@ export default function AuthNav() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="flex items-center gap-1">
-          <Avatar>
+          <Avatar className="h-6 w-6">
             <AvatarImage
               src={session?.user?.image || ""}
               alt="Profile image"
-              className="rounded-full p-1"
+              className="rounded-full"
             />
             <AvatarFallback>
               {nameArray?.map((name) => name[0]).join("")}

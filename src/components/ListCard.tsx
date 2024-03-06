@@ -6,6 +6,13 @@ import { Badge } from "./ui/badge";
 import { ListWithUser } from "@/app/api/lists/[id]/route";
 import { useQuery } from "@tanstack/react-query";
 import { gameIdsToQuery } from "@/lib/helpers";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import { EyeNoneIcon } from "@radix-ui/react-icons";
 
 export default function ListCard({ list }: { list: ListWithUser }) {
   const { data: items } = useQuery({
@@ -45,21 +52,36 @@ export default function ListCard({ list }: { list: ListWithUser }) {
       </Link>
       <div className="mt-2 space-y-2">
         {/* List name */}
-        <Link href={`/lists/${list.id}`} className="font-bold hover:underline">
-          {list.name} {list.isPrivate && <Badge>Private</Badge>}
+        <Link
+          href={`/lists/${list.id}`}
+          className="flex items-center gap-1 font-bold hover:underline"
+        >
+          <span>{list.name}</span>
+          {list.isPrivate && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <EyeNoneIcon />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Private</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </Link>
         {/* List owner */}
         <Link
           href={`/user/${list.userId}`}
-          className="group flex w-fit items-center gap-2 text-xs"
+          className="group flex w-fit items-center gap-1 text-xs"
         >
           <Image
             src={list.User?.image || ""}
-            alt="user image"
+            alt=""
             width={16}
             height={16}
             className="rounded-full ring-primary transition group-hover:ring-2"
-          ></Image>
+          />
           <span>{list.User?.name}</span>
         </Link>
       </div>

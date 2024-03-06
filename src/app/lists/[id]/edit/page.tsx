@@ -1,12 +1,14 @@
 "use client";
 
 import { ListWithUser } from "@/app/api/lists/[id]/route";
+import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,6 +20,8 @@ export default function EditList({ params }: { params: { id: string } }) {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const [isPrivate, setIsPrivate] = useState(false);
 
   const { data: list, isLoading } = useQuery<ListWithUser>({
@@ -37,7 +41,13 @@ export default function EditList({ params }: { params: { id: string } }) {
     mutationFn: async () => {
       const res = await fetch(`/api/lists/${params.id}`, {
         method: "PUT",
-        body: JSON.stringify({ id: params.id, name, description, isPrivate }),
+        body: JSON.stringify({
+          id: params.id,
+          name,
+          description,
+          tags,
+          isPrivate,
+        }),
       });
 
       if (!res.ok) {
@@ -61,9 +71,18 @@ export default function EditList({ params }: { params: { id: string } }) {
     if (!!list) {
       setName(list.name);
       setDescription(list.description);
+      setTags(list.tags);
       setIsPrivate(list.isPrivate);
     }
   }, [isLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[calc(100vh-8rem)] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   const isAuthorized = list?.userId === session?.user.id;
   if (!isAuthorized) {
@@ -98,6 +117,39 @@ export default function EditList({ params }: { params: { id: string } }) {
             onChange={(e) => setDescription(e.target.value)}
             className="max-w-xs"
           />
+        </div>
+        <div>
+          <Label htmlFor="tags">Tags</Label>
+          <div className="flex w-full max-w-sm items-center space-x-2">
+            <Input
+              name="tags"
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              className="max-w-xs"
+            />
+            <Button
+              type="button"
+              onClick={() => {
+                setTags((prev) => Array.from(new Set([...prev, tagInput])));
+                setTagInput("");
+              }}
+            >
+              Add
+            </Button>
+          </div>
+          <div className="mt-4 flex gap-2">
+            {tags.map((tag) => (
+              <Badge
+                key={`key-${tag}`}
+                variant={"outline"}
+                className="cursor-pointer ring-red-500 hover:ring-1"
+                onClick={() => setTags((prev) => prev.filter((e) => e !== tag))}
+              >
+                {tag}
+              </Badge>
+            ))}
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Label htmlFor="private">Private</Label>

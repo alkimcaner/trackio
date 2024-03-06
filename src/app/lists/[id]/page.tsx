@@ -12,10 +12,16 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { ListWithUser } from "@/app/api/lists/[id]/route";
 import { gameIdsToQuery } from "@/lib/helpers";
-import { Pencil2Icon } from "@radix-ui/react-icons";
+import { EyeNoneIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { formatDistance, parseISO } from "date-fns";
 import { useMemo } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function List({ params }: { params: { id: string } }) {
   const { data: list, isLoading } = useQuery<ListWithUser>({
@@ -76,11 +82,22 @@ export default function List({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <section className="space-y-1">
+      <section className="space-y-2">
         <div className="flex items-center gap-4">
           {/* List name */}
           <h1 className="text-2xl font-bold lg:text-3xl">{list.name}</h1>
-          {list.isPrivate && <Badge>Private</Badge>}
+          {list.isPrivate && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <EyeNoneIcon />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Private</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
 
           {/* Edit or delete list */}
           {isAuthorized && (
@@ -107,7 +124,7 @@ export default function List({ params }: { params: { id: string } }) {
           >
             <Image
               src={list.User?.image || ""}
-              alt="user image"
+              alt=""
               width={16}
               height={16}
               className="rounded-full ring-primary transition group-hover:ring-2"
@@ -116,8 +133,17 @@ export default function List({ params }: { params: { id: string } }) {
           </Link>
         </div>
 
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2">
+          {list.tags.map((tag) => (
+            <Badge variant={"outline"} key={`tag-${tag}`}>
+              {tag}
+            </Badge>
+          ))}
+        </div>
+
         {/* List description */}
-        <p className="text-muted-foreground">{list.description}</p>
+        <p className="pt-4 text-muted-foreground">{list.description}</p>
       </section>
       <Separator />
       <section>

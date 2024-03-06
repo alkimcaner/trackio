@@ -43,6 +43,7 @@ export async function PUT(req: NextRequest) {
       !body.id ||
       !body.name ||
       !body.description ||
+      !body.tags ||
       body.isPrivate == null
     ) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -56,6 +57,7 @@ export async function PUT(req: NextRequest) {
       data: {
         name: body.name,
         description: body.description,
+        tags: body.tags,
         isPrivate: body.isPrivate,
         userId: session.user.id,
       },
