@@ -12,6 +12,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { ListWithUser } from "@/app/api/lists/[id]/route";
 import { gameIdsToQuery } from "@/lib/helpers";
+import { Pencil2Icon } from "@radix-ui/react-icons";
+import { buttonVariants } from "@/components/ui/button";
+import { formatDistance, parseISO } from "date-fns";
+import { useMemo } from "react";
 
 export default function List({ params }: { params: { id: string } }) {
   const { data: list, isLoading } = useQuery<ListWithUser>({
@@ -26,6 +30,11 @@ export default function List({ params }: { params: { id: string } }) {
       return res.json();
     },
   });
+
+  const formattedDate = useMemo(() => {
+    const date = list?.createdAt ? parseISO(list.createdAt as any) : new Date();
+    return formatDistance(date, new Date(), { addSuffix: true });
+  }, [list?.createdAt]);
 
   const { data: items } = useQuery({
     queryKey: ["list", params.id, "items"],
@@ -66,45 +75,58 @@ export default function List({ params }: { params: { id: string } }) {
   }
 
   return (
-    <section className="space-y-4">
-      <div>
+    <>
+      <section className="space-y-1">
         <div className="flex items-center gap-4">
           {/* List name */}
-          <h1 className="text-2xl font-bold">{list.name}</h1>
+          <h1 className="text-2xl font-bold lg:text-3xl">{list.name}</h1>
           {list.isPrivate && <Badge>Private</Badge>}
+
           {/* Edit or delete list */}
           {isAuthorized && (
-            <>
-              <Link href={`/lists/${list.id}/edit`} className="ml-auto">
-                Edit
+            <div className="ml-auto space-x-2">
+              <Link
+                href={`/lists/${list.id}/edit`}
+                className={buttonVariants({ variant: "ghost", size: "icon" })}
+              >
+                <Pencil2Icon />
               </Link>
               <DeleteListDialog listId={list.id} />
-            </>
+            </div>
           )}
         </div>
-        {/* List owner */}
-        <Link
-          href={`/user/${list.userId}`}
-          className="group mt-1 flex w-fit items-center gap-2 text-xs"
-        >
-          <Image
-            src={list.User?.image || ""}
-            alt="user image"
-            width={16}
-            height={16}
-            className="rounded-full ring-primary transition group-hover:ring-2"
-          ></Image>
-          <span>{list.User?.name}</span>
-        </Link>
-      </div>
-      {/* List description */}
-      <p className="text-muted-foreground">{list.description}</p>
+
+        <div className="flex items-center gap-4">
+          {/* Created at */}
+          <div className="text-xs text-muted-foreground">{formattedDate}</div>
+
+          {/* List owner */}
+          <Link
+            href={`/user/${list.userId}`}
+            className="group flex w-fit items-center gap-1 py-1 text-xs"
+          >
+            <Image
+              src={list.User?.image || ""}
+              alt="user image"
+              width={16}
+              height={16}
+              className="rounded-full ring-primary transition group-hover:ring-2"
+            />
+            <span>{list.User?.name}</span>
+          </Link>
+        </div>
+
+        {/* List description */}
+        <p className="text-muted-foreground">{list.description}</p>
+      </section>
       <Separator />
-      <ResponsiveGrid>
-        {items?.map((item: any) => (
-          <GameCard key={item.id} game={item} />
-        ))}
-      </ResponsiveGrid>
-    </section>
+      <section>
+        <ResponsiveGrid>
+          {items?.map((item: any) => (
+            <GameCard key={item.id} game={item} />
+          ))}
+        </ResponsiveGrid>
+      </section>
+    </>
   );
 }

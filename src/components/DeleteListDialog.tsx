@@ -12,6 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { TrashIcon } from "@radix-ui/react-icons";
 import { useMutation } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -40,7 +41,9 @@ export function DeleteListDialog({ listId }: { listId: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>Delete</Button>
+        <Button variant="destructive" size="icon">
+          <TrashIcon />
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
