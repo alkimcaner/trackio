@@ -16,10 +16,24 @@ import {
   PersonIcon,
 } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useMemo } from "react";
 
 export default function AuthNav() {
   const { data: session } = useSession();
-  const nameArray = session?.user?.name?.split(" ");
+
+  const nameArray = useMemo(
+    () => session?.user?.name?.split(" "),
+    [session?.user.name]
+  );
+
+  const nameInitials = useMemo(
+    () =>
+      session?.user?.name
+        ?.split(" ")
+        .map((name) => name[0])
+        .join(""),
+    [session?.user.name]
+  );
 
   if (!session) {
     return <Button onClick={() => signIn("google")}>Sign In</Button>;
@@ -35,9 +49,7 @@ export default function AuthNav() {
               alt="Profile image"
               className="rounded-full"
             />
-            <AvatarFallback>
-              {nameArray?.map((name) => name[0]).join("")}
-            </AvatarFallback>
+            <AvatarFallback>{nameInitials}</AvatarFallback>
           </Avatar>
           <span className="hidden text-sm sm:inline">{nameArray?.at(0)}</span>
         </DropdownMenuTrigger>

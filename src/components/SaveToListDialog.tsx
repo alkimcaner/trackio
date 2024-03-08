@@ -16,6 +16,7 @@ import ListCheckbox from "./ListCheckbox";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { ListWithUser } from "@/app/api/lists/[id]/route";
+import { UserWithLists } from "@/app/api/user/[id]/route";
 
 export default function SaveToListDialog({
   gameId,
@@ -26,10 +27,10 @@ export default function SaveToListDialog({
 }) {
   const { data: session } = useSession();
 
-  const { data: lists } = useQuery<ListWithUser[]>({
-    queryKey: ["userLists", session?.user.id],
+  const { data: user } = useQuery<UserWithLists>({
+    queryKey: ["user", session?.user.id],
     queryFn: async () => {
-      const res = await fetch(`/api/user/${session?.user.id}/lists`);
+      const res = await fetch(`/api/user/${session?.user.id}`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch");
@@ -61,7 +62,7 @@ export default function SaveToListDialog({
           <DialogTitle>Save To List</DialogTitle>
         </DialogHeader>
         <div className="mt-4 flex flex-col gap-6">
-          {lists?.map((list) => (
+          {user?.lists.map((list) => (
             <ListCheckbox
               key={`checkbox-${list.id}`}
               gameId={gameId}

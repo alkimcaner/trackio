@@ -1,18 +1,36 @@
 import { auth } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
+import { List, PrismaClient, User } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
+import { ListWithUser } from "../../lists/[id]/route";
+
+export type UserWithLists = User & { lists: ListWithUser[] };
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const session = await auth();
+    if (!params.id) return NextResponse.json({});
 
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    const session = await auth();
 
     const user = await prisma.user.findUnique({
       where: {
-        id: session.user.id,
+        id: params.id,
+      },
+      include: {
+        lists: {
+          where: {
+            userId: params.id,
+            OR: [{ isPrivate: false }, { userId: session?.user.id }],
+          },
+          orderBy: {
+            name: "asc",
+          },
+          include: { User: true },
+        },
       },
     });
 

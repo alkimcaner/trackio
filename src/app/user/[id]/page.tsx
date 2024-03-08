@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function User({ params }: { params: { id: string } }) {
-  return <div>User: {params.id}</div>;
+  redirect(`/user/${params.id}/lists`);
 }

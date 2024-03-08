@@ -24,13 +24,13 @@ export default function ListCheckbox({
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["userLists", session?.user.id],
+        queryKey: ["user", session?.user.id],
       });
     },
   });
 
   const isListsLoading = queryClient.isFetching({
-    queryKey: ["userLists", session?.user.id],
+    queryKey: ["user", session?.user.id],
   });
 
   return (
