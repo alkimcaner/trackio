@@ -5,23 +5,19 @@ import GameCard from "@/components/GameCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { ListWithUser } from "@/app/api/lists/[id]/route";
 import { gameIdsToQuery } from "@/lib/helpers";
 import { EyeNoneIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { formatDistance, parseISO } from "date-fns";
 import { useMemo } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Movie } from "@/types/movies";
+import { ListWithUser } from "@/types/list";
+import MovieCard from "@/components/MovieCard";
 
 export default function List({ params }: { params: { id: string } }) {
   const { data: list, isLoading } = useQuery<ListWithUser>({
@@ -42,14 +38,23 @@ export default function List({ params }: { params: { id: string } }) {
     return formatDistance(date, new Date(), { addSuffix: true });
   }, [list?.createdAt]);
 
-  const { data: items } = useQuery({
-    queryKey: ["list", params.id, "items"],
+  const nameInitials = useMemo(
+    () =>
+      list?.User.name
+        ?.split(" ")
+        .map((name) => name[0])
+        .join(""),
+    [list?.User.name]
+  );
+
+  const { data: games } = useQuery({
+    queryKey: ["list", params.id, "games"],
     queryFn: async () => {
-      if (!list?.items.length) return [];
+      if (!list?.gameIds.length) return [];
 
       const res = await fetch("/api/games", {
         method: "POST",
-        body: gameIdsToQuery(list?.items),
+        body: gameIdsToQuery(list?.gameIds),
       });
 
       if (!res.ok) {
@@ -57,6 +62,28 @@ export default function List({ params }: { params: { id: string } }) {
       }
 
       return res.json();
+    },
+    enabled: !!list,
+  });
+
+  const { data: movies } = useQuery<Movie[]>({
+    queryKey: ["list", params.id, "movies"],
+    queryFn: async () => {
+      if (!list?.gameIds.length) return [];
+
+      const movies = await Promise.all(
+        list.movieIds.map(async (movieId) => {
+          const res = await fetch(`/api/movies/${movieId}`);
+
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+
+          return res.json();
+        })
+      );
+
+      return movies;
     },
     enabled: !!list,
   });
@@ -82,21 +109,14 @@ export default function List({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <section className="space-y-2">
+      <section>
         <div className="flex items-center gap-4">
           {/* List name */}
-          <h1 className="text-2xl font-bold lg:text-3xl">{list.name}</h1>
+          <h1 className="text-2xl font-bold">{list.name}</h1>
           {list.isPrivate && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <EyeNoneIcon />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Private</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Badge className="gap-1">
+              <EyeNoneIcon /> Private
+            </Badge>
           )}
 
           {/* Edit or delete list */}
@@ -122,13 +142,12 @@ export default function List({ params }: { params: { id: string } }) {
             href={`/user/${list.userId}`}
             className="group flex w-fit items-center gap-1 py-1 text-xs"
           >
-            <Image
-              src={list.User?.image || ""}
-              alt=""
-              width={16}
-              height={16}
-              className="rounded-full ring-primary transition group-hover:ring-2"
-            />
+            <Avatar className="h-4 w-4 ring-primary transition group-hover:ring-2">
+              <AvatarImage src={list.User.image || ""} alt="Profile image" />
+              <AvatarFallback className="text-xs">
+                {nameInitials}
+              </AvatarFallback>
+            </Avatar>
             <span>{list.User?.name}</span>
           </Link>
         </div>
@@ -143,13 +162,17 @@ export default function List({ params }: { params: { id: string } }) {
         </div>
 
         {/* List description */}
-        <p className="pt-4 text-muted-foreground">{list.description}</p>
+        <p className="mt-6 text-muted-foreground">{list.description}</p>
       </section>
       <Separator />
       <section>
         <ResponsiveGrid>
-          {items?.map((item: any) => (
-            <GameCard key={item.id} game={item} />
+          {games?.map((game: any) => (
+            <GameCard key={game.id} game={game} />
+          ))}
+
+          {movies?.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
           ))}
         </ResponsiveGrid>
       </section>

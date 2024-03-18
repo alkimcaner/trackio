@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "./ui/carousel";
 
-export default function ImageSlider({ images }: any) {
+export default function ImageSlider({ images }: { images: string[] }) {
   return (
     <Carousel
       plugins={[
@@ -20,14 +20,14 @@ export default function ImageSlider({ images }: any) {
       ]}
     >
       <CarouselContent>
-        {images?.map((image: any) => (
-          <CarouselItem key={image.id}>
+        {images?.map((image) => (
+          <CarouselItem key={image}>
             <SliderImage image={image} />
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="hidden lg:inline-flex" />
-      <CarouselNext className="hidden lg:inline-flex" />
+      <CarouselPrevious className="hidden xl:inline-flex" />
+      <CarouselNext className="hidden xl:inline-flex" />
     </Carousel>
   );
 }

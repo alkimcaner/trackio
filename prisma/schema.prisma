@@ -58,12 +58,14 @@ model VerificationToken {
 
 model List {
   id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
   name        String
   description String
   isPrivate   Boolean  @default(false)
-  items       String[]
   tags        String[]
-  createdAt   DateTime @default(now())
+  gameIds     String[]
+  movieIds    String[]
+  tvIds       String[]
   User        User?    @relation(fields: [userId], references: [id])
   userId      String?
 }

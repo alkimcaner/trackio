@@ -5,13 +5,13 @@ import { Label } from "./ui/label";
 import { Badge } from "./ui/badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { ListWithUser } from "@/app/api/lists/[id]/route";
+import { ListType, ListWithUser } from "@/types/list";
 
 export default function ListCheckbox({
-  gameId,
+  item,
   list,
 }: {
-  gameId: string;
+  item: { id: string; type: string };
   list: ListWithUser;
 }) {
   const { data: session } = useSession();
@@ -20,7 +20,7 @@ export default function ListCheckbox({
     mutationFn: () =>
       fetch(`/api/lists/${list.id}/save`, {
         method: "POST",
-        body: JSON.stringify({ gameId: gameId }),
+        body: JSON.stringify(item),
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -33,11 +33,21 @@ export default function ListCheckbox({
     queryKey: ["user", session?.user.id],
   });
 
+  let isChecked = false;
+
+  if (item.type === ListType.Game) {
+    isChecked = list.gameIds.includes(item.id);
+  } else if (item.type === ListType.Movie) {
+    isChecked = list.movieIds.includes(item.id);
+  } else if (item.type === ListType.TV) {
+    isChecked = list.tvIds.includes(item.id);
+  }
+
   return (
     <div key={list.id} className="flex items-center gap-4">
       <Checkbox
         id={`checkbox-${list.id}`}
-        checked={list.items.includes(gameId)}
+        checked={isChecked}
         disabled={mutation.isPending || !!isListsLoading}
         onClick={() => mutation.mutate()}
         className="disabled:cursor-wait"

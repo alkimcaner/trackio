@@ -49,7 +49,7 @@ export default function AuthNav() {
               alt="Profile image"
               className="rounded-full"
             />
-            <AvatarFallback>{nameInitials}</AvatarFallback>
+            <AvatarFallback className="text-xs">{nameInitials}</AvatarFallback>
           </Avatar>
           <span className="hidden text-sm sm:inline">{nameArray?.at(0)}</span>
         </DropdownMenuTrigger>

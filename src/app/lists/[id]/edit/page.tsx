@@ -1,12 +1,12 @@
 "use client";
 
-import { ListWithUser } from "@/app/api/lists/[id]/route";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { ListWithUser } from "@/types/movies";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";

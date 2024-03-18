@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Skeleton } from "./ui/skeleton";
 
-export default function SliderImage({ image }: any) {
+export default function SliderImage({ image }: { image: string }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -13,7 +13,7 @@ export default function SliderImage({ image }: any) {
     <>
       {!isLoaded && <Skeleton className="aspect-video w-full" />}
       <Image
-        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${image?.image_id}.jpg`}
+        src={image}
         width={1920}
         height={1080}
         alt="Screenshot"

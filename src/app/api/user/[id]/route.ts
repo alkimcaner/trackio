@@ -1,9 +1,6 @@
 import { auth } from "@/lib/auth";
-import { List, PrismaClient, User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { ListWithUser } from "../../lists/[id]/route";
-
-export type UserWithLists = User & { lists: ListWithUser[] };
 
 const prisma = new PrismaClient();
 

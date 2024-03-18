@@ -2,10 +2,13 @@
 
 import NavLink from "@/components/NavLink";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { User } from "@prisma/client";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useMemo } from "react";
 
 export default function RootLayout({
@@ -39,16 +42,16 @@ export default function RootLayout({
 
   return (
     <div>
-      <header className="space-y-8 py-4">
+      <header className="space-y-4 py-4">
         <div className="flex items-center gap-4">
           {isLoading ? (
             <>
-              <Skeleton className="h-24 w-24 rounded-full" />
+              <Skeleton className="h-20 w-20 rounded-full" />
               <Skeleton className="h-8 w-64 rounded-full" />
             </>
           ) : (
             <>
-              <Avatar className="h-24 w-24">
+              <Avatar className="h-20 w-20">
                 <AvatarImage
                   src={user?.image || ""}
                   alt="Profile image"
@@ -64,10 +67,19 @@ export default function RootLayout({
         <nav className="flex gap-2">
           <NavLink href={`/user/${params.id}/lists`}>Lists</NavLink>
           <NavLink href={`/user/${params.id}/reviews`}>Reviews</NavLink>
+          <Link
+            href="/lists/create"
+            className={`${buttonVariants({
+              variant: "ghost",
+            })} ml-auto gap-2`}
+          >
+            <PlusIcon />
+            Create new list
+          </Link>
         </nav>
-      </header>
 
-      <Separator />
+        <Separator />
+      </header>
 
       {children}
     </div>

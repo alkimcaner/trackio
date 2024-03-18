@@ -3,10 +3,7 @@
 import { Button } from "./ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -15,15 +12,14 @@ import { ListBulletIcon } from "@radix-ui/react-icons";
 import ListCheckbox from "./ListCheckbox";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { ListWithUser } from "@/app/api/lists/[id]/route";
-import { UserWithLists } from "@/app/api/user/[id]/route";
+import { UserWithLists } from "@/types/list";
 
 export default function SaveToListDialog({
-  gameId,
   icon,
+  item,
 }: {
-  gameId: string;
   icon?: boolean;
+  item: { id: string; type: string };
 }) {
   const { data: session } = useSession();
 
@@ -51,7 +47,7 @@ export default function SaveToListDialog({
             <ListBulletIcon />
           </Button>
         ) : (
-          <Button variant={"default"} className="min-w-fit">
+          <Button className="w-fit">
             <ListBulletIcon className="mr-2 h-4 w-4" />
             <span>Save To List</span>
           </Button>
@@ -63,11 +59,7 @@ export default function SaveToListDialog({
         </DialogHeader>
         <div className="mt-4 flex flex-col gap-6">
           {user?.lists.map((list) => (
-            <ListCheckbox
-              key={`checkbox-${list.id}`}
-              gameId={gameId}
-              list={list}
-            />
+            <ListCheckbox key={`checkbox-${list.id}`} item={item} list={list} />
           ))}
         </div>
       </DialogContent>

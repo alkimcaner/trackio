@@ -1,22 +1,33 @@
 import GameCard from "@/components/GameCard";
+import MovieCard from "@/components/MovieCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
-import { getGames } from "@/lib/rsc-queries";
+import { getGames, getPopularMovies } from "@/lib/rsc-queries";
 
 export default async function Home() {
+  const popularMovies = await getPopularMovies(1);
+
   const bestGames = await getGames(
-    "fields *,cover.*; where total_rating_count > 100; sort total_rating desc; limit 4;"
+    "fields *,cover.*; where total_rating_count > 50; sort total_rating desc; limit 12;"
   );
 
   const ps4Games = await getGames(
-    "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {48}; sort total_rating desc; limit 4;"
+    "fields *,cover.*; where total_rating_count > 50 & category = 0 & platforms = 48; sort total_rating desc; limit 12;"
   );
 
   const nsGames = await getGames(
-    "fields *,cover.*; where total_rating_count > 100 & category = 0 & platforms = {130}; sort total_rating desc; limit 4;"
+    "fields *,cover.*; where total_rating_count > 50 & category = 0 & platforms = {130}; sort total_rating desc; limit 12;"
   );
 
   return (
     <section className="space-y-8">
+      <div>
+        <h1 className="mb-4 text-lg">Popular Movies</h1>
+        <ResponsiveGrid>
+          {popularMovies?.results.slice(0, 12).map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </ResponsiveGrid>
+      </div>
       <div>
         <h1 className="mb-4 text-lg">Best Games</h1>
         <ResponsiveGrid>
