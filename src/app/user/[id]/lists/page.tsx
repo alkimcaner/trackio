@@ -2,7 +2,7 @@
 
 import ListCard from "@/components/ListCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
-import { UserWithLists } from "@/types/movies";
+import { UserWithLists } from "@/types/list";
 import { useQuery } from "@tanstack/react-query";
 
 export default function UserLists({ params }: { params: { id: string } }) {

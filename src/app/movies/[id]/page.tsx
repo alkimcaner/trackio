@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { format, fromUnixTime } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { ExternalLinkIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import ImageSlider from "@/components/ImageSlider";
 import SaveToListDialog from "@/components/SaveToListDialog";
@@ -12,11 +12,12 @@ export default async function Movie({ params }: { params: { id: string } }) {
 
   if (!movie) return null;
 
-  const screenshots = movie.images?.posters.map(
+  const screenshots = movie.images?.backdrops.map(
     (image) => `https://image.tmdb.org/t/p/original${image.file_path}`
   );
 
-  // const formattedDate = format(movie.release_date, "MMM dd, yyyy");
+  const date = parseISO(movie.release_date);
+  const formattedDate = format(date, "MMM dd, yyyy");
   return (
     <>
       <Image
@@ -56,6 +57,11 @@ export default async function Movie({ params }: { params: { id: string } }) {
           <div>
             <div className="font-bold">Summary</div>
             <p>{movie.overview}</p>
+          </div>
+
+          <div>
+            <div className="font-semibold">Release Date</div>
+            <div className="text-muted-foreground">{formattedDate}</div>
           </div>
         </div>
       </section>

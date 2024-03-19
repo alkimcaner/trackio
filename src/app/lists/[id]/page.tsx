@@ -18,6 +18,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Movie } from "@/types/movies";
 import { ListWithUser } from "@/types/list";
 import MovieCard from "@/components/MovieCard";
+import { TV } from "@/types/tv";
+import TVCard from "@/components/TVCard";
 
 export default function List({ params }: { params: { id: string } }) {
   const { data: list, isLoading } = useQuery<ListWithUser>({
@@ -69,11 +71,33 @@ export default function List({ params }: { params: { id: string } }) {
   const { data: movies } = useQuery<Movie[]>({
     queryKey: ["list", params.id, "movies"],
     queryFn: async () => {
-      if (!list?.gameIds.length) return [];
+      if (!list?.movieIds.length) return [];
 
       const movies = await Promise.all(
         list.movieIds.map(async (movieId) => {
           const res = await fetch(`/api/movies/${movieId}`);
+
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+
+          return res.json();
+        })
+      );
+
+      return movies;
+    },
+    enabled: !!list,
+  });
+
+  const { data: tvShows } = useQuery<TV[]>({
+    queryKey: ["list", params.id, "tv"],
+    queryFn: async () => {
+      if (!list?.tvIds.length) return [];
+
+      const movies = await Promise.all(
+        list.tvIds.map(async (tvId) => {
+          const res = await fetch(`/api/tv/${tvId}`);
 
           if (!res.ok) {
             throw new Error("Failed to fetch");
@@ -173,6 +197,10 @@ export default function List({ params }: { params: { id: string } }) {
 
           {movies?.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
+          ))}
+
+          {tvShows?.map((tv) => (
+            <TVCard key={tv.id} tv={tv} />
           ))}
         </ResponsiveGrid>
       </section>

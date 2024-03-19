@@ -22,7 +22,6 @@ export default function MovieCard({ movie }: { movie: Movie }) {
             width={480}
             height={640}
             className="object-cover transition duration-500 will-change-transform group-hover:scale-105"
-            priority
           />
         </div>
       </Link>

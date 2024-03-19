@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Providers from "@/app/providers";
+import Footer from "@/components/Footer";
 
 export const dynamic = "force-static";
 
@@ -21,12 +22,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={poppins.className}>
+      <body className={`${poppins.className} flex min-h-screen flex-col`}>
         <Providers>
           <Navbar />
           <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
             {children}
           </main>
+          <Footer />
         </Providers>
       </body>
     </html>

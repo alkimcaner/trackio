@@ -1,6 +1,7 @@
 import { get } from "@vercel/edge-config";
 import { Movie } from "../types/movies";
 import { PopularMovies } from "@/types/movies";
+import { PopularTV, TV } from "@/types/tv";
 
 export const getGames = async (payload: string) => {
   try {
@@ -68,6 +69,56 @@ export const getPopularMovies = async (page: number) => {
     }
 
     return res.json() as Promise<PopularMovies>;
+  } catch (error) {
+    console.error(error);
+    return;
+  }
+};
+
+export const getTV = async (id: string) => {
+  try {
+    const url = `https://api.themoviedb.org/3/tv/${id}?language=en&append_to_response=images,videos`;
+
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+      },
+    };
+
+    const res = await fetch(url, options);
+
+    if (!res.ok) {
+      throw new Error("Failed to reach TMDB API");
+    }
+
+    return res.json() as Promise<TV>;
+  } catch (error) {
+    console.error(error);
+    return;
+  }
+};
+
+export const getPopularTV = async (page: number) => {
+  try {
+    const url = `https://api.themoviedb.org/3/tv/popular?language=en&page=${page}`;
+
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+      },
+    };
+
+    const res = await fetch(url, options);
+
+    if (!res.ok) {
+      throw new Error("Failed to reach TMDB API");
+    }
+
+    return res.json() as Promise<PopularTV>;
   } catch (error) {
     console.error(error);
     return;
