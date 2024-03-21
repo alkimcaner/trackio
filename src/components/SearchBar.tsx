@@ -26,57 +26,73 @@ export default function SearchBar() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [tv, setTV] = useState<TV[]>([]);
 
-  const handleSearch = useCallback(async () => {
-    if (!searchInput) return [];
-
-    if (searchType === "game") {
-      const res = await fetch("/api/games", {
-        method: "POST",
-        body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch");
+  const handleSearch = useCallback(
+    async (searchType: string, searchInput: string) => {
+      if (!searchInput) {
+        setGames([]);
+        setMovies([]);
+        setTV([]);
+        return;
       }
 
-      const data = await res.json();
-      setGames(data);
-      setMovies([]);
-      setTV([]);
-    } else if (searchType === "movie") {
-      const res = await fetch(`/api/search/movie?query=${searchInput}`);
+      if (searchType === "game") {
+        const res = await fetch("/api/games", {
+          method: "POST",
+          body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
+        });
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch");
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+
+        const data = await res.json();
+        setGames(data);
+        setMovies([]);
+        setTV([]);
+      } else if (searchType === "movie") {
+        const res = await fetch(`/api/search/movie?query=${searchInput}`);
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+        const data = await res.json();
+
+        setMovies(
+          data.results.sort((a: any, b: any) => b.popularity - a.popularity)
+        );
+        setGames([]);
+        setTV([]);
+      } else if (searchType === "tv") {
+        const res = await fetch(`/api/search/tv?query=${searchInput}`);
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+
+        const data = await res.json();
+
+        setTV(
+          data.results.sort((a: any, b: any) => b.popularity - a.popularity)
+        );
+        setGames([]);
+        setMovies([]);
+      } else {
+        setGames([]);
+        setMovies([]);
+        setTV([]);
       }
-      const data = await res.json();
-
-      setMovies(
-        data.results.sort((a: any, b: any) => b.popularity - a.popularity)
-      );
-      setGames([]);
-      setTV([]);
-    } else if (searchType === "tv") {
-      const res = await fetch(`/api/search/tv?query=${searchInput}`);
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch");
-      }
-
-      const data = await res.json();
-
-      setTV(data.results.sort((a: any, b: any) => b.popularity - a.popularity));
-      setGames([]);
-      setMovies([]);
-    } else {
-      return [];
-    }
-  }, [searchInput, searchType]);
+    },
+    []
+  );
 
   const debouncedSearch = useMemo(
     () => debounce(handleSearch, 500),
     [handleSearch]
   );
+
+  useEffect(() => {
+    debouncedSearch(searchType, searchInput);
+  }, [searchInput, searchType]);
 
   const handleSubmitSearch = (e: any) => {
     e.preventDefault();
@@ -94,10 +110,6 @@ export default function SearchBar() {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
-
-  useEffect(() => {
-    debouncedSearch();
-  }, [searchInput, searchType]);
 
   return (
     <div className="relative mx-auto max-w-sm">
