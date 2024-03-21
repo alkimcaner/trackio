@@ -1,27 +1,35 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
-import { Input } from "./ui/input";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { debounce } from "@/lib/helpers";
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Movie } from "@/types/movies";
+import { TV } from "@/types/tv";
 
 export default function SearchBar() {
   const router = useRouter();
   const domRef = useRef<HTMLFormElement>(null);
   const [isResultsVisible, setIsResultsVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [searchType, setSearchType] = useState("game");
+  const [games, setGames] = useState<any[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [tv, setTV] = useState<TV[]>([]);
 
-  const {
-    data: searchResults,
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: ["search"],
-    queryFn: async () => {
-      if (!searchInput) return [];
+  const handleSearch = useCallback(async () => {
+    if (!searchInput) return [];
 
+    if (searchType === "game") {
       const res = await fetch("/api/games", {
         method: "POST",
         body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
@@ -31,16 +39,49 @@ export default function SearchBar() {
         throw new Error("Failed to fetch");
       }
 
-      return res.json();
-    },
-  });
+      const data = await res.json();
+      setGames(data);
+      setMovies([]);
+      setTV([]);
+    } else if (searchType === "movie") {
+      const res = await fetch(`/api/search/movie?query=${searchInput}`);
 
-  const debouncedRefetch = useMemo(() => debounce(refetch, 500), [refetch]);
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+      const data = await res.json();
+
+      setMovies(
+        data.results.sort((a: any, b: any) => b.popularity - a.popularity)
+      );
+      setGames([]);
+      setTV([]);
+    } else if (searchType === "tv") {
+      const res = await fetch(`/api/search/tv?query=${searchInput}`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch");
+      }
+
+      const data = await res.json();
+
+      setTV(data.results.sort((a: any, b: any) => b.popularity - a.popularity));
+      setGames([]);
+      setMovies([]);
+    } else {
+      return [];
+    }
+  }, [searchInput, searchType]);
+
+  const debouncedSearch = useMemo(
+    () => debounce(handleSearch, 500),
+    [handleSearch]
+  );
 
   const handleSubmitSearch = (e: any) => {
     e.preventDefault();
     setIsResultsVisible(false);
-    router.push(`/games?q=${searchInput}`);
+    router.push(`/search?q=${searchInput}&type=${searchType}`);
   };
 
   // Click outside
@@ -55,44 +96,83 @@ export default function SearchBar() {
   }, []);
 
   useEffect(() => {
-    debouncedRefetch();
-  }, [searchInput]);
+    debouncedSearch();
+  }, [searchInput, searchType]);
 
   return (
-    <form
-      onSubmit={handleSubmitSearch}
-      ref={domRef}
-      className="relative mx-auto flex w-full max-w-xs items-center gap-2"
-    >
-      <Input
-        value={searchInput}
-        onFocus={() => setIsResultsVisible(true)}
-        onChange={(e) => {
-          setIsResultsVisible(true);
-          setSearchInput(e.target.value);
-        }}
-        placeholder="Search"
-        className="bg-transparent"
-      />
+    <div className="relative mx-auto max-w-sm">
+      <form
+        onSubmit={handleSubmitSearch}
+        ref={domRef}
+        className="flex border-collapse overflow-hidden rounded-lg border"
+      >
+        <Select
+          value={searchType}
+          onValueChange={(value) => setSearchType(value)}
+        >
+          <SelectTrigger className="w-[90px] border-0 outline-none focus:ring-0 focus:ring-offset-0">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="game">Game</SelectItem>
+            <SelectItem value="movie">Movie</SelectItem>
+            <SelectItem value="tv">TV</SelectItem>
+          </SelectContent>
+        </Select>
+        <input
+          value={searchInput}
+          onFocus={() => setIsResultsVisible(true)}
+          onChange={(e) => {
+            setIsResultsVisible(true);
+            setSearchInput(e.target.value);
+          }}
+          placeholder="Search"
+          className="bg-transparent px-2 py-1 text-sm outline-none"
+        />
+        <Button className="rounded-none">
+          <MagnifyingGlassIcon />
+        </Button>
+      </form>
+
       {isResultsVisible && (
         <div className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border bg-popover text-sm shadow-lg">
           <div className="flex max-h-96 flex-col gap-1 overflow-y-scroll p-1">
-            {!searchResults?.length && (
+            {!games.length && !movies.length && !tv.length && (
               <span className="p-1">There are no results</span>
             )}
-            {searchResults?.map((e: any) => (
+            {games?.map((game) => (
               <Link
-                key={e.id}
+                key={game.id}
                 onClick={() => setIsResultsVisible(false)}
-                href={`/games/${e.slug}`}
+                href={`/games/${game.slug}`}
                 className="w-full rounded-sm p-2 hover:bg-primary/10"
               >
-                {e.name}
+                {game.name}
+              </Link>
+            ))}
+            {movies?.map((movie) => (
+              <Link
+                key={movie.id}
+                onClick={() => setIsResultsVisible(false)}
+                href={`/movies/${movie.id}`}
+                className="w-full rounded-sm p-2 hover:bg-primary/10"
+              >
+                {movie.title}
+              </Link>
+            ))}
+            {tv?.map((show) => (
+              <Link
+                key={show.id}
+                onClick={() => setIsResultsVisible(false)}
+                href={`/tv/${show.id}`}
+                className="w-full rounded-sm p-2 hover:bg-primary/10"
+              >
+                {show.name}
               </Link>
             ))}
           </div>
         </div>
       )}
-    </form>
+    </div>
   );
 }

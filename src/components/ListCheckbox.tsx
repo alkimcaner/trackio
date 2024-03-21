@@ -6,6 +6,7 @@ import { Badge } from "./ui/badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { ListType, ListWithUser } from "@/types/list";
+import { EyeNoneIcon } from "@radix-ui/react-icons";
 
 export default function ListCheckbox({
   item,
@@ -58,7 +59,11 @@ export default function ListCheckbox({
       >
         {list.name}
       </Label>
-      {list?.isPrivate && <Badge variant={"secondary"}>Private</Badge>}
+      {list.isPrivate && (
+        <Badge className="w-fit gap-1">
+          <EyeNoneIcon /> Private
+        </Badge>
+      )}
     </div>
   );
 }
