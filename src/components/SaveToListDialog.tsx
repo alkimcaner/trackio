@@ -47,7 +47,7 @@ export default function SaveToListDialog({
             <ListBulletIcon />
           </Button>
         ) : (
-          <Button className="w-fit">
+          <Button size="sm" className="w-fit">
             <ListBulletIcon className="mr-2 h-4 w-4" />
             <span>Save To List</span>
           </Button>

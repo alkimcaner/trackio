@@ -43,8 +43,9 @@ export default async function Game({ params }: { params: { slug: string } }) {
 
   if (!game) return null;
 
-  const date = fromUnixTime(game.first_release_date);
-  const formattedDate = format(date, "MMM dd, yyyy");
+  const releaseDate = game.first_release_date
+    ? format(new Date(game.first_release_date * 1000), "MMM dd, yyyy")
+    : null;
 
   const publisher = game.involved_companies?.find(
     (e: any) => e.publisher
@@ -107,10 +108,12 @@ export default async function Game({ params }: { params: { slug: string } }) {
             <p>{game.summary}</p>
           </div>
 
-          <div>
-            <div className="font-semibold">Release Date</div>
-            <div className="text-muted-foreground">{formattedDate}</div>
-          </div>
+          {releaseDate && (
+            <div>
+              <div className="font-semibold">Release Date</div>
+              <div className="text-muted-foreground">{releaseDate}</div>
+            </div>
+          )}
 
           {developer && (
             <div>

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { ExternalLinkIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import ImageSlider from "@/components/ImageSlider";
 import SaveToListDialog from "@/components/SaveToListDialog";
@@ -16,8 +16,14 @@ export default async function TV({ params }: { params: { id: string } }) {
     (image) => `https://image.tmdb.org/t/p/original${image.file_path}`
   );
 
-  const date = parseISO(tv.first_air_date);
-  const formattedDate = format(date, "MMM dd, yyyy");
+  const firstAirDate = tv.first_air_date
+    ? format(new Date(tv.first_air_date), "MMM dd, yyyy")
+    : null;
+
+  const lastAirDate = tv.last_air_date
+    ? format(new Date(tv.last_air_date), "MMM dd, yyyy")
+    : null;
+
   return (
     <>
       <Image
@@ -52,15 +58,25 @@ export default async function TV({ params }: { params: { id: string } }) {
         </div>
 
         <div className="col-span-3 flex flex-col gap-4 sm:col-span-2">
-          <div>
-            <div className="font-bold">Summary</div>
-            <p>{tv.overview}</p>
-          </div>
+          {tv.overview && (
+            <div>
+              <div className="font-bold">Summary</div>
+              <p>{tv.overview}</p>
+            </div>
+          )}
+          {firstAirDate && (
+            <div>
+              <div className="font-semibold">First Air Date</div>
+              <div className="text-muted-foreground">{firstAirDate}</div>
+            </div>
+          )}
 
-          <div>
-            <div className="font-semibold">Release Date</div>
-            <div className="text-muted-foreground">{formattedDate}</div>
-          </div>
+          {lastAirDate && (
+            <div>
+              <div className="font-semibold">Last Air Date</div>
+              <div className="text-muted-foreground">{lastAirDate}</div>
+            </div>
+          )}
         </div>
       </section>
 
