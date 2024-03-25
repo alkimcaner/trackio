@@ -35,13 +35,13 @@ const Websites = [
 ];
 
 export default async function Game({ params }: { params: { slug: string } }) {
-  const game = (
-    await getGames(
-      `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where slug = "${params.slug}";`
-    )
-  )[0];
+  const query = await getGames(
+    `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where slug = "${params.slug}";`
+  );
 
-  if (!game) return null;
+  if (!query?.length) return null;
+
+  const game = query[0];
 
   const releaseDate = game.first_release_date
     ? format(new Date(game.first_release_date * 1000), "MMM dd, yyyy")
@@ -49,11 +49,11 @@ export default async function Game({ params }: { params: { slug: string } }) {
 
   const publisher = game.involved_companies?.find(
     (e: any) => e.publisher
-  ).company;
+  )?.company;
 
   const developer = game.involved_companies?.find(
     (e: any) => e.developer
-  ).company;
+  )?.company;
 
   const websites: WebsiteType[] = game.websites.map((e: any) => ({
     name: Websites[e.category],

@@ -9,8 +9,9 @@ import {
 } from "./ui/tooltip";
 import SaveToListDialog from "./SaveToListDialog";
 import { ListType } from "@/types/list";
+import { Game } from "@/types/game";
 
-export default function GameCard({ game }: any) {
+export default function GameCard({ game }: { game: Game }) {
   return (
     <div className="group flex select-none flex-col overflow-hidden rounded-lg border bg-card">
       <Link href={`/games/${game?.slug}`}>

@@ -10,15 +10,15 @@ export default async function Home() {
   const popularTV = await getPopularTV(1);
 
   const bestGames = await getGames(
-    "fields *,cover.*; where total_rating_count > 50; sort total_rating desc; limit 12;"
+    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50; sort total_rating desc; limit 12;"
   );
 
   const ps4Games = await getGames(
-    "fields *,cover.*; where total_rating_count > 50 & category = 0 & platforms = 48; sort total_rating desc; limit 12;"
+    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50 & category = 0 & platforms = 48; sort total_rating desc; limit 12;"
   );
 
   const nsGames = await getGames(
-    "fields *,cover.*; where total_rating_count > 50 & category = 0 & platforms = {130}; sort total_rating desc; limit 12;"
+    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50 & category = 0 & platforms = {130}; sort total_rating desc; limit 12;"
   );
 
   return (
@@ -42,7 +42,7 @@ export default async function Home() {
       <div>
         <h1 className="mb-4 text-lg">Best Games</h1>
         <ResponsiveGrid>
-          {bestGames?.map((game: any) => (
+          {bestGames?.map((game) => (
             <GameCard key={game.id} game={game} />
           ))}
         </ResponsiveGrid>
@@ -50,7 +50,7 @@ export default async function Home() {
       <div>
         <h1 className="mb-4 text-lg">Best Playstation 4 Exclusives</h1>
         <ResponsiveGrid>
-          {ps4Games?.map((game: any) => (
+          {ps4Games?.map((game) => (
             <GameCard key={game.id} game={game} />
           ))}
         </ResponsiveGrid>
@@ -58,7 +58,7 @@ export default async function Home() {
       <div>
         <h1 className="mb-4 text-lg">Best Nintendo Switch Exclusives</h1>
         <ResponsiveGrid>
-          {nsGames?.map((game: any) => (
+          {nsGames?.map((game) => (
             <GameCard key={game.id} game={game} />
           ))}
         </ResponsiveGrid>

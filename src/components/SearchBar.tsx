@@ -13,8 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { Movie } from "@/types/movies";
+import { Movie } from "@/types/movie";
 import { TV } from "@/types/tv";
+import { Game } from "@/types/game";
 
 export default function SearchBar() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function SearchBar() {
   const [isResultsVisible, setIsResultsVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchType, setSearchType] = useState("game");
-  const [games, setGames] = useState<any[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [tv, setTV] = useState<TV[]>([]);
 
@@ -38,7 +39,7 @@ export default function SearchBar() {
       if (searchType === "game") {
         const res = await fetch("/api/games", {
           method: "POST",
-          body: `fields *; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
+          body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
         });
 
         if (!res.ok) {

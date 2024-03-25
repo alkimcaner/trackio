@@ -15,11 +15,12 @@ import { buttonVariants } from "@/components/ui/button";
 import { formatDistance, parseISO } from "date-fns";
 import { useMemo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Movie } from "@/types/movies";
+import { Movie } from "@/types/movie";
 import { ListWithUser } from "@/types/list";
 import MovieCard from "@/components/MovieCard";
 import { TV } from "@/types/tv";
 import TVCard from "@/components/TVCard";
+import { Game } from "@/types/game";
 
 export default function List({ params }: { params: { id: string } }) {
   const { data: list, isLoading } = useQuery<ListWithUser>({
@@ -49,7 +50,7 @@ export default function List({ params }: { params: { id: string } }) {
     [list?.User.name]
   );
 
-  const { data: games } = useQuery({
+  const { data: games } = useQuery<Game[]>({
     queryKey: ["list", params.id, "games"],
     queryFn: async () => {
       if (!list?.gameIds.length) return [];
@@ -191,7 +192,7 @@ export default function List({ params }: { params: { id: string } }) {
       <Separator />
       <section>
         <ResponsiveGrid>
-          {games?.map((game: any) => (
+          {games?.map((game) => (
             <GameCard key={game.id} game={game} />
           ))}
 

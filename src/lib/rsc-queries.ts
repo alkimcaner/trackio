@@ -1,7 +1,8 @@
 import { get } from "@vercel/edge-config";
-import { Movie } from "../types/movies";
-import { PopularMovies } from "@/types/movies";
+import { Movie } from "../types/movie";
+import { PopularMovies } from "@/types/movie";
 import { PopularTV, TV } from "@/types/tv";
+import { Game } from "@/types/game";
 
 export const getGames = async (payload: string) => {
   try {
@@ -18,7 +19,7 @@ export const getGames = async (payload: string) => {
 
     const res = await fetch("https://api.igdb.com/v4/games", options);
 
-    return res.json();
+    return res.json() as Promise<Game[]>;
   } catch (error) {
     console.error(error);
     return;

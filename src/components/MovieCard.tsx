@@ -9,7 +9,7 @@ import {
 } from "./ui/tooltip";
 import SaveToListDialog from "./SaveToListDialog";
 import { ListType } from "@/types/list";
-import { Movie } from "@/types/movies";
+import { Movie } from "@/types/movie";
 
 export default function MovieCard({ movie }: { movie: Movie }) {
   return (
