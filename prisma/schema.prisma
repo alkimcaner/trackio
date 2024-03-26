@@ -46,6 +46,7 @@ model User {
   // Profile
   bio           String?
   lists         List[]
+  reviews       Review[]
 }
 
 model VerificationToken {
@@ -68,4 +69,15 @@ model List {
   tvIds       String[]
   User        User?    @relation(fields: [userId], references: [id])
   userId      String?
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  text      String
+  score     Int
+  itemType  String
+  itemId    String
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }

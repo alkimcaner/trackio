@@ -61,7 +61,7 @@ export default function EditList({ params }: { params: { id: string } }) {
     },
   });
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     mutation.mutate();

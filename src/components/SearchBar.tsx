@@ -22,10 +22,10 @@ export default function SearchBar() {
   const domRef = useRef<HTMLFormElement>(null);
   const [isResultsVisible, setIsResultsVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [searchType, setSearchType] = useState("game");
-  const [games, setGames] = useState<Game[]>([]);
+  const [searchType, setSearchType] = useState("movie");
   const [movies, setMovies] = useState<Movie[]>([]);
   const [tv, setTV] = useState<TV[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
 
   const handleSearch = useCallback(
     async (searchType: string, searchInput: string) => {
@@ -36,21 +36,7 @@ export default function SearchBar() {
         return;
       }
 
-      if (searchType === "game") {
-        const res = await fetch("/api/games", {
-          method: "POST",
-          body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
-        }
-
-        const data = await res.json();
-        setGames(data);
-        setMovies([]);
-        setTV([]);
-      } else if (searchType === "movie") {
+      if (searchType === "movie") {
         const res = await fetch(`/api/search/movie?query=${searchInput}`);
 
         if (!res.ok) {
@@ -77,6 +63,20 @@ export default function SearchBar() {
         );
         setGames([]);
         setMovies([]);
+      } else if (searchType === "game") {
+        const res = await fetch("/api/games", {
+          method: "POST",
+          body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+
+        const data = await res.json();
+        setGames(data);
+        setMovies([]);
+        setTV([]);
       } else {
         setGames([]);
         setMovies([]);
@@ -127,9 +127,9 @@ export default function SearchBar() {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="game">Game</SelectItem>
             <SelectItem value="movie">Movie</SelectItem>
             <SelectItem value="tv">TV</SelectItem>
+            <SelectItem value="game">Game</SelectItem>
           </SelectContent>
         </Select>
         <input
@@ -153,16 +153,7 @@ export default function SearchBar() {
             {!games.length && !movies.length && !tv.length && (
               <span className="p-1">There are no results</span>
             )}
-            {games?.map((game) => (
-              <Link
-                key={game.id}
-                onClick={() => setIsResultsVisible(false)}
-                href={`/games/${game.slug}`}
-                className="w-full rounded-sm p-2 hover:bg-primary/10"
-              >
-                {game.name}
-              </Link>
-            ))}
+
             {movies?.map((movie) => (
               <Link
                 key={movie.id}
@@ -173,6 +164,7 @@ export default function SearchBar() {
                 {movie.title}
               </Link>
             ))}
+
             {tv?.map((show) => (
               <Link
                 key={show.id}
@@ -181,6 +173,17 @@ export default function SearchBar() {
                 className="w-full rounded-sm p-2 hover:bg-primary/10"
               >
                 {show.name}
+              </Link>
+            ))}
+
+            {games?.map((game) => (
+              <Link
+                key={game.id}
+                onClick={() => setIsResultsVisible(false)}
+                href={`/games/${game.slug}`}
+                className="w-full rounded-sm p-2 hover:bg-primary/10"
+              >
+                {game.name}
               </Link>
             ))}
           </div>

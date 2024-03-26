@@ -22,13 +22,13 @@ export default function ImageSlider({ images }: { images: string[] }) {
     >
       <CarouselContent>
         {images?.map((image) => (
-          <CarouselItem key={image}>
+          <CarouselItem key={image} className="sm:basis-1/2 lg:basis-1/3">
             <SliderImage image={image} />
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="hidden xl:inline-flex" />
-      <CarouselNext className="hidden xl:inline-flex" />
+      <CarouselPrevious className="hidden 2xl:inline-flex" />
+      <CarouselNext className="hidden 2xl:inline-flex" />
     </Carousel>
   );
 }

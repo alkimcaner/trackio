@@ -6,6 +6,7 @@ import SaveToListDialog from "@/components/SaveToListDialog";
 import Link from "next/link";
 import { getGames } from "@/lib/rsc-queries";
 import { ListType } from "@/types/list";
+import Reviews from "@/components/Reviews";
 
 type WebsiteType = {
   name: string;
@@ -73,17 +74,14 @@ export default async function Game({ params }: { params: { slug: string } }) {
         alt="Background image"
         width={1920}
         height={1080}
-        className="fixed left-0 top-0 -z-10 h-full w-full object-cover opacity-10 blur-2xl"
+        className="fixed left-0 top-0 -z-10 h-full w-full object-cover opacity-20 blur-2xl"
       />
 
       <section className="flex items-center gap-4">
         <h1 className="text-2xl font-bold">{game.name}</h1>
-        <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-thin">
+        <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-bold">
           <StarFilledIcon className="h-4 w-4" />
-          <span className="font-bold">
-            {Math.floor(game.total_rating) / 10}
-          </span>
-          <span className="text-muted-foreground">/ 10</span>
+          <span>{Math.floor(game.total_rating) / 10}</span>
         </div>
       </section>
 
@@ -149,6 +147,10 @@ export default async function Game({ params }: { params: { slug: string } }) {
 
       <section>
         <ImageSlider images={screenshots} />
+      </section>
+
+      <section>
+        <Reviews itemType="game" itemId={String(game.id)} />
       </section>
     </>
   );

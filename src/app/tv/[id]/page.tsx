@@ -6,6 +6,7 @@ import SaveToListDialog from "@/components/SaveToListDialog";
 import Link from "next/link";
 import { getTV } from "@/lib/rsc-queries";
 import { ListType } from "@/types/list";
+import Reviews from "@/components/Reviews";
 
 export default async function TV({ params }: { params: { id: string } }) {
   const tv = await getTV(params.id);
@@ -32,15 +33,14 @@ export default async function TV({ params }: { params: { id: string } }) {
         alt="Background image"
         width={1920}
         height={1080}
-        className="fixed left-0 top-0 -z-10 h-full w-full object-cover opacity-10 blur-2xl"
+        className="fixed left-0 top-0 -z-10 h-full w-full object-cover opacity-20 blur-2xl"
       />
 
       <section className="flex items-center gap-4">
         <h1 className="text-2xl font-bold">{tv.name}</h1>
-        <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-thin">
+        <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-bold">
           <StarFilledIcon className="h-4 w-4" />
-          <span className="font-bold">{tv.vote_average.toFixed(1)}</span>
-          <span className="text-muted-foreground">/ 10</span>
+          <span>{tv.vote_average.toFixed(1)}</span>
         </div>
       </section>
 
@@ -81,6 +81,10 @@ export default async function TV({ params }: { params: { id: string } }) {
       </section>
 
       <section>{screenshots && <ImageSlider images={screenshots} />}</section>
+
+      <section>
+        <Reviews itemType="tv" itemId={params.id} />
+      </section>
     </>
   );
 }
