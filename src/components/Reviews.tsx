@@ -17,7 +17,7 @@ export default function Reviews({
   itemId: string;
 }) {
   const [reviewInput, setReviewInput] = useState("");
-  const [reviewScore, setReviewScore] = useState(10);
+  const [reviewScore, setReviewScore] = useState(5);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
 
@@ -57,7 +57,7 @@ export default function Reviews({
     },
     onSuccess: () => {
       setReviewInput("");
-      setReviewScore(10);
+      setReviewScore(5);
       queryClient.invalidateQueries({
         queryKey: ["reviews", itemType, itemId],
       });
@@ -81,7 +81,7 @@ export default function Reviews({
               key={`star-${index + 1}`}
               className={`h-8 w-8 cursor-pointer ${
                 index + 1 > reviewScore ? "text-muted" : "text-foreground"
-              } ${!session && "text-muted"}`}
+              } ${!session && "cursor-not-allowed text-muted"}`}
               onClick={() => session && setReviewScore(index + 1)}
             />
           ))}
@@ -90,6 +90,7 @@ export default function Reviews({
           value={reviewInput}
           onChange={(e) => setReviewInput(e.target.value)}
           disabled={!session}
+          required
         />
         <Button type="submit" disabled={!session}>
           Submit

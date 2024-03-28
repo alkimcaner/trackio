@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+  FormEvent,
+} from "react";
 import { debounce } from "@/lib/helpers";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,7 +24,11 @@ import { Movie } from "@/types/movie";
 import { TV } from "@/types/tv";
 import { Game } from "@/types/game";
 
-export default function SearchBar() {
+export default function SearchBar({
+  isMobileSearchActive,
+}: {
+  isMobileSearchActive: boolean;
+}) {
   const router = useRouter();
   const domRef = useRef<HTMLFormElement>(null);
   const [isResultsVisible, setIsResultsVisible] = useState(false);
@@ -95,7 +106,7 @@ export default function SearchBar() {
     debouncedSearch(searchType, searchInput);
   }, [searchInput, searchType]);
 
-  const handleSubmitSearch = (e: any) => {
+  const handleSubmitSearch = (e: FormEvent) => {
     e.preventDefault();
     setIsResultsVisible(false);
     router.push(`/search?q=${searchInput}&type=${searchType}`);
@@ -113,7 +124,11 @@ export default function SearchBar() {
   }, []);
 
   return (
-    <div className="relative mx-auto max-w-sm">
+    <div
+      className={`relative mx-auto w-full ${
+        isMobileSearchActive ? "block" : "hidden max-w-sm lg:block"
+      }`}
+    >
       <form
         onSubmit={handleSubmitSearch}
         ref={domRef}
@@ -132,6 +147,7 @@ export default function SearchBar() {
             <SelectItem value="game">Game</SelectItem>
           </SelectContent>
         </Select>
+
         <input
           value={searchInput}
           onFocus={() => setIsResultsVisible(true)}
@@ -140,8 +156,9 @@ export default function SearchBar() {
             setSearchInput(e.target.value);
           }}
           placeholder="Search"
-          className="bg-transparent px-2 py-1 text-sm outline-none"
+          className="w-full flex-1 bg-transparent px-2 py-1 text-sm outline-none"
         />
+
         <Button className="rounded-none">
           <MagnifyingGlassIcon />
         </Button>

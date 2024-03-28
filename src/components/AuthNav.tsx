@@ -42,7 +42,7 @@ export default function AuthNav() {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center gap-1">
+        <DropdownMenuTrigger className="flex items-center gap-2">
           <Avatar className="h-6 w-6">
             <AvatarImage
               src={session?.user?.image || ""}
@@ -53,7 +53,7 @@ export default function AuthNav() {
           </Avatar>
           <span className="hidden text-sm sm:inline">{nameArray?.at(0)}</span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="end">
           <DropdownMenuItem asChild>
             <Link href={`/user/${session?.user.id}`}>
               <PersonIcon className="mr-2 h-4 w-4" />
