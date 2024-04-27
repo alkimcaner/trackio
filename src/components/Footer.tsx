@@ -3,9 +3,9 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export default function Footer() {
   return (
-    <footer className="sticky top-0 z-20 mt-auto w-full border-t bg-background text-xs">
-      <div className="mx-auto flex max-w-7xl flex-col justify-center gap-2 px-8 py-16 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-col gap-2">
+    <footer className="sticky z-20 mt-auto w-full border-t bg-background text-xs">
+      <div className="mx-auto flex max-w-7xl flex-col justify-center gap-2 px-8 py-8 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-2 text-muted-foreground">
           <div>
             Copyright © {new Date().getFullYear()} Alkım Caner Soydan. All
             rights reserved.

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
-import AuthNav from "./AuthNav";
+import ProfileDropDown from "./ProfileDropdown";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { ArrowLeftIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
@@ -55,7 +55,7 @@ export default function Navbar() {
 
         <SearchBar isMobileSearchActive={isMobileSearchActive} />
 
-        <AuthNav />
+        <ProfileDropDown />
       </div>
     </nav>
   );

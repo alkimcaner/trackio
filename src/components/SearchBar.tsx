@@ -156,7 +156,7 @@ export default function SearchBar({
             setSearchInput(e.target.value);
           }}
           placeholder="Search"
-          className="w-full flex-1 bg-transparent px-2 py-1 text-sm outline-none"
+          className="flex-1 bg-transparent px-2 py-1 text-sm outline-none"
         />
 
         <Button className="rounded-none">
