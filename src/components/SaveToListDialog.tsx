@@ -10,9 +10,10 @@ import {
 } from "./ui/dialog";
 import { ListBulletIcon } from "@radix-ui/react-icons";
 import ListCheckbox from "./ListCheckbox";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { UserWithLists } from "@/types/list";
+import Image from "next/image";
 
 export default function SaveToListDialog({
   icon,
@@ -37,7 +38,30 @@ export default function SaveToListDialog({
     enabled: !!session,
   });
 
-  if (!session) return null;
+  if (!session)
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          {icon ? (
+            <Button variant="ghost" size="icon">
+              <ListBulletIcon />
+            </Button>
+          ) : (
+            <Button variant="ghost" className="h-fit flex-col gap-2">
+              <ListBulletIcon className="h-4 w-4" />
+              <span>Save To List</span>
+            </Button>
+          )}
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>Sign In</DialogHeader>
+          <Button onClick={() => signIn("google")} className="gap-2">
+            <Image src="/google.svg" height={16} width={16} alt="" /> Continue
+            with Google
+          </Button>
+        </DialogContent>
+      </Dialog>
+    );
 
   return (
     <Dialog>
@@ -47,8 +71,8 @@ export default function SaveToListDialog({
             <ListBulletIcon />
           </Button>
         ) : (
-          <Button className="w-fit">
-            <ListBulletIcon className="mr-2 h-4 w-4" />
+          <Button variant="ghost" className="h-fit flex-col gap-2">
+            <ListBulletIcon className="h-4 w-4" />
             <span>Save To List</span>
           </Button>
         )}

@@ -27,64 +27,76 @@ export default async function TV({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <Image
-        priority
-        src={`https://image.tmdb.org/t/p/original${tv.backdrop_path}`}
-        alt="Background image"
-        width={1920}
-        height={1080}
-        className="fixed left-0 top-0 -z-10 h-full w-full object-cover opacity-20 blur-2xl"
-      />
+      <div className="absolute -z-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-background" />
+        <Image
+          priority
+          src={`https://image.tmdb.org/t/p/original${tv.backdrop_path}`}
+          alt="Background image"
+          width={1920}
+          height={1080}
+          className="h-96 object-cover object-top"
+        />
+      </div>
 
-      <section className="flex items-center gap-4">
-        <h1 className="text-2xl font-bold">{tv.name}</h1>
-        <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-bold">
-          <StarFilledIcon className="h-4 w-4" />
-          <span>{tv.vote_average.toFixed(1)}</span>
-        </div>
-      </section>
+      <main className="mx-auto mt-64 flex w-full max-w-7xl flex-col gap-8 p-8">
+        <section className="flex items-center gap-4">
+          <h1 className="text-2xl font-bold">{tv.name}</h1>
+          <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-bold">
+            <StarFilledIcon className="h-4 w-4" />
+            <span>{tv.vote_average.toFixed(1)}</span>
+            <span className="text-sm text-muted-foreground">/ 10</span>
+          </div>
+        </section>
 
-      <section className="grid grid-cols-3 gap-8">
-        <div className="col-span-3 space-y-8 sm:col-span-1">
-          <Image
-            src={`https://image.tmdb.org/t/p/original${tv.poster_path}`}
-            alt="Cover image"
-            width={480}
-            height={640}
-            priority
-            className="rounded-lg"
-          />
-          <SaveToListDialog item={{ id: String(tv.id), type: ListType.TV }} />
-        </div>
-
-        <div className="col-span-3 flex flex-col gap-4 sm:col-span-2">
-          {tv.overview && (
-            <div>
-              <div className="font-bold">Summary</div>
-              <p>{tv.overview}</p>
+        <div className="grid grid-cols-3 gap-8">
+          <div className="col-span-3 space-y-8 sm:col-span-1">
+            <Image
+              src={`https://image.tmdb.org/t/p/original${tv.poster_path}`}
+              alt="Cover image"
+              width={480}
+              height={640}
+              priority
+              className="rounded-lg"
+            />
+            <div className="rounded-lg border p-2">
+              <SaveToListDialog
+                item={{ id: String(tv.id), type: ListType.TV }}
+              />
             </div>
-          )}
-          {firstAirDate && (
-            <div>
-              <div className="font-semibold">First Air Date</div>
-              <div className="text-muted-foreground">{firstAirDate}</div>
-            </div>
-          )}
+          </div>
 
-          {lastAirDate && (
-            <div>
-              <div className="font-semibold">Last Air Date</div>
-              <div className="text-muted-foreground">{lastAirDate}</div>
-            </div>
-          )}
+          <div className="col-span-3 flex flex-col gap-8 sm:col-span-2">
+            <section>
+              {screenshots && <ImageSlider images={screenshots} />}
+            </section>
+
+            {tv.overview && (
+              <div>
+                <div className="font-bold">Summary</div>
+                <p>{tv.overview}</p>
+              </div>
+            )}
+            {firstAirDate && (
+              <div>
+                <div className="font-semibold">First Air Date</div>
+                <div className="text-muted-foreground">{firstAirDate}</div>
+              </div>
+            )}
+
+            {lastAirDate && (
+              <div>
+                <div className="font-semibold">Last Air Date</div>
+                <div className="text-muted-foreground">{lastAirDate}</div>
+              </div>
+            )}
+
+            <section>
+              <Reviews itemType="tv" itemId={params.id} />
+            </section>
+          </div>
         </div>
-      </section>
-
-      <section>{screenshots && <ImageSlider images={screenshots} />}</section>
-
-      <section>
-        <Reviews itemType="tv" itemId={params.id} />
-      </section>
+      </main>
     </>
   );
 }

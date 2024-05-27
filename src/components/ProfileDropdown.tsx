@@ -17,6 +17,13 @@ import {
 } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useMemo } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "./ui/dialog";
+import Image from "next/image";
 
 export default function ProfileDropdown() {
   const { data: session } = useSession();
@@ -36,7 +43,20 @@ export default function ProfileDropdown() {
   );
 
   if (!session) {
-    return <Button onClick={() => signIn("google")}>Sign In</Button>;
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Sign In</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>Sign In</DialogHeader>
+          <Button onClick={() => signIn("google")} className="gap-2">
+            <Image src="/google.svg" height={16} width={16} alt="" /> Continue
+            with Google
+          </Button>
+        </DialogContent>
+      </Dialog>
+    );
   }
 
   return (

@@ -41,8 +41,8 @@ export default function RootLayout({
   );
 
   return (
-    <div>
-      <header className="space-y-4 py-4">
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
+      <header className="space-y-8">
         <div className="flex items-center gap-4">
           {isLoading ? (
             <>
@@ -77,11 +77,11 @@ export default function RootLayout({
             Create new list
           </Link>
         </nav>
-
-        <Separator />
       </header>
 
+      <Separator />
+
       {children}
-    </div>
+    </main>
   );
 }

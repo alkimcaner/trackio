@@ -61,9 +61,10 @@ export default function Review({ review }: { review: ReviewWithUser }) {
           </Link>
 
           {/* Score */}
-          <div className="flex items-center gap-2">
-            <StarFilledIcon />
-            {review.score}
+          <div className="flex items-center gap-1">
+            <StarFilledIcon className="h-4 w-4" />
+            <span>{review.score}</span>
+            <span className="text-xs text-muted-foreground">/ 10</span>
           </div>
 
           {isAuthorized && (

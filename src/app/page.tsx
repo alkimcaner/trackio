@@ -22,47 +22,49 @@ export default async function Home() {
   );
 
   return (
-    <section className="space-y-8">
-      <div>
-        <h1 className="mb-4 text-lg">Popular Movies</h1>
-        <ResponsiveGrid>
-          {popularMovies?.results.slice(0, 12).map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </ResponsiveGrid>
-      </div>
-      <div>
-        <h1 className="mb-4 text-lg">Popular TV Shows</h1>
-        <ResponsiveGrid>
-          {popularTV?.results.slice(0, 12).map((tv) => (
-            <TVCard key={tv.id} tv={tv} />
-          ))}
-        </ResponsiveGrid>
-      </div>
-      <div>
-        <h1 className="mb-4 text-lg">Best Games</h1>
-        <ResponsiveGrid>
-          {bestGames?.map((game) => (
-            <GameCard key={game.id} game={game} />
-          ))}
-        </ResponsiveGrid>
-      </div>
-      <div>
-        <h1 className="mb-4 text-lg">Best Playstation 4 Exclusives</h1>
-        <ResponsiveGrid>
-          {ps4Games?.map((game) => (
-            <GameCard key={game.id} game={game} />
-          ))}
-        </ResponsiveGrid>
-      </div>
-      <div>
-        <h1 className="mb-4 text-lg">Best Nintendo Switch Exclusives</h1>
-        <ResponsiveGrid>
-          {nsGames?.map((game) => (
-            <GameCard key={game.id} game={game} />
-          ))}
-        </ResponsiveGrid>
-      </div>
-    </section>
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
+      <section className="space-y-8">
+        <div>
+          <h1 className="mb-4 text-lg">Popular Movies</h1>
+          <ResponsiveGrid>
+            {popularMovies?.results.slice(0, 12).map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </ResponsiveGrid>
+        </div>
+        <div>
+          <h1 className="mb-4 text-lg">Popular TV Shows</h1>
+          <ResponsiveGrid>
+            {popularTV?.results.slice(0, 12).map((tv) => (
+              <TVCard key={tv.id} tv={tv} />
+            ))}
+          </ResponsiveGrid>
+        </div>
+        <div>
+          <h1 className="mb-4 text-lg">Best Games</h1>
+          <ResponsiveGrid>
+            {bestGames?.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </ResponsiveGrid>
+        </div>
+        <div>
+          <h1 className="mb-4 text-lg">Best Playstation 4 Exclusives</h1>
+          <ResponsiveGrid>
+            {ps4Games?.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </ResponsiveGrid>
+        </div>
+        <div>
+          <h1 className="mb-4 text-lg">Best Nintendo Switch Exclusives</h1>
+          <ResponsiveGrid>
+            {nsGames?.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </ResponsiveGrid>
+        </div>
+      </section>
+    </main>
   );
 }

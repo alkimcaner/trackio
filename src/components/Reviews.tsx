@@ -6,8 +6,15 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { FormEvent, useState } from "react";
 import Review from "./Review";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { StarFilledIcon } from "@radix-ui/react-icons";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "./ui/dialog";
+import Image from "next/image";
 
 export default function Reviews({
   itemType,
@@ -71,33 +78,48 @@ export default function Reviews({
   };
 
   return (
-    <div className="lg:w-1/2">
+    <div>
       <h2 className="text-xl font-bold">Reviews</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4 py-4">
-        <div className="flex gap-2">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <StarFilledIcon
-              key={`star-${index + 1}`}
-              className={`h-8 w-8 cursor-pointer ${
-                index + 1 > reviewScore ? "text-muted" : "text-foreground"
-              } ${!session && "cursor-not-allowed text-muted"}`}
-              onClick={() => session && setReviewScore(index + 1)}
-            />
-          ))}
-        </div>
-        <Textarea
-          value={reviewInput}
-          onChange={(e) => setReviewInput(e.target.value)}
-          disabled={!session}
-          required
-        />
-        <Button type="submit" disabled={!session}>
-          Submit
-        </Button>
-      </form>
+      {session ? (
+        <form onSubmit={handleSubmit} className="space-y-4 py-4">
+          <div className="flex gap-2">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <StarFilledIcon
+                key={`star-${index + 1}`}
+                className={`h-6 w-6 cursor-pointer ${
+                  index + 1 > reviewScore ? "text-muted" : "text-foreground"
+                } ${!session && "cursor-not-allowed text-muted"}`}
+                onClick={() => session && setReviewScore(index + 1)}
+              />
+            ))}
+          </div>
+          <Textarea
+            value={reviewInput}
+            onChange={(e) => setReviewInput(e.target.value)}
+            disabled={!session}
+            required
+          />
+          <Button type="submit" disabled={!session}>
+            Submit
+          </Button>
+        </form>
+      ) : (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="my-4">Please sign in to review</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>Sign In</DialogHeader>
+            <Button onClick={() => signIn("google")} className="gap-2">
+              <Image src="/google.svg" height={16} width={16} alt="" /> Continue
+              with Google
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
 
-      <div className="space-y-16 py-8">
+      <div className="space-y-16 py-4">
         {reviews?.map((review) => (
           <Review key={review.id} review={review} />
         ))}

@@ -15,11 +15,6 @@ export default function Footer() {
             This product uses the TMDB API but is not endorsed or certified by
             TMDB.
           </div>
-
-          <a target="_blank" href="https://bgjar.com" className="flex gap-1">
-            <Image src={"/bgjar.svg"} alt="" width={16} height={16} />
-            Free SVG Background by BGJar
-          </a>
         </div>
 
         <ThemeToggle />

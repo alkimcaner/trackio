@@ -133,8 +133,8 @@ export default function List({ params }: { params: { id: string } }) {
   }
 
   return (
-    <>
-      <section>
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
+      <section className="flex flex-col gap-2">
         <div className="flex items-center gap-4">
           {/* List name */}
           <h1 className="text-2xl font-bold">{list.name}</h1>
@@ -178,7 +178,7 @@ export default function List({ params }: { params: { id: string } }) {
         </div>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 py-1">
           {list.tags.map((tag) => (
             <Badge variant={"outline"} key={`tag-${tag}`}>
               {tag}
@@ -187,7 +187,7 @@ export default function List({ params }: { params: { id: string } }) {
         </div>
 
         {/* List description */}
-        <p className="mt-6 text-muted-foreground">{list.description}</p>
+        <p className="mt-4 text-muted-foreground">{list.description}</p>
       </section>
       <Separator />
       <section>
@@ -205,6 +205,6 @@ export default function List({ params }: { params: { id: string } }) {
           ))}
         </ResponsiveGrid>
       </section>
-    </>
+    </main>
   );
 }

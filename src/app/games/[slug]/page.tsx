@@ -68,90 +68,98 @@ export default async function Game({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <Image
-        priority
-        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.image_id}.jpg`}
-        alt="Background image"
-        width={1920}
-        height={1080}
-        className="fixed left-0 top-0 -z-10 h-full w-full object-cover opacity-20 blur-2xl"
-      />
+      <div className="absolute -z-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-background" />
+        <Image
+          priority
+          src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${game.cover.image_id}.jpg`}
+          alt="Background image"
+          width={1920}
+          height={1080}
+          className="h-96 object-cover object-top"
+        />
+      </div>
 
-      <section className="flex items-center gap-4">
-        <h1 className="text-2xl font-bold">{game.name}</h1>
-        <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-bold">
-          <StarFilledIcon className="h-4 w-4" />
-          <span>{Math.floor(game.total_rating) / 10}</span>
-        </div>
-      </section>
+      <main className="mx-auto mt-64 flex w-full max-w-7xl flex-col gap-8 p-8">
+        <section className="flex items-center gap-4">
+          <h1 className="text-2xl font-bold">{game.name}</h1>
+          <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-bold">
+            <StarFilledIcon className="h-4 w-4" />
+            <span>{Math.floor(game.total_rating) / 10}</span>
+            <span className="text-sm text-muted-foreground">/ 10</span>
+          </div>
+        </section>
 
-      <section className="grid grid-cols-3 gap-8">
-        <div className="col-span-3 space-y-8 sm:col-span-1">
-          <Image
-            src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game?.cover?.image_id}.jpg`}
-            alt="Cover image"
-            width={480}
-            height={640}
-            priority
-            className="rounded-lg"
-          />
-          <SaveToListDialog
-            item={{ id: String(game.id), type: ListType.Game }}
-          />
-        </div>
-
-        <div className="col-span-3 flex flex-col gap-4 sm:col-span-2">
-          <div>
-            <div className="font-bold">Summary</div>
-            <p>{game.summary}</p>
+        <div className="grid grid-cols-3 gap-8">
+          <div className="col-span-3 space-y-8 sm:col-span-1">
+            <Image
+              src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game?.cover?.image_id}.jpg`}
+              alt="Cover image"
+              width={480}
+              height={640}
+              priority
+              className="rounded-lg"
+            />
+            <div className="rounded-lg border p-2">
+              <SaveToListDialog
+                item={{ id: String(game.id), type: ListType.Game }}
+              />
+            </div>
           </div>
 
-          {releaseDate && (
-            <div>
-              <div className="font-semibold">Release Date</div>
-              <div className="text-muted-foreground">{releaseDate}</div>
-            </div>
-          )}
+          <div className="col-span-3 flex flex-col gap-8 sm:col-span-2">
+            <section>
+              <ImageSlider images={screenshots} />
+            </section>
 
-          {developer && (
             <div>
-              <div className="font-semibold">Developer</div>
-              <div className="text-muted-foreground">{developer.name}</div>
+              <div className="font-bold">Summary</div>
+              <p>{game.summary}</p>
             </div>
-          )}
 
-          {publisher && (
-            <div>
-              <div className="font-semibold">Publisher</div>
-              <div className="text-muted-foreground">{publisher.name}</div>
+            {releaseDate && (
+              <div>
+                <div className="font-semibold">Release Date</div>
+                <div className="text-muted-foreground">{releaseDate}</div>
+              </div>
+            )}
+
+            {developer && (
+              <div>
+                <div className="font-semibold">Developer</div>
+                <div className="text-muted-foreground">{developer.name}</div>
+              </div>
+            )}
+
+            {publisher && (
+              <div>
+                <div className="font-semibold">Publisher</div>
+                <div className="text-muted-foreground">{publisher.name}</div>
+              </div>
+            )}
+
+            <div className="font-semibold">Websites</div>
+            <div className="flex flex-wrap gap-4">
+              {websites.map((site) => (
+                <Link
+                  key={`link-${site.url}`}
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-sm"
+                >
+                  <ExternalLinkIcon />
+                  {site.name}
+                </Link>
+              ))}
             </div>
-          )}
 
-          <div className="font-semibold">Websites</div>
-          <div className="flex flex-wrap gap-4">
-            {websites.map((site) => (
-              <Link
-                key={`link-${site.url}`}
-                href={site.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-sm"
-              >
-                <ExternalLinkIcon />
-                {site.name}
-              </Link>
-            ))}
+            <section>
+              <Reviews itemType="game" itemId={String(game.id)} />
+            </section>
           </div>
         </div>
-      </section>
-
-      <section>
-        <ImageSlider images={screenshots} />
-      </section>
-
-      <section>
-        <Reviews itemType="game" itemId={String(game.id)} />
-      </section>
+      </main>
     </>
   );
 }
