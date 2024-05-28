@@ -50,7 +50,7 @@ export default function CreateList() {
   }
 
   return (
-    <section>
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
       <form onSubmit={handleSubmit} className="space-y-8">
         <div>
           <Label htmlFor="name">Name</Label>
@@ -119,6 +119,6 @@ export default function CreateList() {
           <Button type="submit">Create</Button>
         </div>
       </form>
-    </section>
+    </main>
   );
 }

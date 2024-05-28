@@ -69,9 +69,7 @@ export default function RootLayout({
           <NavLink href={`/user/${params.id}/reviews`}>Reviews</NavLink>
           <Link
             href="/lists/create"
-            className={`${buttonVariants({
-              variant: "ghost",
-            })} ml-auto gap-2`}
+            className={`${buttonVariants()} ml-auto gap-2`}
           >
             <PlusIcon />
             Create new list

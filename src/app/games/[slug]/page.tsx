@@ -138,20 +138,22 @@ export default async function Game({ params }: { params: { slug: string } }) {
               </div>
             )}
 
-            <div className="font-semibold">Websites</div>
-            <div className="flex flex-wrap gap-4">
-              {websites.map((site) => (
-                <Link
-                  key={`link-${site.url}`}
-                  href={site.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-sm"
-                >
-                  <ExternalLinkIcon />
-                  {site.name}
-                </Link>
-              ))}
+            <div>
+              <div className="font-semibold">Websites</div>
+              <div className="flex flex-wrap gap-4">
+                {websites.map((site) => (
+                  <Link
+                    key={`link-${site.url}`}
+                    href={site.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-sm"
+                  >
+                    <ExternalLinkIcon />
+                    {site.name}
+                  </Link>
+                ))}
+              </div>
             </div>
 
             <section>
