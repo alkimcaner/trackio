@@ -6,7 +6,9 @@ import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import {
@@ -14,6 +16,7 @@ import {
   GearIcon,
   ListBulletIcon,
   PersonIcon,
+  PlusIcon,
 } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useMemo } from "react";
@@ -74,6 +77,15 @@ export default function ProfileDropdown() {
           <span className="hidden text-sm sm:inline">{nameArray?.at(0)}</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem asChild>
+            <Link href={`/lists/create`}>
+              <PlusIcon className="mr-2 h-4 w-4" />
+              New list
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
           <DropdownMenuItem asChild>
             <Link href={`/user/${session?.user.id}`}>
               <PersonIcon className="mr-2 h-4 w-4" />

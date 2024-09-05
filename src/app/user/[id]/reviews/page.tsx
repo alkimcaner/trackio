@@ -1,3 +1,3 @@
 export default function Reviews() {
-  return <h1 className="py-4 text-2xl">Work in progress</h1>;
+  return <h1 className="py-4 text-xl">Work in progress</h1>;
 }

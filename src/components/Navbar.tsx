@@ -14,7 +14,7 @@ export default function Navbar() {
   if (isMobileSearchActive) {
     return (
       <nav className="sticky top-0 z-20 w-full border-b bg-background">
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-8 py-2">
+        <div className="mx-auto flex h-16 max-w-5xl items-center gap-2 px-8 py-2">
           <Button
             variant="ghost"
             size="icon"
@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-20 w-full border-b bg-background">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-8 py-2">
+      <div className="mx-auto flex h-16 max-w-5xl items-center gap-4 px-8 py-2">
         <Link href="/" className="flex min-w-fit items-center gap-2">
           <Image
             src="/logo.png"

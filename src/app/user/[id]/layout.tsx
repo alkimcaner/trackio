@@ -41,7 +41,7 @@ export default function RootLayout({
   );
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
+    <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
       <header className="space-y-8">
         <div className="flex items-center gap-4">
           {isLoading ? (
@@ -67,13 +67,6 @@ export default function RootLayout({
         <nav className="flex gap-2">
           <NavLink href={`/user/${params.id}/lists`}>Lists</NavLink>
           <NavLink href={`/user/${params.id}/reviews`}>Reviews</NavLink>
-          <Link
-            href="/lists/create"
-            className={`${buttonVariants()} ml-auto gap-2`}
-          >
-            <PlusIcon />
-            Create new list
-          </Link>
         </nav>
       </header>
 

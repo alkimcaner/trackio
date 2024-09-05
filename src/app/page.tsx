@@ -10,24 +10,24 @@ export default async function Home() {
   const popularTV = await getPopularTV(1);
 
   const bestGames = await getGames(
-    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50; sort total_rating desc; limit 12;"
+    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50; sort total_rating desc; limit 10;"
   );
 
   const ps4Games = await getGames(
-    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50 & category = 0 & platforms = 48; sort total_rating desc; limit 12;"
+    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50 & category = 0 & platforms = 48; sort total_rating desc; limit 10;"
   );
 
   const nsGames = await getGames(
-    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50 & category = 0 & platforms = {130}; sort total_rating desc; limit 12;"
+    "fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where total_rating_count > 50 & category = 0 & platforms = {130}; sort total_rating desc; limit 10;"
   );
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
+    <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
       <section className="space-y-8">
         <div>
           <h1 className="mb-4 text-lg">Popular Movies</h1>
           <ResponsiveGrid>
-            {popularMovies?.results.slice(0, 12).map((movie) => (
+            {popularMovies?.results.slice(0, 10).map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </ResponsiveGrid>
@@ -35,7 +35,7 @@ export default async function Home() {
         <div>
           <h1 className="mb-4 text-lg">Popular TV Shows</h1>
           <ResponsiveGrid>
-            {popularTV?.results.slice(0, 12).map((tv) => (
+            {popularTV?.results.slice(0, 10).map((tv) => (
               <TVCard key={tv.id} tv={tv} />
             ))}
           </ResponsiveGrid>

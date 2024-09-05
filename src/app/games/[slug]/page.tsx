@@ -80,7 +80,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
         />
       </div>
 
-      <main className="mx-auto mt-64 flex w-full max-w-7xl flex-col gap-8 p-8">
+      <main className="mx-auto mt-64 flex w-full max-w-5xl flex-col gap-8 p-8">
         <section className="flex items-center gap-4">
           <h1 className="text-2xl font-bold">{game.name}</h1>
           <div className="ml-auto flex min-w-fit items-center gap-1 text-lg font-bold">
