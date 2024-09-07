@@ -14,7 +14,7 @@ import { Movie } from "@/types/movie";
 export default function MovieCard({ movie }: { movie: Movie }) {
   return (
     <div className="group flex select-none flex-col overflow-hidden rounded-lg border bg-card">
-      <Link href={`/movies/${movie.id}`}>
+      <Link href={`/movie/${movie.id}`}>
         <div className="aspect-[3/4] overflow-hidden">
           <Image
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -31,7 +31,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href={`/movies/${movie.id}`}
+                href={`/movie/${movie.id}`}
                 className="mb-auto overflow-hidden text-ellipsis whitespace-nowrap hover:underline"
               >
                 {movie.title}

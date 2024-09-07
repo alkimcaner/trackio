@@ -78,7 +78,7 @@ export default function ProfileDropdown() {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem asChild>
-            <Link href={`/lists/create`}>
+            <Link href={`/list/create`}>
               <PlusIcon className="mr-2 h-4 w-4" />
               New list
             </Link>

@@ -28,6 +28,12 @@ export async function GET(
           },
           include: { User: true },
         },
+        reviews: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: { User: true },
+        },
       },
     });
 

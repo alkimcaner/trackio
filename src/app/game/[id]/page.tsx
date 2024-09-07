@@ -35,9 +35,9 @@ const Websites = [
   "Discord",
 ];
 
-export default async function Game({ params }: { params: { slug: string } }) {
+export default async function Game({ params }: { params: { id: string } }) {
   const query = await getGames(
-    `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where slug = "${params.slug}";`
+    `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where id = ${params.id};`
   );
 
   if (!query?.length) return null;
@@ -56,12 +56,12 @@ export default async function Game({ params }: { params: { slug: string } }) {
     (e: any) => e.developer
   )?.company;
 
-  const websites: WebsiteType[] = game.websites.map((e: any) => ({
+  const websites: WebsiteType[] = game.websites?.map((e: any) => ({
     name: Websites[e.category],
     url: e.url,
   }));
 
-  const screenshots = game.screenshots.map(
+  const screenshots = game.screenshots?.map(
     (screenshot: any) =>
       `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${screenshot?.image_id}.jpg`
   );
@@ -72,7 +72,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
         <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-background" />
         <Image
           priority
-          src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${game.cover.image_id}.jpg`}
+          src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${game.cover?.image_id}.jpg`}
           alt="Background image"
           width={1920}
           height={1080}
@@ -141,7 +141,7 @@ export default async function Game({ params }: { params: { slug: string } }) {
             <div>
               <div className="font-semibold">Websites</div>
               <div className="flex flex-wrap gap-4">
-                {websites.map((site) => (
+                {websites?.map((site) => (
                   <Link
                     key={`link-${site.url}`}
                     href={site.url}

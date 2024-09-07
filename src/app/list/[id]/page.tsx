@@ -26,7 +26,7 @@ export default function List({ params }: { params: { id: string } }) {
   const { data: list, isLoading } = useQuery<ListWithUser>({
     queryKey: ["list", params.id],
     queryFn: async () => {
-      const res = await fetch(`/api/lists/${params.id}`);
+      const res = await fetch(`/api/list/${params.id}`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch");
@@ -55,7 +55,7 @@ export default function List({ params }: { params: { id: string } }) {
     queryFn: async () => {
       if (!list?.gameIds.length) return [];
 
-      const res = await fetch("/api/games", {
+      const res = await fetch("/api/game", {
         method: "POST",
         body: gameIdsToQuery(list?.gameIds),
       });
@@ -76,7 +76,7 @@ export default function List({ params }: { params: { id: string } }) {
 
       const movies = await Promise.all(
         list.movieIds.map(async (movieId) => {
-          const res = await fetch(`/api/movies/${movieId}`);
+          const res = await fetch(`/api/movie/${movieId}`);
 
           if (!res.ok) {
             throw new Error("Failed to fetch");
@@ -133,7 +133,7 @@ export default function List({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
+    <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
       <section className="flex flex-col gap-2">
         <div className="flex items-center gap-4">
           {/* List name */}
@@ -148,7 +148,7 @@ export default function List({ params }: { params: { id: string } }) {
           {isAuthorized && (
             <div className="ml-auto space-x-2">
               <Link
-                href={`/lists/${list.id}/edit`}
+                href={`/list/${list.id}/edit`}
                 className={buttonVariants({ variant: "ghost", size: "icon" })}
               >
                 <Pencil2Icon />

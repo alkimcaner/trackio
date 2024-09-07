@@ -11,7 +11,7 @@ import {
 } from "./ui/carousel";
 
 export default function ImageSlider({ images }: { images: string[] }) {
-  if (!images.length) return null;
+  if (!images?.length) return null;
   return (
     <Carousel
       plugins={[

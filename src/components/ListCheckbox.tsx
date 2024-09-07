@@ -19,7 +19,7 @@ export default function ListCheckbox({
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: () =>
-      fetch(`/api/lists/${list.id}/save`, {
+      fetch(`/api/list/${list.id}/save`, {
         method: "POST",
         body: JSON.stringify(item),
       }),

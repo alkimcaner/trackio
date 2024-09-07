@@ -19,7 +19,7 @@ export default function ListCard({ list }: { list: ListWithUser }) {
 
   return (
     <div className="flex select-none flex-col overflow-hidden rounded-lg border bg-card transition hover:border-primary">
-      <Link href={`/lists/${list.id}`} className="relative">
+      <Link href={`/list/${list.id}`} className="relative">
         <div className="h-32 w-full bg-[url('/card.svg')] opacity-25"></div>
 
         {list.isPrivate && (
@@ -34,7 +34,7 @@ export default function ListCard({ list }: { list: ListWithUser }) {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href={`/lists/${list.id}`}
+                href={`/list/${list.id}`}
                 className="mb-auto overflow-hidden text-ellipsis whitespace-nowrap hover:underline"
               >
                 {list.name}

@@ -75,7 +75,7 @@ export default function SearchBar({
         setGames([]);
         setMovies([]);
       } else if (searchType === "game") {
-        const res = await fetch("/api/games", {
+        const res = await fetch("/api/game", {
           method: "POST",
           body: `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where name ~ *"${searchInput}"* & total_rating_count > 1; sort total_rating_count desc;`,
         });
@@ -175,7 +175,7 @@ export default function SearchBar({
               <Link
                 key={movie.id}
                 onClick={() => setIsResultsVisible(false)}
-                href={`/movies/${movie.id}`}
+                href={`/movie/${movie.id}`}
                 className="w-full rounded-sm p-2 hover:bg-primary/10"
               >
                 {movie.title}
@@ -197,7 +197,7 @@ export default function SearchBar({
               <Link
                 key={game.id}
                 onClick={() => setIsResultsVisible(false)}
-                href={`/games/${game.slug}`}
+                href={`/game/${game.id}`}
                 className="w-full rounded-sm p-2 hover:bg-primary/10"
               >
                 {game.name}

@@ -23,7 +23,7 @@ export function DeleteListDialog({ listId }: { listId: string }) {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch(`/api/lists/${listId}`, {
+      const res = await fetch(`/api/list/${listId}`, {
         method: "DELETE",
       });
 

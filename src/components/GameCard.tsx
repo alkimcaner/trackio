@@ -14,7 +14,7 @@ import { Game } from "@/types/game";
 export default function GameCard({ game }: { game: Game }) {
   return (
     <div className="group flex select-none flex-col overflow-hidden rounded-lg border bg-card">
-      <Link href={`/games/${game?.slug}`}>
+      <Link href={`/game/${game?.id}`}>
         <div className="aspect-[3/4] overflow-hidden">
           <Image
             src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game?.cover?.image_id}.jpg`}
@@ -30,7 +30,7 @@ export default function GameCard({ game }: { game: Game }) {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href={`/games/${game?.slug}`}
+                href={`/game/${game?.id}`}
                 className="mb-auto overflow-hidden text-ellipsis whitespace-nowrap hover:underline"
               >
                 {game?.name}
