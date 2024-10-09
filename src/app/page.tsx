@@ -4,6 +4,8 @@ import ResponsiveGrid from "@/components/ResponsiveGrid";
 import TVCard from "@/components/TVCard";
 import { getGames, getPopularMovies, getPopularTV } from "@/lib/rsc-queries";
 
+export const revalidate = 604800;
+
 export default async function Home() {
   const popularMovies = await getPopularMovies(1);
 
