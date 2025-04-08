@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Providers from "@/app/providers";
 import Footer from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/react";
 
 export const dynamic = "force-static";
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <Analytics />
           <Footer />
         </Providers>
       </body>
