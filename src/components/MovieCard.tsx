@@ -17,7 +17,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
       <Link href={`/movie/${movie.id}`}>
         <div className="aspect-[3/4] overflow-hidden">
           <Image
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
             alt="Cover image"
             width={480}
             height={640}
@@ -49,7 +49,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
             {movie.vote_average.toFixed(1)}
           </p>
           <SaveToListDialog
-            icon
+            iconOnly
             item={{ id: String(movie.id), type: ListType.Movie }}
           />
         </div>

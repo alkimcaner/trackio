@@ -8,7 +8,10 @@ import { getMovie } from "@/lib/rsc-queries";
 import { ListType } from "@/types/list";
 import Reviews from "@/components/Reviews";
 
-export default async function Movie({ params }: { params: { id: string } }) {
+export default async function Movie(props: {
+  params: Promise<{ id: string }>;
+}) {
+  const params = await props.params;
   const movie = await getMovie(params.id);
 
   if (!movie) return null;
@@ -24,7 +27,7 @@ export default async function Movie({ params }: { params: { id: string } }) {
   return (
     <>
       <div className="absolute -z-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-background" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/0 to-background" />
         <Image
           priority
           src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}

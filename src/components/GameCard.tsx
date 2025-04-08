@@ -48,7 +48,7 @@ export default function GameCard({ game }: { game: Game }) {
             {Math.floor(game?.total_rating) / 10}
           </p>
           <SaveToListDialog
-            icon
+            iconOnly
             item={{ id: String(game?.id), type: ListType.Game }}
           />
         </div>

@@ -24,6 +24,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
 import Image from "next/image";
@@ -52,7 +53,7 @@ export default function ProfileDropdown() {
           <Button>Sign In</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>Sign In</DialogHeader>
+          <DialogTitle>Sign In</DialogTitle>
           <Button onClick={() => signIn("google")} className="gap-2">
             <Image src="/google.svg" height={16} width={16} alt="" /> Continue
             with Google

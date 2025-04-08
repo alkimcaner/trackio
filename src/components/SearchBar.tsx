@@ -158,10 +158,6 @@ export default function SearchBar({
           placeholder="Search"
           className="flex-1 bg-transparent px-2 py-1 text-sm outline-none"
         />
-
-        <Button className="rounded-none">
-          <MagnifyingGlassIcon />
-        </Button>
       </form>
 
       {isResultsVisible && (

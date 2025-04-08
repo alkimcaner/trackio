@@ -12,9 +12,10 @@ import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, use } from "react";
 
-export default function EditList({ params }: { params: { id: string } }) {
+export default function EditList(props: { params: Promise<{ id: string }> }) {
+  const params = use(props.params);
   const { data: session } = useSession();
   const router = useRouter();
 

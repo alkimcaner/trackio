@@ -17,7 +17,7 @@ export default function TVCard({ tv }: { tv: TV }) {
       <Link href={`/tv/${tv.id}`}>
         <div className="aspect-[3/4] overflow-hidden">
           <Image
-            src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w200${tv.poster_path}`}
             alt="Cover image"
             width={480}
             height={640}
@@ -49,7 +49,7 @@ export default function TVCard({ tv }: { tv: TV }) {
             {tv.vote_average.toFixed(1)}
           </p>
           <SaveToListDialog
-            icon
+            iconOnly
             item={{ id: String(tv.id), type: ListType.TV }}
           />
         </div>

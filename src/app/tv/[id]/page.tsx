@@ -8,7 +8,8 @@ import { getTV } from "@/lib/rsc-queries";
 import { ListType } from "@/types/list";
 import Reviews from "@/components/Reviews";
 
-export default async function TV({ params }: { params: { id: string } }) {
+export default async function TV(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const tv = await getTV(params.id);
 
   if (!tv) return null;
@@ -28,7 +29,7 @@ export default async function TV({ params }: { params: { id: string } }) {
   return (
     <>
       <div className="absolute -z-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-background" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/0 to-background" />
         <Image
           priority
           src={`https://image.tmdb.org/t/p/original${tv.backdrop_path}`}

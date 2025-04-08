@@ -1,13 +1,7 @@
 "use client";
 
 import { Button } from "./ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { ListBulletIcon } from "@radix-ui/react-icons";
 import ListCheckbox from "./ListCheckbox";
 import { signIn, useSession } from "next-auth/react";
@@ -16,10 +10,10 @@ import { UserWithLists } from "@/types/list";
 import Image from "next/image";
 
 export default function SaveToListDialog({
-  icon,
+  iconOnly,
   item,
 }: {
-  icon?: boolean;
+  iconOnly?: boolean;
   item: { id: string; type: string };
 }) {
   const { data: session } = useSession();
@@ -42,7 +36,7 @@ export default function SaveToListDialog({
     return (
       <Dialog>
         <DialogTrigger asChild>
-          {icon ? (
+          {iconOnly ? (
             <Button variant="ghost" size="icon">
               <ListBulletIcon />
             </Button>
@@ -54,7 +48,7 @@ export default function SaveToListDialog({
           )}
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>Sign In</DialogHeader>
+          <DialogTitle>Sign In</DialogTitle>
           <Button onClick={() => signIn("google")} className="gap-2">
             <Image src="/google.svg" height={16} width={16} alt="" /> Continue
             with Google
@@ -66,7 +60,7 @@ export default function SaveToListDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {icon ? (
+        {iconOnly ? (
           <Button variant="ghost" size="icon">
             <ListBulletIcon />
           </Button>
@@ -78,9 +72,9 @@ export default function SaveToListDialog({
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
+        <DialogTitle>
           <DialogTitle>Save To List</DialogTitle>
-        </DialogHeader>
+        </DialogTitle>
         <div className="mt-4 flex flex-col gap-6">
           {user?.lists.map((list) => (
             <ListCheckbox key={`checkbox-${list.id}`} item={item} list={list} />

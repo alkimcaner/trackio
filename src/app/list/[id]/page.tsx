@@ -13,7 +13,7 @@ import { gameIdsToQuery } from "@/lib/helpers";
 import { EyeNoneIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { formatDistance, parseISO } from "date-fns";
-import { useMemo } from "react";
+import { useMemo, use } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Movie } from "@/types/movie";
 import { ListWithUser } from "@/types/list";
@@ -22,7 +22,8 @@ import { TV } from "@/types/tv";
 import TVCard from "@/components/TVCard";
 import { Game } from "@/types/game";
 
-export default function List({ params }: { params: { id: string } }) {
+export default function List(props: { params: Promise<{ id: string }> }) {
+  const params = use(props.params);
   const { data: list, isLoading } = useQuery<ListWithUser>({
     queryKey: ["list", params.id],
     queryFn: async () => {

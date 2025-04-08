@@ -9,15 +9,20 @@ import { User } from "@prisma/client";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, use } from "react";
 
-export default function RootLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { id: string };
-}) {
+export default function RootLayout(
+  props: {
+    children: React.ReactNode;
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = use(props.params);
+
+  const {
+    children
+  } = props;
+
   const { data: user, isLoading } = useQuery<User>({
     queryKey: ["user", params.id],
     queryFn: async () => {

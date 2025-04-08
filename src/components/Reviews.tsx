@@ -8,12 +8,7 @@ import { FormEvent, useState } from "react";
 import Review from "./Review";
 import { signIn, useSession } from "next-auth/react";
 import { StarFilledIcon } from "@radix-ui/react-icons";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 import Image from "next/image";
 
 export default function Reviews({
@@ -110,7 +105,7 @@ export default function Reviews({
             <Button className="my-4">Please sign in to review</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>Sign In</DialogHeader>
+            <DialogTitle>Sign In</DialogTitle>
             <Button onClick={() => signIn("google")} className="gap-2">
               <Image src="/google.svg" height={16} width={16} alt="" /> Continue
               with Google
@@ -120,9 +115,7 @@ export default function Reviews({
       )}
 
       <div className="space-y-16 py-4">
-        {reviews?.map((review) => (
-          <Review key={review.id} review={review} />
-        ))}
+        {reviews?.map((review) => <Review key={review.id} review={review} />)}
       </div>
     </div>
   );

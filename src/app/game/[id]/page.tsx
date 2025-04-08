@@ -35,7 +35,8 @@ const Websites = [
   "Discord",
 ];
 
-export default async function Game({ params }: { params: { id: string } }) {
+export default async function Game(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const query = await getGames(
     `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where id = ${params.id};`
   );
@@ -69,7 +70,7 @@ export default async function Game({ params }: { params: { id: string } }) {
   return (
     <>
       <div className="absolute -z-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-background" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/0 to-background" />
         <Image
           priority
           src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${game.cover?.image_id}.jpg`}

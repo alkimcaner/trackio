@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import Review from "@/components/Review";
@@ -7,7 +8,10 @@ import { ReviewWithUser } from "@/types/review";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-export default function UserReviews({ params }: { params: { id: string } }) {
+export default function UserReviews(props: {
+  params: Promise<{ id: string }>;
+}) {
+  const params = use(props.params);
   const { data: user } = useQuery<
     UserWithLists & { reviews: ReviewWithUser[] }
   >({
@@ -24,15 +28,11 @@ export default function UserReviews({ params }: { params: { id: string } }) {
   });
 
   return (
-    <section className="grid gap-16 lg:grid-cols-2">
+    <section className="grid gap-8 lg:grid-cols-2">
       {user?.reviews?.map((review) => (
-        <Link
-          href={`/${review.itemType}/${review.itemId}`}
-          key={review.id}
-          className="w-fit rounded p-4 transition hover:bg-white/5"
-        >
+        <div key={review.id} className="w-fit">
           <Review review={review} />
-        </Link>
+        </div>
       ))}
     </section>
   );
