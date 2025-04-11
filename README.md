@@ -37,17 +37,17 @@ VERCEL_TOKEN="***"
 ### Install dependencies
 
 ```bash
-bun install
+npm install
 ```
 
 ### Start dev server
 
 ```bash
-bun run dev
+npm run dev
 ```
 
 ### Build for production
 
 ```bash
-bun run build
+npm run build
 ```

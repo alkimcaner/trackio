@@ -6,8 +6,6 @@ import Providers from "@/app/providers";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 
-export const dynamic = "force-static";
-
 const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {

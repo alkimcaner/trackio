@@ -134,7 +134,7 @@ export default function List(props: { params: Promise<{ id: string }> }) {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
       <section className="flex flex-col gap-2">
         <div className="flex items-center gap-4">
           {/* List name */}
@@ -193,17 +193,11 @@ export default function List(props: { params: Promise<{ id: string }> }) {
       <Separator />
       <section>
         <ResponsiveGrid>
-          {games?.map((game) => (
-            <GameCard key={game.id} game={game} />
-          ))}
+          {games?.map((game) => <GameCard key={game.id} game={game} />)}
 
-          {movies?.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
+          {movies?.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
 
-          {tvShows?.map((tv) => (
-            <TVCard key={tv.id} tv={tv} />
-          ))}
+          {tvShows?.map((tv) => <TVCard key={tv.id} tv={tv} />)}
         </ResponsiveGrid>
       </section>
     </main>

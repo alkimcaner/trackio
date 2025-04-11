@@ -11,17 +11,13 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useMemo, use } from "react";
 
-export default function RootLayout(
-  props: {
-    children: React.ReactNode;
-    params: Promise<{ id: string }>;
-  }
-) {
+export default function RootLayout(props: {
+  children: React.ReactNode;
+  params: Promise<{ id: string }>;
+}) {
   const params = use(props.params);
 
-  const {
-    children
-  } = props;
+  const { children } = props;
 
   const { data: user, isLoading } = useQuery<User>({
     queryKey: ["user", params.id],
@@ -46,7 +42,7 @@ export default function RootLayout(
   );
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
       <header className="space-y-8">
         <div className="flex items-center gap-4">
           {isLoading ? (

@@ -95,7 +95,7 @@ export default function EditList(props: { params: Promise<{ id: string }> }) {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-8">
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 p-8">
       <form onSubmit={handleSubmit} className="space-y-8">
         <div>
           <Label htmlFor="name">Name</Label>
