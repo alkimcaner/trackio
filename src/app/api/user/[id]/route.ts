@@ -4,7 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+export async function GET(
+  req: NextRequest,
+  props: { params: Promise<{ id: string }> }
+) {
   const params = await props.params;
   try {
     if (!params.id) return NextResponse.json({});
@@ -22,7 +25,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ id: strin
             OR: [{ isPrivate: false }, { userId: session?.user.id }],
           },
           orderBy: {
-            name: "asc",
+            createdAt: "desc",
           },
           include: { User: true },
         },

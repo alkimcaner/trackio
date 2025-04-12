@@ -98,6 +98,15 @@ export default function Navbar() {
                 </NavigationMenuLink>
               </NavigationMenuContent>
             </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Lists</NavigationMenuTrigger>
+              <NavigationMenuContent className="flex flex-col">
+                <NavigationMenuLink asChild>
+                  <Link href="/list/popular">Popular</Link>
+                </NavigationMenuLink>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 
