@@ -18,7 +18,7 @@ export default async function Home() {
   const popularGames = await getPopularGames(1);
 
   return (
-    <main className="mx-auto max-w-7xl p-4 space-y-8">
+    <main className="mx-auto max-w-7xl space-y-8 p-4">
       <div>
         <h1 className="mb-4 text-xl">Popular Movies</h1>
         <ResponsiveGrid>
