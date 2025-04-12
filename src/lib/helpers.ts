@@ -16,7 +16,7 @@ export function debounce<T extends (...args: any[]) => void>(
 }
 
 export function gameIdsToQuery(gameIds: string[]) {
-  return `fields *,cover.*,involved_companies.*,involved_companies.company.*,screenshots.*,websites.*; where id = (${gameIds.join(
+  return `fields *,cover.*; where id = (${gameIds.join(
     ","
   )}); sort name asc; limit 500;`;
 }

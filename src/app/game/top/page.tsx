@@ -1,7 +1,5 @@
 import { getTopRatedGames } from "@/lib/rsc-queries";
-import GameCard from "@/components/GameCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
-
 import {
   Pagination,
   PaginationContent,
@@ -11,20 +9,15 @@ import {
   PaginationNext,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
+import GameCard from "@/components/GameCard";
 
 export default async function TopRatedGamesPage(props: {
   searchParams: Promise<{ page?: string }>;
 }) {
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams.page) || 1;
-  const pageSize = 10;
-  const allGames = (await getTopRatedGames()) ?? [];
-  const totalPages = Math.ceil(allGames.length / pageSize);
-
-  const games = allGames.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
+  const games = (await getTopRatedGames(currentPage)) ?? [];
+  const totalPages = 500;
 
   return (
     <main className="mx-auto max-w-7xl p-4">

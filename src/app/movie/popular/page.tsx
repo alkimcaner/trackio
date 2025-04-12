@@ -15,12 +15,7 @@ export default async function PopularMoviesPage(props: {
   searchParams: Promise<{ page?: string }>;
 }) {
   const searchParams = await props.searchParams;
-  const currentPage =
-    Number(
-      Array.isArray(searchParams.page)
-        ? searchParams.page[0]
-        : searchParams.page
-    ) || 1;
+  const currentPage = Number(searchParams.page) || 1;
   const data = await getPopularMovies(currentPage);
   const movies = data?.results ?? [];
   const totalPages = data?.total_pages ?? 1;

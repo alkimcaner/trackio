@@ -125,7 +125,7 @@ export default function SearchBar({
 
   return (
     <div
-      className={`relative mx-auto w-full ${
+      className={`relative mr-auto w-full ${
         isMobileSearchActive ? "block" : "hidden max-w-sm lg:block"
       }`}
     >
