@@ -72,9 +72,8 @@ export default function SaveToListDialog({
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogTitle>
-          <DialogTitle>Save To List</DialogTitle>
-        </DialogTitle>
+        <DialogTitle>Save To List</DialogTitle>
+
         <div className="mt-4 flex flex-col gap-6">
           {user?.lists.map((list) => (
             <ListCheckbox key={`checkbox-${list.id}`} item={item} list={list} />
