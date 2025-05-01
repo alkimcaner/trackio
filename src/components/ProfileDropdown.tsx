@@ -13,7 +13,6 @@ import {
 } from "./ui/dropdown-menu";
 import {
   ExitIcon,
-  GearIcon,
   ListBulletIcon,
   PersonIcon,
   PlusIcon,
@@ -34,7 +33,7 @@ export default function ProfileDropdown() {
 
   const nameArray = useMemo(
     () => session?.user?.name?.split(" "),
-    [session?.user.name]
+    [session?.user.name],
   );
 
   const nameInitials = useMemo(
@@ -43,7 +42,7 @@ export default function ProfileDropdown() {
         ?.split(" ")
         .map((name) => name[0])
         .join(""),
-    [session?.user.name]
+    [session?.user.name],
   );
 
   if (!session) {
@@ -98,13 +97,6 @@ export default function ProfileDropdown() {
             <Link href={`/user/${session?.user.id}/lists`}>
               <ListBulletIcon className="mr-2 h-4 w-4" />
               Lists
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <Link href="/settings">
-              <GearIcon className="mr-2 h-4 w-4" />
-              Settings
             </Link>
           </DropdownMenuItem>
 
