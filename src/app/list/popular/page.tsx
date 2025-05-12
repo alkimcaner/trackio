@@ -3,7 +3,7 @@ import ListCard from "@/components/ListCard";
 import ResponsiveGrid from "@/components/ResponsiveGrid";
 import { ListWithUser } from "@/types/list";
 
-export const revalidate = 600;
+export const revalidate = 60;
 
 const prisma = new PrismaClient();
 
